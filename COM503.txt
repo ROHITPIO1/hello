@@ -1,0 +1,1213 @@
+      *   D0169        08/23/06   16:12:11   PIGGOTT      V4.4M11
+      *   D0169        08/15/06   09:37:01   PIGGOTT      V4.4M11
+      *   N44169       04/04/06   15:10:19   ROTH         V4.4M11
+      *   C43439       01/11/06   09:37:27   BRASEL       V4.4M10
+      *   C42227       07/18/05   14:26:55   DARNELL      V4.4M10
+      *   D0154        04/18/05   15:30:33   FISCHER      V4.4M09
+      *   D0155        02/04/05   09:16:41   VOGEL        V4.4M09
+     F*****************************************************************
+     F*   PROPRIETARY RIGHTS NOTICE: ALL RIGHTS RESERVED. THIS       **
+     F*   MATERIAL CONTAINS THE VALUABLE PROPERTIES AND TRADE        **
+     F*   SECRETS OF GENELCO, INC. OF ST. LOUIS, MO. EMBODYING       **
+     F*   SUBSTANTIAL CREATIVE EFFORTS AND CONFIDENTIAL INFORMATION, **
+     F*   IDEAS, AND EXPRESSIONS, NO PART OF WHICH MAY BE REPRODUCED **
+     F*   OR TRANSMITTED IN ANY FORM OR BY ANY MEANS, ELECTRONIC,    **
+     F*   MECHANICAL, OR OTHERWISE, INCLUDING PHOTOCOPYING AND       **
+     F*   RECORDING OR IN CONNECTION WITH ANY INFORMATION STORAGE    **
+     F*   OR RETRIEVAL SYSTEM WITHOUT THE PERMISSION IN WRITING OF   **
+     F*   GENELCO, INC.                                              **
+     F*                                                              **
+     F*   COPYRIGHT NOTICE: COPYRIGHT 1982    GENELCO, INC.          **
+     F*****************************************************************
+     F** C R E A T I O N        **                                   **
+     F****************************                                   **
+     F**                                                             **
+     F**  PROGRAM NAME: COM503                                       **
+     F**  DESIGNED BY:  JAMES A. SIMONS                              **
+     F**                                                             **
+     F*****************************************************************
+     F/EJECT
+     FCOMAGTM   IF   E           K DISK
+     FCOM503    CF   E             WORKSTN INFDS(DATA)
+     F                                     SFILE(COM503S1:RRN)
+     F/EJECT
+     F*****************************************************************
+     F* ARRAYS AND TABLES
+     F*****************************************************************
+     D MSG             S              7    DIM(12) CTDATA PERRCD(1)
+     D OPTS            S              3    DIM(12) CTDATA PERRCD(1)
+     D DSC             S              7    DIM(12) ALT(OPTS)
+     D OPT5            S              2    DIM(12)
+     D/EJECT
+     D*****************************************************************
+     D** EXTERNALLY DESCRIBED DATA STRUCTURES
+     D*****************************************************************
+     D PCOM503       E DS                  EXTNAME(PCOM503)
+     D LSPCO         E DS          1024    EXTNAME(LSPCOMST)
+     D LSP200        E DS                  EXTNAME(PLSP200)
+     D COMDTA        E DS                  EXTNAME(COMDTA)
+     D PRM910        E DS                  EXTNAME(PLSP910)
+     D PRM204        E DS                  EXTNAME(PLSP204)
+     D PRM205        E DS                  EXTNAME(PLSP205)
+     D CMS205        E DS                  EXTNAME(PCMS205)
+     D CLTM          E DS                  EXTNAME(CMSCLNTM)
+     D CLTA          E DS                  EXTNAME(CMSCLNAD)
+     D PRMDAT        E DS                  EXTNAME(PDATEFMT)
+     D PRM510        E DS                  EXTNAME(PCMS510)
+     D PAPP820       E DS                  EXTNAME(PAPP820)
+     D PRM504        E DS                  EXTNAME(PCOM504)
+     D PRM506        E DS                  EXTNAME(PCOM506)
+     D PRM507        E DS                  EXTNAME(PCOM507)
+     D PRM530        E DS                  EXTNAME(PCOM530)
+     D
+     D* Imaging related structures
+     D DOCLINK       E DS                  EXTNAME(PGDMAPI)
+     D PRCDTA        E DS                  EXTNAME(PRCDTA) PREFIX(X)
+     D
+     D*****************************************************************
+     D** PROGRAM DESCRIBED DATA STRUCTURES
+     D*****************************************************************
+     D DATA            DS
+     D  FNCKEY               369    369
+     D  ROWCOL               370    371B 0
+     D                 DS
+     D  CYEAR                  1      4  0
+     D  CMONTH                 5      6  0
+     D  CDAY                   7      8  0
+     D  CDATE                  1      8  0
+     D                 DS
+     D  PGMD                   1    550
+     D                                     DIM(11)
+     D  NIDSC                  1     50
+     D  NIDSC2                51    100
+     D  NIDSC3               101    150
+     D  NIDSC4               151    200
+     D  NIDSC5               201    250
+     D  NIDSC6               251    300
+     D  NIDSC7               301    350
+     D  NIDSC8               351    400
+     D  NIDSC9               401    450
+     D  NIDSCA               451    500
+     D  NIDSCB               501    550
+     D                 DS
+     D  PGM                    1    110
+     D                                     DIM(11)
+     D  NIPGM                  1     10
+     D  NIPGM2                11     20
+     D  NIPGM3                21     30
+     D  NIPGM4                31     40
+     D  NIPGM5                41     50
+     D  NIPGM6                51     60
+     D  NIPGM7                61     70
+     D  NIPGM8                71     80
+     D  NIPGM9                81     90
+     D  NIPGMA                91    100
+     D  NIPGMB               101    110
+     D
+      * PARM LIST FOR CALL TO COM501 - DISPLAY AGENT BALANCES
+      *
+     D PRM501          DS
+     D  AGT501                             LIKE(MAGTNO)
+     D  CO501                              LIKE(CMCO)
+     D
+     D PCOM510         DS
+     D  AGT510                             LIKE(MAGTNO)
+     D  MOD510                             LIKE(PMDE503)
+     D
+     D PNBS505         DS
+     D  AGT505                             LIKE(MAGTNO)
+     D  CO505                              LIKE(CMCO)
+     D  TYP505                        1A
+
+     D/EJECT
+     D******************************************************************
+     D* INTERNALLY DESCRIBED FIELDS
+     D******************************************************************
+     D X               S              3  0 INZ(0)
+     D WKBYTE          S              1    INZ(*BLANKS)
+     D ERRORS          S              1    INZ('N')
+     D OPTERR          S              1    INZ('N')
+     D PRCOPTERR       S              1    INZ('N')
+     D END             S              1    INZ('N')
+     D HAVEOPT         S              1    INZ('N')
+     D MSGID           S              7    INZ(*BLANKS)
+     D MSGDTA          S            256    INZ(*BLANKS)
+DB01 D IGCP1           S            256    INZ(*BLANKS)
+DB01 D IGCP2           S              3  0 INZ(0)
+DB01 D IGCP3           S            256    INZ(*BLANKS)
+     D CTLMSG          S             77    INZ(*BLANKS)
+     D SAVAGT          S                   LIKE(MAGTNO)
+     D SAVCO           S                   LIKE(CMCO)
+     D CURCO           S                   LIKE(CMCO)
+     D CVCO            S                   LIKE(CMCO)
+     D RC              S              4    INZ(*BLANKS)
+     D OPNTYP          S              1    INZ(*BLANKS)
+     D LASTRRNERR      S              4  0 INZ(1)
+     D PGMSGQ          S             10    INZ('COM503    ')
+     D WKMODE          S                   LIKE(PMDE503)
+     D AGTNAM          S                   LIKE(NAM820)
+     D
+     D* Imaging related fields
+     D PARM1           S             10
+     D PARM2           S                   LIKE(PARM1)
+     D PARM3           S                   LIKE(PARM1)
+     D GDMPARMS        S            260
+     D DOCCLASS        S             10
+     D APIMSG          S             80
+     D
+     D******************************************************************
+     D* NAMED CONSTANTS
+     D******************************************************************
+     D YES             C                   CONST('Y')
+     D NO              C                   CONST('N')
+     D/EJECT
+     C*****************************************************************
+     C* MAINLINE
+     C*****************************************************************
+     C* Initialization
+     C*
+     C                   EXSR      INIT
+     C*
+     C                   SELECT
+     C
+     C* Add
+     C                   WHEN      PMDE503 = 'ADD    '
+     C                   EXSR      ADDAGT
+     C
+     C* Inquiry or Update
+     C                   OTHER
+     C                   EXSR      DSPAGT
+     C*
+     C                   ENDSL
+     C*
+     C                   EVAL       *INLR = *ON
+     C                   CALL      'RCLRSC'
+     C*
+     C                   RETURN
+     C/EJECT
+     C*****************************************************************
+     C* ADDAGT - ADD AGENT
+     C*****************************************************************
+     C     ADDAGT        BEGSR
+     C*
+     C* Add the agent first
+     C*
+     C                   CLEAR                   PRM504
+     C                   EVAL      PMDE504 = PMDE503
+     C                   CALL      'COM504'
+     C                   PARM                    PRM504
+     C
+     C* IF a record was added, change input parm to that record
+     C                   IF        AGTN504 <> *BLANKS
+     C                   EVAL      AGTN503 = AGTN504
+     C                   EVAL      AGENT = AGTN503
+     C                   EVAL      PMDE503 = 'UPDATE '
+     C                   EVAL      WKMODE = PMDE503
+     C*
+     C* Update Advance Limits
+     C                   EXSR      COM507
+     C*
+     C* Update Contract History
+     C                   EXSR      COM506
+     C*
+     C* Update Licensing
+     C     XAGTLC        IFEQ      'Y'
+     C                   EXSR      COM510
+     C                   ENDIF
+     C* Update Draw
+     C                   EXSR      COM530
+     C
+     C* Go to maintenance screen
+     C                   EXSR      DSPAGT
+     C*
+     C                   ENDIF
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* DSPAGT - DISPLAY AGENT
+     C*****************************************************************
+     C     DSPAGT        BEGSR
+     C*
+     C* Check Policy and Company entry.
+     C*
+     C                   EXSR      CHKAGT
+     C*
+     C* Do until a F3 or F12 has been taken by the user
+     C*
+     C                   DOW       *INKC = *OFF  AND
+     C                             *INKL = *OFF
+     C*
+     C* Show Policy Options
+     C*
+     C                   WRITE     SFLERRC
+     C                   WRITE     COM503F1
+     C                   EXFMT     COM503C1
+     C*
+     C                   CALL      'LSPCLRM'
+     C                   PARM                    PGMSGQ
+     C*
+     C* If a different Company/Policy entry, F4 taken, or there is an error,
+     C* then recheck the Policy entry.
+     C*
+     C                   IF        AGENT <> SAVAGT OR
+     C                             CO    <> SAVCO  OR
+     C                             *INKD  = *ON    OR
+     C                             ERRORS = YES
+     C                   EXSR      CHKAGT
+     C                   ENDIF
+     C*
+     C* Process the selected Option
+     C*
+     C                   IF        ERRORS = NO
+     C                   EXSR      PRCSF
+     C*
+     C* Recheck the agent for any changes affecting the options to be
+     C* displayed after maintaining the agent.
+     C*
+     C                   EXSR      CHKAGT
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C* F3 or F12 was taken
+     C*
+     C                   EVAL      END = YES
+     C*
+     C                   MOVE      CURCO         CO
+     C                   EXSR      CMPCHG
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* CHKAGT - CHECK AGENT
+     C*****************************************************************
+     C     CHKAGT        BEGSR
+     C*
+     C                   EVAL      ERRORS = NO
+     C*
+     C* LIST COMPANIES
+     C* F4=Prompt
+     C                   IF        *INKD = *ON
+     C                   EXSR      F4LIST
+     C                   ENDIF
+     C*
+     C* CHANGE CURRENT COMPANY
+     C*
+     C                   EXSR      CMPCHG
+     C*
+     C* First check to see if there are any options selected.
+     C*
+     C                   EXSR      CHKOPTSEL
+     C*
+     C* CLEAR SCREEN OPTIONS
+     C*
+     C                   EXSR      CLEARSF
+     C*
+     C* CHECK FOR AGENT ENTRY
+     C*
+     C                   IF        AGENT = *BLANKS
+     C                   MOVEL     MSG(6)        MSGID
+     C                   CLEAR                   MSGDTA
+     C                   EXSR      SNDMSG
+     C                   EVAL      ERRORS = YES
+     C*
+     C                   ELSE
+     C*
+     C*
+     C* MASK AGENT NUMBER
+     C*
+     C                   MOVEL     AGENT         AGT910
+     C                   MOVE      *ZERO         RC910
+     C                   CALL      'LSP910'
+     C                   PARM                    PRM910
+     C*
+     C                   IF        RC910 <> *ZEROS
+     C                   MOVEL     'E000576'     MSGID
+     C                   CLEAR                   MSGDTA
+     C                   EXSR      SNDMSG
+     C                   EVAL      ERRORS = YES
+     C                   ELSE
+     C                   MOVEL     AGT910        AGENT
+     C                   ENDIF
+     C*
+     C* CHECK AGENT IS PRESENT ON MASTER
+     C*
+     C     AGTKEY        CHAIN     COMAGTM
+     C                   IF        NOT %FOUND(COMAGTM)
+     C*
+     C                   MOVEL     MSG(1)        MSGID
+     C                   CLEAR                   MSGDTA
+     C                   EXSR      SNDMSG
+     C                   EVAL      ERRORS = YES
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C* IF NO ERRORS....
+     C*
+     C* BUILD SCREEN OPTIONS
+     C*
+     C                   EXSR      LOADSF
+     C*
+     C* Check for Options selected prior to company/agent change to see
+     C* if they are valid for this new company/agent .
+     C*
+     C                   EXSR      COM503U1
+     C*
+     C* All subfile records loaded so reset to top of subfile.
+     C*
+     C* Subfile was loaded and we need to set subfile page back to the
+     C* first page.
+     C                   Z-ADD     1             RRN
+     C*
+     C*
+     C* RETRIEVE ADDITIONAL DATA (CONTRACT REREAD IF UPDATED BY CAS700)
+     C*
+     C                   CLEAR                   CMS205
+     C                   MOVE      CMCO          CMP205
+     C                   MOVEL     AGENT         CT1205
+     C                   MOVE      'AGT'         TYP205
+     C                   MOVE      '3'           NFM205
+     C                   MOVE      '*'           AFM205
+     C*
+     C                   CALL      'CMS205'
+     C                   PARM                    CMS205
+     C                   PARM                    CLTM
+     C                   PARM                    CLTA
+     C*
+     C* Agent Name
+     C*
+     C                   MOVEL(P)  FNM205        NAME
+     C                   MOVEL(P)  FNM205        AGTNAM
+     C*
+     C                   EVAL      SAVCO  = CO
+     C                   EVAL      SAVAGT = AGENT
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* CMS510 - Agent Name and Address
+     C*****************************************************************
+     C     CMS510        BEGSR
+     C*
+     C                   CLEAR                   PRM510
+     C                   MOVEL     AGENT         POL510
+     C                   MOVEL     WKMODE        ACC510
+     C                   MOVE      '6'           TYP510
+     C                   MOVE      'A'           STS510
+     C*
+     C                   CALL      'CMS510'
+     C                   PARM                    PRM510
+     C*
+     C                   ENDSR
+     C*****************************************************************
+     C* COM510 - DISPLAY AGENT LICENCING
+     C*****************************************************************
+     C     COM510        BEGSR
+     C                   MOVEL     AGENT         AGT510
+     C                   MOVEL     WKMODE        MOD510
+     C                   CALL      'COM510'
+     C                   PARM                    PCOM510
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* APR540 - DISPLAY AGENT HIERARCHY
+     C*****************************************************************
+     C     APR540        BEGSR
+     C*
+     C                   CALL      'APR540'
+     C                   PARM                    AGENT
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* COM501 - AGENT BALANCES
+     C*****************************************************************
+     C     COM501        BEGSR
+     C*
+     C                   MOVEL     AGENT         AGT501
+     C                   MOVE      CMCO          CO501
+     C                   CALL      'COM501'
+     C                   PARM                    PRM501
+     C*
+     C                   ENDSR
+     C*
+     C/EJECT
+     C*****************************************************************
+     C* COM504 - MAINTAIN AGENT
+     C*****************************************************************
+     C     COM504        BEGSR
+     C*
+     C                   CLEAR                   PRM504
+     C                   MOVEL     AGENT         AGTN504
+     C                   MOVE      WKMODE        PMDE504
+     C                   CALL      'COM504'
+     C                   PARM                    PRM504
+     C*
+     C                   ENDSR
+     C*
+     C/EJECT
+     C*****************************************************************
+     C* COM506 - MAINTAIN AGENT CONTRACT HISTORY
+     C*****************************************************************
+     C     COM506        BEGSR
+     C*
+     C                   CLEAR                   PRM506
+     C                   MOVEL     AGENT         AGTN506
+     C                   MOVEL     WKMODE        PMDE506
+     C                   CALL      'COM506'
+     C                   PARM                    PRM506
+     C*
+     C                   ENDSR
+     C*
+     C/EJECT
+     C*****************************************************************
+     C* COM507 - MAINTAIN AGENT ADVANCE LIMITS
+     C*****************************************************************
+     C     COM507        BEGSR
+     C*
+     C                   CLEAR                   PRM507
+     C                   MOVEL     AGENT         AGTN507
+     C                   MOVEL     WKMODE        PMDE507
+     C                   CALL      'COM507'
+     C                   PARM                    PRM507
+     C*
+     C                   ENDSR
+     C*
+     C/EJECT
+     C     APP820        BEGSR
+     C*****************************************************************
+     C* APP820 - DISPLAY DIRECT DEPOSIT REQUEST INFORMATION
+     C*****************************************************************
+     C*
+     C                   CLEAR                   PAPP820
+     C                   MOVE      CMCO          CO820
+     C                   MOVE      'A'           TYP820
+     C                   MOVE      AGENT         KEY820
+     C                   MOVEL     AGTNAM        NAM820
+     C                   MOVE      'COM500'      PGM820
+     C                   MOVEL     WKMODE        MOD820
+     C*
+     C                   CALL      'APP820'
+     C                   PARM                    PAPP820
+     C*
+     C                   ENDSR
+     C*****************************************************************
+     C* NBS505 - DISPLAY AGENT POLICIES
+     C*****************************************************************
+     C     NBS505        BEGSR
+     C*
+     C                   MOVEL     AGENT         AGT505
+     C                   MOVE      CMCO          CO505
+     C                   MOVE      'B'           TYP505
+     C                   CALL      'NBS505'
+     C                   PARM                    PNBS505
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* COM530 - MAINTAIN AGENT DRAW
+     C*****************************************************************
+     C     COM530        BEGSR
+     C*
+     C                   Clear                   PRM530
+     C                   Eval      AGTN530 = AGENT
+     C                   Eval      PMDE530 = WKMODE
+     C                   Call      'COM530'
+     C                   Parm                    PRM530
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* COMSTATE - DISPLAY COMMISSION STATEMENT
+     C*****************************************************************
+     C     COMSTATE      BEGSR
+     C*
+     C                   MOVEL     'COM220P   '  PARM1
+     C                   MOVEL     'COM220    '  PARM2
+     C                   MOVEL     '          '  PARM3
+     C                   EXSR      DSPLNK
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* FOLDER - DISPLAY AGENT FOLDER
+     C*****************************************************************
+     C     FOLDER        BEGSR
+     C*
+     C* Retrieve document class name for policy documents.
+     C     10            SUBST     GDMPARMS:11   DOCCLASS
+     C                   MOVEL     DOCCLASS      PARM1
+     C*
+     C* commented out for user conference
+     C*                  MOVEL     '          '  PARM2
+     C*                  MOVEL     CMCO          PARM3
+
+     C*                  MOVEL     '          '  PARM2
+     C*                  MOVEL     '          '  PARM3
+
+     C                   EXSR      DSPLNK
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* DSPLNK - DISPLAY DocLink
+     C*****************************************************************
+     C     DSPLNK        BEGSR
+     C*
+     C* Set up paramenters
+     C                   MOVEL     '*VIEW'       SOPCDE
+     C                   MOVEL     PARM1         SRPTNM
+     C                   MOVEL     *BLANKS       SJOBNM
+     C                   MOVEL     PARM2         SPLPGM
+     C                   MOVEL     *BLANKS       SUSRNM
+     C                   MOVEL     *BLANKS       SUSRDA
+     C                   MOVEL     '*NO '        SPRMPT
+     C                   MOVEL     '*YES'        SDUPS
+     C                   MOVEL     '*YES'        SFLTER
+     C                   MOVEL     PARM3         SDXVL1
+     C                   MOVEL     AGTN503       SDXVL2
+     C                   MOVEL     *BLANKS       SDXVL3
+     C                   MOVEL     *BLANKS       SDXVL4
+     C                   MOVEL     *BLANKS       SDXVL5
+     C                   MOVEL     *BLANKS       SDXVL6
+     C                   MOVEL     *BLANKS       SDXVL7
+     C                   MOVEL     *BLANKS       SDXVL8
+     C                   MOVEL     *BLANKS       SDXVL9
+     C                   MOVEL     '*NO '        SBMJOB
+     C                   MOVEL     *BLANKS       SJOBD
+     C                   MOVEL     *BLANKS       SJOBDL
+     C                   MOVEL     *BLANKS       SOUTQ
+     C                   MOVEL     *BLANKS       SOUTQL
+     C*
+     C* Call SPIAPICMD wrapper
+     C                   CALL      'GDMAPI'                             69
+     C                   PARM                    DOCLINK
+     C                   PARM                    APIMSG
+
+     C                   IF        APIMSG <> *BLANK
+     C                   CLEAR                   MSGID
+     C                   MOVEL     'S020249'     MSGID
+     C                   CLEAR                   MSGDTA
+     C                   CLEAR                   APIMSG
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C
+     C                   ENDSR
+     C*
+     C/EJECT
+     C*****************************************************************
+     C* PRCPGM - NON-INUSRANCE OPTIONS
+     C*****************************************************************
+     C     PRCPGM        BEGSR
+     C*
+     C                   IF        OPTPGM <> *BLANKS
+     C*
+     C                   CALL(E)   OPTPGM
+     C                   PARM                    AGENT
+     C                   PARM                    WKMODE
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* CMPCHG - CHANGE COMPANY DATA AREA
+     C*****************************************************************
+     C     CMPCHG        BEGSR
+     C*
+     C                   IF        CO   = *BLANKS AND
+     C                             END <> YES
+     C                   MOVE      CMCO          CO
+     C                   ENDIF
+     C*
+     C                   IF        CMCO <> CO
+     C*
+     C                   MOVE      CO            CO205
+     C                   MOVE      NO            DUP205
+     C                   MOVE      YES           UPD205
+     C                   MOVE      YES           TST205
+     C                   CALL      'LSP205'
+     C                   PARM                    PRM205
+     C*
+     C                   IF        RC205 <> *ZEROS
+     C                   MOVEL     RC205         RC
+     C     'Z'           CAT(P)    RC:0          MSGID
+     C     MSGID         CAT       '0000':0      MSGID
+     C                   CLEAR                   MSGDTA
+     C                   EXSR      SNDMSG
+     C                   EVAL      ERRORS = YES
+     C*
+     C                   ELSE
+     C*
+     C                   IN        LSPCO
+     C*  CONVERT SCREEN DATE TO USER'S FORMAT :
+     C                   CLEAR                   PRMDAT
+     C                   MOVE      *MONTH        INMON
+     C                   MOVE      *DAY          INDAY
+     C                   MOVE      *YEAR         INYR
+     C                   MOVE      '*'           FMTC01
+     C                   CALL      'DATEFMT'
+     C                   PARM                    PRMDAT
+     C                   IF        RTNCD = '00'
+     C                   MOVE      OUTDTE        SDATE
+     C                   END
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C*  DISPLAY LIST OF COMPANIES
+     C*****************************************************************
+     C     F4LIST        BEGSR
+     C*
+     C                   Z-ADD     *ZERO         ROW               3 0
+     C                   Z-ADD     *ZERO         COL               3 0
+     C*
+     C     ROWCOL        DIV       256           ROW
+     C                   MVR                     COL
+     C*
+     C                   IF        ROW = 4    AND
+     C                             COL >= 32  AND
+     C                             COL <= 35
+     C*
+     C                   MOVE      NO            CSUDFT
+     C                   MOVE      YES           CSTSEC
+     C                   MOVE      *BLANKS       CSCO
+     C*
+     C                   CALL      'LSP204'
+     C                   PARM                    PRM204
+     C*
+     C                   IF        CSCO <> *BLANKS
+     C                   MOVEL     CSCO          CO
+     C                   ENDIF
+     C                   ELSE
+     C*
+     C                   EVAL      ERRORS = YES
+     C                   MOVEL     'LSP9032'     MSGID
+     C                   CLEAR                   MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C*
+     C                   MOVE      *OFF          *INKD
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* COM503U1 - GET USER OPTOINS
+     C*****************************************************************
+     C     COM503U1      BEGSR
+     C*
+     C                   MOVEA     *BLANKS       PGMD
+     C                   MOVEA     *BLANKS       PGM
+     C*
+     C                   CALL      'COM503U1'
+     C                   PARM                    AGENT
+     C                   PARM                    PGM
+     C                   PARM                    PGMD
+     C*
+     C                   EXSR      LOADUSROPT
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* LOADUSROPT - LOAD USER OPTIONS
+     C*****************************************************************
+     C     LOADUSROPT    BEGSR
+     C*
+     C     1             DO        11            X
+     C                   IF        PGM(X)  <> *BLANKS AND
+     C                             PGMD(X) <> *BLANKS
+     C                   EVAL      OPT    = *BLANKS
+     C                   EVAL      OPTKEY = 'USR'
+     C                   EVAL      OPTPGM = PGM(X)
+     C                   EVAL      OPTDSC = PGMD(X)
+     C                   ADD       1             RRN
+     C                   WRITE     COM503S1
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* CLEARSF - CLEAR SUBFILE
+     C*****************************************************************
+     C     CLEARSF       BEGSR
+     C*
+     C                   EVAL      RRN    = 0
+     C                   EVAL      *IN51 = *OFF
+     C                   EVAL      *IN52 = *ON
+     C                   WRITE     COM503C1
+     C                   EVAL      *IN50 = *OFF
+     C                   EVAL      *IN51 = *ON
+     C                   EVAL      *IN52 = *OFF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* LOADSF  - LOAD SUBFILE
+     C*****************************************************************
+     C     LOADSF        BEGSR
+     C*
+     C                   EVAL      *IN50 = *ON
+     C                   EVAL      *IN54 = *OFF
+     C                   EVAL      *IN61 = *OFF
+     C                   EVAL      OPT   = *BLANKS
+     C*
+     C* General Information
+     C
+     C                   EVAL      OPTKEY = 'GEN'
+     C                   EVAL      OPTPGM = 'COM504'
+     C                   Eval      *IN60 = *ON
+     C                   EXSR      LOADOPT
+     C                   Eval      *IN60 = *Off
+     C* Name and Address
+     C
+     C                   EVAL      OPTKEY = 'ADR'
+     C                   EVAL      OPTPGM = 'CMS510'
+     C                   EXSR      LOADOPT
+     C
+     C* Agent Folder
+     C
+     C                   IF        XXIMINT = 'Y'
+     C                   EVAL      OPTKEY = 'FLD'
+     C                   EVAL      OPTPGM = 'GDMAPI'
+     C                   EXSR      LOADOPT
+     C                   ENDIF
+     C
+     C* Agent Balances
+     C
+     C                   EVAL      OPTKEY = 'BAL'
+     C                   EVAL      OPTPGM = 'COM501'
+     C                   EXSR      LOADOPT
+     C
+     C* Advance Limits
+     C
+     C                   EVAL      OPTKEY = 'ADV'
+     C                   EVAL      OPTPGM = 'COM507'
+     C                   EXSR      LOADOPT
+     C
+     C* Contract history
+     C
+     C                   EVAL      OPTKEY = 'CNT'
+     C                   EVAL      OPTPGM = 'COM506'
+     C                   EXSR      LOADOPT
+     C
+     C* Licencing
+     C
+     C     XAGTLC        IFEQ      'Y'
+     C                   EVAL      OPTKEY = 'LIC'
+     C                   EVAL      OPTPGM = 'COM510'
+     C                   EXSR      LOADOPT
+     C                   ENDIF
+     C
+     C* Reporting
+     C
+     C                   EVAL      OPTKEY = 'RPT'
+     C                   EVAL      OPTPGM = 'APR540'
+     C                   EXSR      LOADOPT
+     C
+     C* Direct Deposit
+     C
+     C                   EVAL      OPTKEY = 'DEP'
+     C                   EVAL      OPTPGM = 'APP820'
+     C                   EXSR      LOADOPT
+     C
+     C* Agent Draw
+     C
+     C                   EVAL      OPTKEY = 'DRW'
+     C                   EVAL      OPTPGM = 'COM530'
+     C                   EXSR      LOADOPT
+     C
+     C* Policy list
+     C
+     C                   EVAL      OPTKEY = 'POL'
+     C                   EVAL      OPTPGM = 'NBS505'
+     C                   EXSR      LOADOPT
+     C
+     C* Commission Statements
+     C
+     C                   IF        XXIMINT = 'Y'
+     C                   EVAL      OPTKEY = 'STM'
+     C                   EVAL      OPTPGM = 'GDMAPI'
+     C                   EXSR      LOADOPT
+     C                   ENDIF
+     C
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* LOADOPT - LOAD THE OPTIONS
+     C*****************************************************************
+     C     LOADOPT       BEGSR
+     C*
+     C* Using Option Key find the corresponding message id.
+     C* This message id contains the Option's description.
+     C* Place this option description into the subfile field OPTDSC.
+     C* Write Option and Option Descritpion to the Subfile for the user.
+     C*
+     C                   Z-ADD     1             X
+     C     OPTKEY        LOOKUP    OPTS(X)                                99
+     C*
+     C                   MOVEL(P)  DSC(X)        MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        IGCP1
+     C                   Z-ADD     050           IGCP2
+     C                   EXSR      IGCSR
+     C*
+     C                   MOVEL     IGCP3         OPTDSC
+     C*
+     C* If the user made some selections and changed the agent and/or
+     C* company then we need to set the selections for this new entry.
+     C* *IN54=SFLNXTCHG and is turned on so the selections wil be processed.
+     C*
+     C                   IF        HAVEOPT  = YES AND OPT5(X) <> *BLANKS
+     C                   EVAL      OPT = OPT5(X)
+     C                   EVAL      *IN54 = *ON
+     C                   ELSE
+     C                   CLEAR                   OPT
+     C                   EVAL      *IN54 = *OFF
+     C                   ENDIF
+     C*
+     C                   ADD       1             RRN
+     C*
+     C                   WRITE     COM503S1
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* PRCSF   - Process Subfile
+     C*****************************************************************
+     C     PRCSF         BEGSR
+     C*
+     C* Read all of the subfile entries.
+     C* If a ' ' was entered then shut off the reverse image/update subfile.
+     C* If a '5' was entered then process that option.
+     C* If anything else was entered it is an invalid option.
+     C*
+     C* NOTE: 54=SFLNXTCHG  61=RI and PC on OPT field in subfile
+     C*
+     C* LASTRRNERR will set the subfile to be viewed with the last
+     C* subfile record found in error on the screen.
+     C* RRN was set up to be the SFLRCDNBR in DDS so what ever RRN's
+     C* value will be determines which subfile page is being shown to the
+     C* user.
+     C* By setting RRN to the LASRRNERR value will set the subfile page
+     C* to that error.
+     C*
+     C                   EVAL      OPTERR = NO
+     C                   EVAL      LASTRRNERR = 1
+     C*
+     C* Find all the user entries into OPT (Including those previously
+     C* with entries) (That is why we are leaving *IN54 (SFLNXTCHG) *ON.
+     C* Of course if the user blanks out the OPT then *IN54 will be set off
+     C* because it is no longer an user OPT to be considered.
+     C*
+     C                   READC     COM503S1
+     C*
+     C                   DOW       %EOF = *OFF
+     C*
+     C                   EVAL      *IN54 = *ON
+     C*
+     C                   SELECT
+     C*
+     C* Option is blank so no error, not an option to be considered any
+     C* more, and we need to set the screen view back to the last subfile
+     C* error.
+     C*
+     C                   WHEN      OPT = *BLANKS
+     C                   EVAL      *IN61 = *OFF
+     C                   EVAL      *IN54 = *OFF
+     C                   EVAL      RRN = LASTRRNERR
+     C*
+     C* Option is valid so process the option.
+     C*
+     C                   WHEN      (OPT = '2 ' OR OPT = ' 2' OR OPT = '02')
+     C                             AND (PMDE503 = 'UPDATE ')
+     C                   EVAL      WKMODE = 'UPDATE '
+     C                   EXSR      PRCOPT
+     C*
+     C                   WHEN      (OPT = '5 ' OR OPT = ' 5' OR OPT = '05')
+     C                   EVAL      WKMODE = 'INQUIRY'
+     C                   EXSR      PRCOPT
+     C*
+     C                   OTHER
+     C*
+     C* Option is invalid.
+     C*
+     C                   EXSR      INVOPT
+     C*
+     C                   ENDSL
+     C*
+     C* Update Subfile and shut off Reverse image for next record read.
+     C*
+     C                   If        OPTKEY = 'GEN'
+     C                   Eval      *IN60 = *ON
+     C                   EndIf
+     C*
+     C                   UPDATE    COM503S1
+     C                   EVAL      *IN61 = *OFF
+     C*
+     C                   READC     COM503S1
+     C                   ENDDO
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* PRCOPT - PROCESS SUBFILE OPTION
+     C*****************************************************************
+     C     PRCOPT        BEGSR
+     C*
+     C* CALL THE PROCESSING SUBROUTINE FOR THE OPTION SELECTED
+     C*
+     C                   EVAL      PRCOPTERR = NO
+     C*
+     C     OPTKEY        CASEQ     'GEN'         COM504
+     C     OPTKEY        CASEQ     'ADR'         CMS510
+     C     OPTKEY        CASEQ     'CNT'         COM506
+     C     OPTKEY        CASEQ     'ADV'         COM507
+     C     OPTKEY        CASEQ     'BAL'         COM501
+     C     OPTKEY        CASEQ     'LIC'         COM510
+     C     OPTKEY        CASEQ     'RPT'         APR540
+     C     OPTKEY        CASEQ     'DEP'         APP820
+     C     OPTKEY        CASEQ     'POL'         NBS505
+     C     OPTKEY        CASEQ     'DRW'         COM530
+     C     OPTKEY        CASEQ     'STM'         COMSTATE
+     C     OPTKEY        CASEQ     'FLD'         FOLDER
+     C                   CAS                     PRCPGM
+     C                   ENDCS
+     C*
+     C* An ERROR on the call to a program.
+     C*
+     C                   IF        %ERROR =  *ON
+     C                   EVAL      PRCOPTERR = YES
+     C                   MOVEL     MSG(11)       MSGID
+     C                   MOVEL(P)  OPTPGM        MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C*
+     C* If there was an error then reverse image OPT and set LASTRRNERR to
+     C* this RRN value.
+     C* If no error then program was processed and we need to set OPT back
+     C* to blank. SO...
+     C* Option is blank so no error, not an option to be considered any
+     C* more, and we need to set the screen view back to the last subfile
+     C* error.
+     C*
+     C*
+     C                   IF        PRCOPTERR = YES
+     C                   EVAL      *IN61 = *ON
+     C                   EVAL      LASTRRNERR = RRN
+     C                   ELSE
+     C                   EVAL      *IN54 = *OFF
+     C                   EVAL      *IN61 = *OFF
+     C                   EVAL      OPT = *BLANKS
+     C                   EVAL      RRN = LASTRRNERR
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* INVOPT - INVALID OPTIONN
+     C*****************************************************************
+     C     INVOPT        BEGSR
+     C*
+     C* Option is invalid SO..
+     C* If there was an error then reverse image OPT and set LASTRRNERR to
+     C* this RRN value.
+     C*
+     C                   EVAL      OPTERR = YES
+     C                   EVAL      *IN61 = *ON
+     C                   EVAL      LASTRRNERR = RRN
+     C*
+     C                   MOVEL     MSG(4)        MSGID
+     C                   CLEAR                   MSGDTA
+     C                   EXSR      SNDMSG
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* CHKOPTSEL - Check for any option selection prior to clearing subfile
+     C*****************************************************************
+     C     CHKOPTSEL     BEGSR
+     C*
+     C* If an option was selected and the user changed the agent number
+     C* and/or company then we need to save the options they think they
+     C* selected for this new entry.
+     C*
+     C                   IF        RRN > 0
+     C*
+     C                   CLEAR                   OPT5
+     C                   EVAL      HAVEOPT  = NO
+     C*
+     C                   READC     COM503S1
+     C*
+     C                   DOW       %EOF = *OFF
+     C*
+     C* Option is valid so store that option for the new company/policy entr
+     C*
+     C                   IF        OPT = '2 ' OR OPT = ' 2' OR OPT = '02' OR
+     C                             OPT = '5 ' OR OPT = ' 5' OR OPT = '05'
+     C                   Z-ADD     1             X
+     C     OPTKEY        LOOKUP    OPTS(X)                                99
+     C                   EVAL      HAVEOPT  = YES
+     C                   EVAL      OPT5(X) = OPT
+     C                   ENDIF
+     C*
+     C                   READC     COM503S1
+     C                   ENDDO
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* SNDMSG - SEND ERROR MESSAGE TO PROGRAM MESSAGE QUEUE FOR DISPLAY
+     C*****************************************************************
+     C     SNDMSG        BEGSR
+     C*
+     C                   IF        MSGID <> *BLANKS
+     C                   CALL      'LSPSNDM'
+     C                   PARM                    MSGID
+     C                   PARM                    MSGDTA
+     C                   PARM                    PGMSGQ
+     C                   ENDIF
+     C*
+     C                   CLEAR                   MSGID
+     C                   CLEAR                   MSGDTA
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* INIT - INITIALIZATION
+     C*****************************************************************
+     C     INIT          BEGSR
+     C*
+     C     *ENTRY        PLIST
+     C                   PARM                    PCOM503
+     C*
+     C     AGTKEY        KLIST
+     C                   KFLD                    CMCO
+     C                   KFLD                    AGENT
+     C*
+     C*
+     C     *DTAARA       DEFINE                  LSPCO
+     C     *DTAARA       DEFINE                  PRCDTA
+     C     *DTAARA       DEFINE                  GDMPARMS
+     C                   IN        *DTAARA
+     C*                                                                    "
+     C                   MOVE      AGTN503       AGENT
+     C                   MOVE      CMCO          CURCO
+     C                   MOVE      *BLANKS       SAVAGT
+     C                   MOVE      *BLANKS       SAVCO
+     C                   MOVE      *OFF          *INKC
+     C                   MOVE      *OFF          *INKL
+     C                   MOVEL     '*'           FLDPGM
+     C*
+     C                   MOVE      *MONTH        CMONTH
+     C                   MOVE      *DAY          CDAY
+     C                   MOVE      *YEAR         CYEAR
+     C*
+     C                   EXSR      SYSDAT
+     C*
+     C                   CALL      'LSPCLRM'
+     C                   PARM                    PGMSGQ
+     C*
+     C                   MOVEL     CMCO          CO200
+     C                   MOVEL     'COMDTA'      DTA200
+     C                   MOVE      'R'           ACT200
+     C                   MOVE      'N'           LCK200
+     C                   CALL      'LSP200'
+     C                   PARM                    LSP200
+     C                   PARM                    COMDTA
+     C
+     C                   IF        PMDE503 <> 'UPDATE ' AND
+     C                             PMDE503 <> 'ADD    '
+     C                   EVAL      PMDE503 = 'INQUIRY'
+     C                   EVAL      *IN20 = *OFF
+     C                   ELSE
+     C                   EVAL      *IN20 = *ON
+     C                   ENDIF
+     C
+     C                   ENDSR
+     C/EJECT
+DB01 C**************************************************************
+     C*  GET SYSTEM DATE
+DB01 C**************************************************************
+     C     SYSDAT        BEGSR
+     C*
+     C*  CONVERT SCREEN DATE TO USER'S FORMAT :
+     C*
+     C                   MOVE      *MONTH        INMON
+     C                   MOVE      *DAY          INDAY
+     C                   MOVE      *YEAR         INYR
+     C                   MOVE      '*'           FMTC01
+     C                   CALL      'DATEFMT'
+     C                   PARM                    PRMDAT
+     C                   IF        RTNCD = '00'
+     C                   MOVE      OUTDTE        SDATE
+     C                   END
+     C*
+     C                   CLEAR                   FMTC01
+     C*
+     C                   ENDSR
+     C/EJECT
+DB01 C**************************************************************
+     C* $XMSG - SEND & RECIEVE A MESSAGE TO THE PROGRAM MESSAGE QUEUE
+DB01 C**************************************************************
+     C*
+     C     $XMSG         BEGSR
+     C*
+     C* CL PROGRAM IS USED TO EXECUTE THE SNDPGMMSG COMMAND TO
+     C*  ADD A MESSAGE TO THE EXTERNAL MESSAGE QUEUE
+     C*
+     C                   CLEAR                   CTLMSG
+     C*
+     C                   CALL      'LSPMSGID'
+     C                   PARM                    MSGID
+     C                   PARM                    CTLMSG
+     C*
+     C                   ENDSR
+     C/EJECT
+DB01 C**************************************************************
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION *
+DB01 C**************************************************************
+DB01 C*
+DB01 C     IGCSR         BEGSR
+DB01 C*
+DB01 C                   CLEAR                   IGCP3
+DB01 C                   CALL      'DCU799'
+DB01 C                   PARM                    IGCP1
+DB01 C                   PARM                    IGCP2
+DB01 C                   PARM                    IGCP3
+DB01 C*
+DB01 C                   ENDSR
+DB01 C**************************************************************
+**         NOT IN ARRAY ...Just Informational.
+E400010    1  Agent number not found.
+E005742    2  Policy number is in an invalid format.
+           3  Pending transactions exist for this policy.(NOT USED NOW)
+E005744    4  Specified menu selection is not correct.
+E005745    5  New business policies cannot be displayed using this option.
+E005746    6  Policy number can not be blank.
+E020051    7  Policy is suspended. - Reason &1
+E020053    8  Invalid option selection. - &1
+E005749    9  Policy number cannot be changed when using fix-it.
+E005750    10 Contract type record missing.
+E020052    11 Error occured calling program &1.
+E060110    12 STAGED INCREASE REACHED, BUT THE LETTER HAS NOT BEEN SENT.
+** OPTION DESCRIPTIONS
+ADRS008111       Name and address
+GENS008112       Agent setup
+BALS008113       Agent balances
+ADVS008114       Advance limits
+CNTS008115       Contract history
+LICS008109       Licensing
+DEPS008219       Direct deposit
+DRWS008226       Agent draw/repayment
+POLS008147       Policy list
+RPTS008146       Reporting hierarchy
+STMS008225       Commission statements
+FLDS008224       Agent image folder

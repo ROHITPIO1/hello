@@ -1,0 +1,92 @@
+      *   C42227       07/20/05   11:22:06   DARNELL      V4.4M10
+      *   D0154        04/11/05   15:09:37   FISCHER      V4.4M09
+      *   D0155        03/17/05   10:17:20   SIMONS       V4.4M09
+     A**********************************************************************
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      PRINT
+     A*--------------------------------------------------------------------
+     A          R COM503S1                  SFL
+     A  54                                  SFLNXTCHG
+DB01 A            OPTKEY         3A  H
+DB01 A            OPTPGM        10A  H
+     A            OPT            2A  B 11  3
+     A  60
+     AO 61                                  DSPATR(PC)
+     A  61                                  DSPATR(RI)
+DB01 A            OPTDSC        50O  O 11  8
+     A*--------------------------------------------------------------------
+     A          R COM503C1                  SFLCTL(COM503S1)
+     A                                      SFLSIZ(0050)
+     A                                      SFLPAG(0011)
+     A                                      OVERLAY
+     A  50                                  SFLDSP
+     A  51                                  SFLDSPCTL
+     A  52                                  SFLCLR
+     A N01                                  SFLEND(*MORE)
+     A                                      CF03
+     A                                      CF04
+     A                                      CF12
+     A            RRN            4S 0H      SFLRCDNBR
+     A*--
+     A                                  1  2'COM503'
+     A                                      COLOR(BLU)
+DB01 A            COMP          50O  O  1 16DSPATR(HI)
+DB01 A            SDATE         10O  O  1 71
+     A*--
+     A                                  2  2'COM503C1'
+     A                                      COLOR(BLU)
+     A*'                  Agent Maintenance                   '
+DB01 A  20        S01316        55O  O  2 15MSGID(S001316 *LIBL/INTMSGF)
+     A                                      DSPATR(HI)
+     A*'                  Agent Inquiry                       '
+DB01 A N20        S08223        55O  O  2 15MSGID(S008223 *LIBL/INTMSGF)
+     A                                      DSPATR(HI)
+     A                                  2 73TIME
+     A*--
+     A*'Agent number  . . :'
+DB01 A            S008220       19O  O  4  2MSGID(S008220 *LIBL/INTMSGF)
+     A            AGENT     R        B  4 22REFFLD(MAGTNO *LIBL/COMAGTM)
+     A            CO        R        B  4 33REFFLD( RBENE/FCO *LIBL/CASBENE )
+     A            S900400       30O  O  4 38MSGID(S900400 *LIBL/INTMSGF)
+     A*--
+     A*'Agent name  . . . :'
+DB01 A            S008221       19O  O  5  2MSGID(S008221 *LIBL/INTMSGF)
+DB01 A            NAME          60O  O  5 22
+     A*--
+     A*'Type options, press Enter.'
+DB01 A            LSP0016       26O  O  7  2MSGID(LSP0016 *LIBL/LSPMSGF)
+     A                                      COLOR(BLU)
+     A*--
+     A*'5=Display'
+DB01 A N20        LSP0033       35O  O  8  4MSGID(LSP0033 *LIBL/LSPMSGF)
+     A                                      COLOR(BLU)
+     A*'2=Change    5=Display'
+DB01 A  20        LSP0044       35O  O  8  4MSGID(LSP0044 *LIBL/LSPMSGF)
+     A                                      COLOR(BLU)
+     A*--
+     A*' Opt  Type of Information'
+DB01 A            S004534       25O  O 10  2MSGID(S004534 *LIBL/INTMSGF)
+     A                                      DSPATR(HI)
+     A*--------------------------------------------------------------------
+     A          R COM503F1
+     A                                      OVERLAY
+     A*--
+     A*'F3=Exit             F12=Cancel'
+DB01 A            S004535       77O  O 23  2MSGID(S008244 *LIBL/INTMSGF)
+     A                                      COLOR(BLU)
+     A*--------------------------------------------------------------------
+     A          R SFLERR                    SFL
+     A*
+     A                                      SFLMSGRCD(24)
+     A            FLDKEY                    SFLMSGKEY
+     A            FLDPGM                    SFLPGMQ
+     A*
+     A*--------------------------------------------------------------------
+     A          R SFLERRC                   SFLCTL(SFLERR)
+     A                                      SFLSIZ(0002)
+     A                                      SFLPAG(0001)
+     A                                      SFLINZ
+     A                                      SFLDSP
+     A                                      SFLDSPCTL
+     A N01                                  SFLEND
+     A            FLDPGM                    SFLPGMQ

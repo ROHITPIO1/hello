@@ -1,0 +1,1425 @@
+      *   C44790       05/16/06   11:55:33   ROTH         V4.4M11
+      *   C42226       10/19/05   11:56:46   BRASEL       V4.4M10
+      *   D0154        11/01/04   06:12:45   SIMONS       V4.4M09
+     F*****************************************************************
+     F* COM500 - Agent Maintenance                                   **
+     F*****************************************************************
+     F*                                                              **
+     F*  DISPLAY MESSAGES FOR COM500 ARE PDF0300 THROUGH PDF0399     **
+     F*    ERROR MESSAGES FOR COM500 ARE PDF3300 THROUGH PDF3399     **
+     F*                                                              **
+     F*             ADD RECORD HEADER          PDF0326               **
+     F*             CHANGE RECORD HEADER       PDF0327               **
+     F*             DISPLAY RECORD HEADER      PDF0328               **
+     F*             COPY RECORD HEADER         PDF0329               **
+     F*             DELETE CONFIRMATION HEADER PDF0373               **
+     F*                                                              **
+     F*             FACT TABLE FOR : > . DATA POINTERS               **
+     F*                                                              **
+     F*  INDICATOR  65      66       67       KEY        DATA        **
+     F*           ...................................................**
+     F*  ADD      : OFF     OFF      OFF   NOT PR '.'   NOT PR '.'  .**
+     F*           :                                                 .**
+     F*  CHANGE   : OFF     ON       ON        PR ':'   NOT PR '>'  .**
+     F*           :                                                 .**
+     F*  DISPLAY  : ON      ON       OFF       PR ':'       PR ':'  .**
+     F*           :                                                 .**
+     F*  COPY     : OFF     OFF      ON    NOT PR '>'   NOT PR '>'  .**
+     F*           ...................................................**
+     F*                                                              **
+     F*****************************************************************
+     F**  PROPRIETARY RIGHTS NOTICE: ALL RIGHTS RESERVED. THIS       **
+     F**  MATERIAL CONTAINS THE VALUABLE PROPERTIES AND TRADE        **
+     F**  SECRETS OF GENELCO, INC. OF ST. LOUIS, MO. EMBODYING       **
+     F**  SUBSTANTIAL CREATIVE EFFORTS AND CONFIDENTIAL INFORMATION, **
+     F**  IDEAS, AND EXPRESSIONS, NO PART OF WHICH MAY BE REPRODUCED **
+     F**  OR TRANSMITTED IN ANY FORM OR BY ANY MEANS, ELECTRONIC,    **
+     F**  MECHANICAL, OR OTHERWISE, INCLUDING PHOTOCOPYING AND       **
+     F**  RECORDING OR IN CONNECTION WITH ANY INFORMATION STORAGE    **
+     F**  OR RETRIEVAL SYSTEM WITHOUT THE PERMISSION IN WRITING OF   **
+     F**  GENELCO, INC.                                              **
+     F**                                                             **
+     F**  COPYRIGHT NOTICE: COPYRIGHT 1982    GENELCO, INC.          **
+     F*****************************************************************
+     F** C R E A T I O N        **                                   **
+     F*****************************************************************
+     F**                                                             **
+     F**  PROGRAM NAME:   COM500                                     **
+     F**  CREATED BY:     James A. Simons                            **
+     F**  DATE:           11/27/2003                                 **
+     F**                                                             **
+     F**  NARRATIVE: Agent Master File Maintenance                   **
+     F**                                                             **
+     F*****************************************************************
+     F** M A I N T A I N E N C E**                                   **
+     F****************************                                   **
+     F**                                                             **
+     F**  PROGRAM NAME:                                              **
+     F**  CHANGED BY:                                                **
+     F**  DATE:                                                      **
+     F**                                                             **
+     F**  NARRATIVE:                                                 **
+     F**                                                             **
+     F*****************************************************************
+     F*                                                              **
+     F*******************************                                **
+     F* 10 - 49 & 70 - 89 ERROR CONTROL INDICATORS                   **
+     F*******************************                                **
+     F*                                                              **
+     F*******************************                                **
+     F* SUBFILE CONTROL INDICATORS                                   **
+     F*******************************                                **
+     F* 50 - DISPLAY SFL1                                            **
+     F* 51 - DISPLAY SFL1 CTL                                        **
+     F* 52 - SFL CLEAR                                               **
+     F* 54 - SFLNXTCHG                                               **
+     F* 57 - DISPLAY SFL2 CTL                                        **
+     F* 58 - SFL2 CLEAR                                              **
+     F*******************************                                **
+     F* FIELD CONTROL INDICATORS                                     **
+     F*******************************                                **
+     F* 60 - PC                                                      **
+     F* 61 - RI                                                      **
+     F* 65 - PR PROTECT DATA FIELDS                                  **
+     F* 66 - PR PROTECT KEY FIELDS                                   **
+     F* 67 - CHANGE/COPY INDICATOR                                   **
+     F*******************************                                **
+     F* F-KEY                                                        **
+     F*******************************                                **
+     F* KC - F3  EXIT FUNCTION                                       **
+     F* KE - F5  SCREEN REFRESH                                      **
+     F* KF - F6  ADD                                                 **
+     F* KG - F7  SCROLLS BACKWARD                                    **
+     F* KH - F8  SCROLLS FORWARD                                     **
+     F* KL - F12 CANCEL AND RETURN TO PRIOR SCREEN                   **
+     F* KM - F13 WORK WITH INVESTMENT CHARGE RATES                   **
+     F* KR - F17 SUBSETTING                                          **
+     F*******************************                                **
+     F* OPTIONS                                                      **
+     F*******************************                                **
+     F* 2  - CHANGE                                                  **
+     F* 3  - COPY                                                    **
+     F* 4  - DELETE                                                  **
+     F* 5  - DISPLAY                                                 **
+     F*******************************                                **
+     F/EJECT
+     FCOMAGTM   IF   E           K DISK
+     FLFCMSAXR  IF   E           K DISK
+     FCOMAGTBL  IF   E           K DISK
+     FCOM500    CF   E             WORKSTN INFDS(DATA)
+     F                                     SFILE(COM500S1:RRN1)
+     F                                     SFILE(COM500S2:RRN2)
+     F/EJECT
+     F*****************************************************************
+     F* ARRAYS AND TABLES
+     F*****************************************************************
+     D ARY             S            256    DIM(100)
+     D/EJECT
+     D******************************************************************
+     D* EXTERNALLY DESCRIBED DATA STRUCTURES
+     D******************************************************************
+     D*
+     D SECPRM        E DS                  EXTNAME(PLSPCHKSC)
+     D*
+     D DTAREC        E DS                  EXTNAME(COMAGTM)
+     D
+     D PRCDTA        E DS                  EXTNAME(PRCDTA)
+     D PRM101        E DS                  EXTNAME(PWEB101)
+     D LSPCO         E DS          1024    EXTNAME(LSPCOMST)
+     D PRM205        E DS                  EXTNAME(PCMS205)
+     D CLTA          E DS                  EXTNAME(CMSCLNAD)
+     D CLTM          E DS                  EXTNAME(CMSCLNTM)
+     D PRM500        E DS                  EXTNAME(PCOM500)
+     D COM503        E DS                  EXTNAME(PCOM503)
+     D COM504        E DS                  EXTNAME(PCOM504)
+     D
+     D/EJECT
+     D*****************************************************************
+     D** PROGRAM DESCRIBED DATA STRUCTURES
+     D*****************************************************************
+     D PRMDAT        E DS                  EXTNAME(PDATEFMT)
+     D*
+     D OPTTBL          DS                  OCCURS(100)
+     D  TBKEY                              LIKE(MAGTNO)
+     D  TBOPT                              LIKE(OPT)
+     D  TBNAME                             LIKE(CMNAME)
+     D  TBFNAM                             LIKE(AGTNAM)
+     D  TBCLTN                             LIKE(CMCLTN)
+     D
+     D  POSKY1                             LIKE(CMNAME)
+     D*
+     D OPTION          DS
+     D  OPTP1                  1      1
+     D  OPTP2                  2      2
+     D
+     D*  CURRENT DATE
+     D                 DS
+     D  CURRYY                 1      4  0
+     D  CURRMM                 5      6  0
+     D  CURRDD                 7      8  0
+     D  CURRDT                 1      8  0
+     D*
+     D MSGWRK          DS
+     D  MORLIT                 1     15
+     D  BOTLIT                16     30
+     D  FILL                  31     77
+     D
+     D*  INFDS CUSOR POSITION
+     D DATA            DS
+     D  FNCKEY               369    369
+     D  ROWCOL               370    371B 0
+     D
+     D* DATA STRUCTURE WITH PACKED NUMERIC FIELDS FOR USE WITH THE
+     D* MESSAGE FILE
+     D MSGVAL          DS
+     D  TTLDYS                 1      4P 0
+     D  LIMIT                  5      7P 0
+     D
+     D COM502          DS
+     D  AGT502                             LIKE(MAGTNO)
+     D  RC502                         2A
+     D*
+     D/EJECT
+     D******************************************************************
+     D* NAMED CONSTANTS
+     D******************************************************************
+     D YES             C                   CONST('Y')
+     D NO              C                   CONST('N')
+     D PAGSIZ          C                   CONST(11)
+     D TBMAX           C                   CONST(100)
+     D CHANGE          C                   CONST(' 2')
+     D COPY            C                   CONST(' 3')
+     D DELETE          C                   CONST(' 4')
+     D DISPLY          C                   CONST(' 5')
+     D ENTER           C                   CONST('1')
+     D NAME            C                   CONST('Y')
+     D******************************************************************
+     D* PROGRAM VARIABLES
+     D******************************************************************
+     D VALREC          S              1A
+     D UID             S             10A
+     D SVORDER         S                   LIKE(SORTORDER)
+     D SVACTIVE        S                   LIKE(SSACTIVE)
+     D POSKEY          S                   LIKE(CMNAME)
+     D/EJECT
+     D*****************************************************************
+     D*
+     C                   EXSR      INIT
+     C*
+     C     SVERRF        IFEQ      NO
+     C*
+     C     AGT500        IFEQ      *BLANKS
+     C                   EXSR      PSBFL
+     C                   ELSE
+     C*
+     C* Stub:  Add logic to go directly to the display program
+     C*
+     C                   CLEAR                   COM503
+     C                   MOVEL     AGT500        AGTN503
+     C                   MOVEL     MOD500        PMDE503
+     C
+     C                   CALL      'COM503'
+     C                   PARM                    COM503
+     C*
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C*
+     C                   CALL      'RCLRSC'
+     C                   SETON                                        LR
+     C/EJECT
+     C*****************************************************************
+     C* PSBFL - PROCESS SUBFILE
+     C*****************************************************************
+     C     PSBFL         BEGSR
+     C*
+     C                   EXSR      CLSFL1
+     C                   MOVE      *LOVAL        POSKEY
+     C                   EXSR      STSFL1
+     C                   EXSR      DSSFL1
+     C*
+     C     *INKC         DOWEQ     *OFF
+     C     *INKL         ANDEQ     *OFF
+     C*
+     C                   MOVE      NO            ERRORS
+     C                   MOVE      NO            OPTERR
+     C*
+     C     RRN1          IFGT      *ZERO
+     C     *INKE         ANDEQ     *OFF
+     C                   EXSR      STROPT
+     C                   ENDIF
+     C*
+     C     ERRORS        IFEQ      NO
+     C*
+     C     *IN07         CASEQ     *ON           PUSFL1
+     C     *IN08         CASEQ     *ON           PDSFL1
+     C     *INKE         CASEQ     *ON           REFRSH
+     C     *INKF         CASEQ     *ON           ADDREC
+     C     *INKR         CASEQ     *ON           SUBSET
+     C     POSKEY        CASNE     *BLANKS       POSSFL
+     C     FNCKEY        CASEQ     ENTER         PRCOPT
+     C                   CAS                     POSCUR
+     C                   ENDCS
+     C*
+     C                   COMMIT
+     C*
+     C                   ENDIF
+     C*
+     C                   EXSR      DSSFL1
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* STROPT - STORE OPTIONS ENTERED INTO THE OPTIONS SELECTED TABLE
+     C*****************************************************************
+     C     STROPT        BEGSR
+     C*
+     C                   READC     COM500S1                               99
+     C*
+     C     *IN99         DOWEQ     *OFF
+     C*
+     C                   EXSR      EDTOPT
+     C*
+     C     OPTERR        IFEQ      NO
+     C                   EXSR      PTBL
+     C                   ENDIF
+     C*
+     C     OPTERR        IFEQ      YES
+     C                   SETON                                        5461
+     C                   SETON                                        60
+     C                   UPDATE    COM500S1
+     C                   SETOFF                                       5461
+     C                   SETOFF                                       60
+     C                   ELSE
+     C                   SETOFF                                       5461
+     C                   SETOFF                                       60
+     C                   UPDATE    COM500S1
+     C                   ENDIF
+     C*
+     C                   READC     COM500S1                               99
+     C                   ENDDO
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* EDTOPT - EDIT OPTIONS ENTERED AS VALID AND USER IS AUTHORIZED
+     C*****************************************************************
+     C     EDTOPT        BEGSR
+     C*
+     C                   MOVE      NO            OPTERR
+     C                   MOVE      OPT           OPTION
+     C*
+     C     OPTP2         IFEQ      *BLANKS
+     C                   MOVE      OPTP1         OPTP2
+     C                   MOVE      *BLANKS       OPTP1
+     C                   MOVE      OPTION        OPT
+     C                   ENDIF
+     C*
+     C     OPT           IFNE      CHANGE
+     C     OPT           ANDNE     COPY
+     C     OPT           ANDNE     DELETE
+     C     OPT           ANDNE     DISPLY
+     C     OPT           ANDNE     *BLANKS
+     C                   MOVE      YES           OPTERR
+     C                   MOVE      'LSP9013'     MSGID
+     C                   MOVEL     OPT           MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C*
+     C     MOD500        IFEQ      'INQUIRY'
+     C     OPT           ANDNE     *BLANKS
+     C     OPT           IFEQ      COPY
+     C     OPT           OREQ      DELETE
+     C     OPT           OREQ      CHANGE
+     C                   MOVE      YES           OPTERR
+     C                   MOVE      'LSP9013'     MSGID
+     C                   MOVEL     OPT           MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C     OPT           IFNE      *BLANKS
+     C*
+     C     OPT           IFEQ      CHANGE
+     C     SVCHG         ANDEQ     NO
+     C     OPT           OREQ      COPY
+     C     SVCPY         ANDEQ     NO
+     C     OPT           OREQ      DELETE
+     C     SVDEL         ANDEQ     NO
+     C     OPT           OREQ      DISPLY
+     C     SVDSP         ANDEQ     NO
+     C                   MOVE      YES           OPTERR
+     C                   MOVE      'LSP9014'     MSGID
+     C                   MOVEL     OPT           MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C*
+     C* Do not allow an agent to be deleted with a balance
+     C
+     C     OPT           IFEQ      DELETE
+     C     AGTKEY        SETLL     COMAGTBL
+     C     AGTKEY        READE     COMAGTBL
+     C                   DOW       NOT %EOF(COMAGTBL)
+      *
+     C     MBBAL         IFGT      *ZEROS
+     C                   MOVE      YES           OPTERR
+     C                   MOVE      'E000596'     MSGID
+     C                   MOVEL     *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C                   LEAVE
+     C                   ENDIF
+      *
+     C     AGTKEY        READE     COMAGTBL
+     C                   ENDDO
+     C                   ENDIF
+     C*
+     C***  OPT           IFEQ      DELETE
+     C***                MOVE      YES           OPTERR
+     C***                MOVE      'PDF3329'     MSGID
+     C***                MOVEL     *BLANKS       MSGDTA
+     C***                EXSR      SNDMSG
+     C***                ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* PTBL - PLACE OPTION ENTERED INTO TABLE WITH RECORD KEY TO PROCESS
+     C*****************************************************************
+     C     PTBL          BEGSR
+     C*
+     C                   EXSR      FKEY
+     C*                                                    KEY IN TABLE
+     C     MAGTNO        IFEQ      TBKEY
+     C*
+     C     OPT           IFEQ      *BLANKS
+     C                   MOVE      *HIVAL        TBOPT
+     C                   MOVE      *HIVAL        TBKEY
+     C                   ELSE
+     C                   MOVE      OPT           TBOPT
+     C                   ENDIF
+     C*
+     C                   ELSE
+     C*
+     C     OPT           IFNE      *BLANKS
+     C*
+     C     TBLNO         IFLT      TBMAX
+     C*
+     C     SVOCUR        IFNE      *ZERO
+     C     SVOCUR        OCCUR     OPTTBL
+     C                   ELSE
+     C                   ADD       1             TBLNO
+     C     TBLNO         OCCUR     OPTTBL
+     C                   ENDIF
+     C*
+     C*
+     C                   MOVE      OPT           TBOPT
+     C                   MOVE      MAGTNO        TBKEY
+     C                   MOVE      CMNAME        TBNAME
+     C                   MOVE      AGTNAM        TBFNAM
+     C                   MOVE      CMCLTN        TBCLTN
+     C*
+     C                   ELSE
+     C                   MOVE      'LSP9006'     MSGID
+     C                   MOVEL     'OPTTBL'      MSGDTA
+     C                   EXSR      SNDMSG
+     C                   MOVE      YES           OPTERR
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* FKEY - LOOK UP KEY TO SEE IF ALREADY IN OPTION TABLE
+     C*****************************************************************
+     C     FKEY          BEGSR
+     C*
+     C                   Z-ADD     *ZERO         DSOCUR
+     C                   Z-ADD     *ZERO         SVOCUR
+     C*
+     C     DSOCUR        DOUGE     TBMAX
+     C     DSOCUR        ORGT      TBLNO
+     C     MAGTNO        OREQ      TBKEY
+     C*
+     C                   ADD       1             DSOCUR
+     C     DSOCUR        OCCUR     OPTTBL
+     C*
+     C     TBKEY         IFEQ      *HIVAL
+     C     SVOCUR        ANDEQ     *ZERO
+     C     DSOCUR        ANDLE     TBLNO
+     C                   Z-ADD     DSOCUR        SVOCUR
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* PRCOPT - PROCESS OPTIONS SELECTED
+     C*****************************************************************
+     C     PRCOPT        BEGSR
+     C*
+     C                   EXSR      SRTTBL
+     C*
+     C     ANYOPT        IFEQ      YES
+     C*
+     C                   EXSR      SFLOPT
+     C*
+     C     ERRORS        IFEQ      NO
+     C     *INKC         ANDEQ     *OFF
+     C     *INKL         ANDEQ     *OFF
+     C                   EXSR      INTTBL
+     C                   ENDIF
+     C*
+     C                   EXSR      STSFL1
+     C*
+     C                   ELSE
+     C*
+     C                   EXSR      POSCUR
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* SRTTBL - SORT THE OPTION SELECTED TABLE INTO RECORD KEY ORDER
+     C*****************************************************************
+     C     SRTTBL        BEGSR
+     C*
+     C                   MOVEA     *HIVAL        ARY
+     C                   MOVE      NO            ANYOPT
+     C*
+     C     1             DO        TBLNO         X
+     C     X             OCCUR     OPTTBL
+     C                   IF        SORTORDER = NAME
+     C                   MOVEL     TBNAME        ARY(X)
+     C                   ELSE
+     C                   MOVEL     TBKEY         ARY(X)
+     C                   ENDIF
+     C*
+     C                   MOVE      OPTTBL        ARY(X)
+     C                   ENDDO
+     C*
+     C                   SORTA     ARY
+     C*
+     C     1             DO        TBLNO         X
+     C*
+     C     X             OCCUR     OPTTBL
+     C                   MOVE      ARY(X)        OPTTBL
+     C*
+     C     POSKEY        IFEQ      *BLANKS
+     C     TBKEY         ANDNE     *HIVAL
+     C                   MOVE      YES           ANYOPT
+     C*
+     C                   IF        SORTORDER = NAME
+     C                   EVAL      POSKEY = TBNAME
+     C                   ELSE
+     C                   EVAL      POSKEY = TBKEY
+     C                   ENDIF
+     C                   ENDIF
+     C*                                                    SUBFILE
+     C                   ENDDO
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* SFLOPT - PROCESS EACH STORED OPTION
+     C*****************************************************************
+     C     SFLOPT        BEGSR
+     C*
+     C                   Z-ADD     *ZERO         X
+     C*
+     C     X             DOWLT     TBLNO
+     C     *INKC         ANDEQ     *OFF
+     C     *INKL         ANDEQ     *OFF
+     C     ERRORS        ANDEQ     NO
+     C*
+     C                   EXSR      SETIND
+     C*
+     C                   ADD       1             X
+     C     X             OCCUR     OPTTBL
+     C*
+     C     TBOPT         CASEQ     CHANGE        CHGREC
+     C     TBOPT         CASEQ     COPY          CPYREC
+     C     TBOPT         CASEQ     DELETE        PRCDLT
+     C     TBOPT         CASEQ     DISPLY        DSPREC
+     C                   ENDCS
+     C*
+     C                   COMMIT
+     C*
+     C     ERRORS        IFEQ      NO
+     C     *INKL         ANDEQ     *OFF
+     C                   MOVE      *HIVAL        TBOPT
+     C                   MOVE      *HIVAL        TBKEY
+     C                   ELSE
+     C     TBKEY         IFNE      *HIVAL
+     C                   IF        SORTORDER = NAME
+     C                   EVAL      POSKEY = TBNAME
+     C                   ELSE
+     C                   EVAL      POSKEY = TBKEY
+     C                   ENDIF
+     C                   SETON                                        60
+     C                   SETON                                        54
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* CHGREC - PROCESS CHANGE OPTION
+     C*****************************************************************
+     C     CHGREC        BEGSR
+     C
+     C* CALL COM503 TO UPDATE AGENT
+     C
+     C                   CLEAR                   COM503
+     C                   MOVEL     TBKEY         AGTN503
+     C                   MOVEL     'UPDATE '     PMDE503
+     C
+     C                   CALL      'COM503'
+     C                   PARM                    COM503
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* CPYREC - COPY EXISTING RECORD WITH NEW KEY
+     C*****************************************************************
+     C     CPYREC        BEGSR
+     C*
+     C* CALL COM502 TO COPY AGENT
+     C                   CLEAR                   COM502
+     C                   MOVEL     TBKEY         AGT502
+     C*
+     C                   CALL      'COM502'
+     C                   PARM                    COM502
+     C                   ENDSR
+     C*
+     C/EJECT
+     C*****************************************************************
+     C* DSPREC - DISPLAY DATA RECORD IN COMAGTM
+     C*****************************************************************
+     C     DSPREC        BEGSR
+     C
+     C* CALL COM503 TO UPDATE AGENT
+     C
+     C                   CLEAR                   COM503
+     C                   MOVEL     TBKEY         AGTN503
+     C                   MOVEL     'INQUIRY'     PMDE503
+     C
+     C                   CALL      'COM503'
+     C                   PARM                    COM503
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* PRCDLT - PROCESS ALL DELETE ENTRIES FROM THE OPTION TABLE
+     C*****************************************************************
+     C     PRCDLT        BEGSR
+     C*
+     C                   EXSR      CLSFL2
+     C                   EXSR      LDSFL2
+     C*
+     C     RRN2          IFGT      *ZERO
+     C*
+     C                   EXSR      DSSFL2
+     C*
+     C     FNCKEY        IFEQ      ENTER
+     C                   EXSR      DELREC
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* DELREC - PROCESS A DELETE FOR EACH RECORD IN THE DELETE
+     C*          CONFIRMATION SUBFILE
+     C*****************************************************************
+     C     DELREC        BEGSR
+     C*
+     C                   Z-ADD     1             RRN2
+     C*
+     C     RRN2          DOWLE     HIRRN2
+     C     ERRORS        ANDEQ     NO
+     C*
+     C     RRN2          CHAIN     COM500S2                           99
+     C*
+     C                   EXSR      DLTRCD
+     C*
+     C                   EXSR      FKEY
+     C     MAGTNO        IFEQ      TBKEY
+     C                   MOVE      *HIVAL        TBKEY
+     C                   MOVE      *HIVAL        TBOPT
+     C                   ENDIF
+     C*
+     C                   ADD       1             RRN2
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* ADDREC - CHECK SECURITY CLEARANCE TO ADD RECORD TO COMAGTM
+     C*****************************************************************
+     C     ADDREC        BEGSR
+     C*
+     C     *INKF         IFEQ      *ON
+     C     SVADD         ANDEQ     NO
+     C                   MOVE      *OFF          *INKF
+     C                   MOVE      'LSP9055'     MSGID
+     C                   MOVEL     OPT           MSGDTA
+     C                   SETON                                        60
+     C                   EXSR      SNDMSG
+     C                   ELSE
+     C                   EXSR      PRCADD
+     C                   ENDIF
+     C*
+     C* REPOSITION DATA FILE TO LOAD SUBFILE
+     C*
+     C     HIRRN1        IFGT      *ZERO
+     C                   Z-ADD     1             RRN1
+     C     RRN1          CHAIN     COM500S1                           99
+     C                   IF        SORTORDER = NAME
+     C                   EVAL      POSKEY = CMNAME
+     C                   ELSE
+     C                   EVAL      POSKEY = MAGTNO
+     C                   ENDIF
+     C                   ELSE
+     C                   MOVE      *LOVAL        POSKEY
+     C                   ENDIF
+     C*
+     C                   EXSR      STSFL1
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* PRCADD - ADD RECORD TO COMAGTM
+     C*****************************************************************
+     C     PRCADD        BEGSR
+     C*
+     C* CALL COM503 TO UPDATE AGENT
+     C
+     C                   CLEAR                   COM503
+     C                   MOVEL     'ADD    '     PMDE503
+     C
+     C                   CALL      'COM503'
+     C                   PARM                    COM503
+     C
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* REFRSH - REBUILD SUBFILE FROM CURRENT POSITION AND ERASE
+     C*          ENTERED OPTIONS
+     C*****************************************************************
+     C     REFRSH        BEGSR
+     C*
+     C                   EXSR      INTTBL
+     C*
+     C* REPOSITION DATA FILE TO LOAD SUBFILE
+     C*
+     C     HIRRN1        IFGT      *ZERO
+     C                   Z-ADD     1             RRN1
+     C     RRN1          CHAIN     COM500S1                           99
+     C                   IF        SORTORDER = NAME
+     C                   EVAL      POSKEY = CMNAME
+     C                   ELSE
+     C                   EVAL      POSKEY = MAGTNO
+     C                   ENDIF
+     C                   ELSE
+     C                   MOVE      *LOVAL        POSKEY
+     C                   ENDIF
+     C*
+     C                   EXSR      STSFL1
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* POSSFL - POSITION SUBFILE USING POSKEY
+     C*****************************************************************
+     C     POSSFL        BEGSR
+     C*
+     C                   IF        SORTORDER = NAME
+     C                   EVAL      CMNAME = POSKEY
+     C                   ELSE
+     C                   EVAL      MAGTNO = POSKEY
+     C                   ENDIF
+     C*
+     C                   EXSR      STSFL1
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* STSFL1 - START SUBFILE FOR REDISPLAY
+     C*****************************************************************
+     C     STSFL1        BEGSR
+     C*
+     C* START SUBFILE FOR REDISPLAY
+     C*
+     C                   EXSR      SETKEY
+     C*
+     C     *IN99         IFEQ      *ON
+     C                   EXSR      RDNLK
+     C*                                                     NEXT RECORD
+     C                   ELSE
+     C*
+     C     *IN99         IFEQ      *OFF
+     C                   EXSR      RDPNLK
+     C*                                                     TO REC PRIOR
+     C     *IN99         IFEQ      *ON
+     C                   EXSR      SETKEY
+     C                   EXSR      RDNLK
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   EXSR      CLSFL1
+     C*
+     C                   EXSR      LDSFL1
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* PDSFL1 - PAGE DOWN SUBFILE
+     C*****************************************************************
+     C     PDSFL1        BEGSR
+     C*
+     C     HIRRN1        IFGT      *ZERO
+     C     HIRRN1        CHAIN     COM500S1                           99
+     C                   ENDIF
+     C*
+     C                   EXSR      SETKGT
+     C                   EXSR      RDNLK
+     C*
+     C     *IN99         IFEQ      *OFF
+     C                   EXSR      CLSFL1
+     C                   EXSR      LDSFL1
+     C                   ELSE
+     C                   MOVE      'LSP9011'     MSGID
+     C                   MOVE      *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C                   EXSR      POSCUR
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* PUSFL1 - PAGE UP SUBFILE
+     C*****************************************************************
+     C     PUSFL1        BEGSR
+     C*
+     C     HIRRN1        IFGT      *ZERO
+     C                   Z-ADD     1             RRN1
+     C     RRN1          CHAIN     COM500S1                           99
+     C                   ENDIF
+     C*
+     C                   EXSR      SETKEY
+     C                   EXSR      RDPNLK
+     C*
+     C     *IN99         IFEQ      *OFF
+     C*
+     C                   EXSR      CLSFL1
+     C*
+     C                   Z-ADD     1             RECCNT            5 0
+     C*
+     C     *IN99         DOWNE     *ON
+     C     RECCNT        ANDLT     PAGSIZ
+     C                   EXSR      RDPNLK
+     C                   ADD       1             RECCNT
+     C                   ENDDO
+     C*
+     C     *IN99         IFEQ      *ON
+     C                   EXSR      SETLOV
+     C                   EXSR      RDNLK
+     C                   ENDIF
+     C*
+     C                   EXSR      LDSFL1
+     C*
+     C                   ELSE
+     C                   MOVE      'LSP9012'     MSGID
+     C                   MOVE      *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C                   EXSR      POSCUR
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* POSCUR - POSITION CURSOR TO FIRST SUBFILE RECORD
+     C*****************************************************************
+     C     POSCUR        BEGSR
+     C*
+     C     HIRRN1        IFGT      *ZERO
+     C                   Z-ADD     1             RRN1
+     C     RRN1          CHAIN     COM500S1                           99
+     C                   SETON                                        6054
+     C                   UPDATE    COM500S1
+     C                   SETOFF                                       6054
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* LDSFL1 - LOAD SUBFILE FROM RECORD POSITIONED TO FOR SIZE OF PAGE
+     C*****************************************************************
+     C     LDSFL1        BEGSR
+     C*
+     C     ERRORS        IFEQ      NO
+     C     OPTERR        ANDEQ     NO
+     C                   SETON                                        6054
+     C                   ENDIF
+     C*
+     C     *IN99         DOWEQ     *OFF
+     C     PAGSIZ        ANDGT     RRN1
+     C*
+     C                   EXSR      FKEY
+     C*
+     C     MAGTNO        IFEQ      TBKEY
+     C                   MOVE      TBOPT         OPT
+     C                   ELSE
+     C                   MOVE      *BLANKS       OPT
+     C                   ENDIF
+     C
+     C                   EVAL      MAGTNO1 = MAGTNO
+     C                   EVAL      AGTNAM1 = AGTNAM
+     C                   EVAL      MAGTNO2 = MAGTNO
+     C                   EVAL      AGTNAM2 = AGTNAM
+     C*
+     C                   ADD       1             RRN1
+     C                   WRITE     COM500S1
+     C*
+     C                   SETOFF                                       5461
+     C                   SETOFF                                       60
+     C*
+     C                   EXSR      RDNLK
+     C                   ENDDO
+     C*
+     C* SET SCREEN LITERAL FROM " MORE..." OR "BOTTOM"
+     C*
+     C                   Z-ADD     RRN1          HIRRN1
+     C     *IN99         IFEQ      *ON
+     C                   MOVE      BOTLIT        MORBOT
+     C                   ELSE
+     C                   MOVE      MORLIT        MORBOT
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* CLSFL1 - CLEAR LIST SCREEN
+     C*****************************************************************
+     C     CLSFL1        BEGSR
+     C*
+     C                   Z-ADD     0             RRN1
+     C                   Z-ADD     0             HIRRN1
+     C                   SETOFF                                       51
+     C                   SETON                                        52
+     C                   WRITE     COM500C1
+     C                   SETOFF                                       50
+     C                   SETON                                        51
+     C                   SETOFF                                       52
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* DSSFL1 - DISPLAY LIST SCREEN
+     C*****************************************************************
+     C     DSSFL1        BEGSR
+     C*
+     C     RRN1          IFEQ      *ZERO
+     C                   SETOFF                                       50
+     C                   ELSE
+     C                   SETON                                        50
+     C                   ENDIF
+     C*
+     C                   MOVE      *BLANKS       POSKEY
+     C                   MOVE      *BLANKS       POSKY1
+     C                   MOVE      *BLANKS       POSKY2
+     C*
+     C                   WRITE     SFLERRC
+     C*
+     C                   WRITE     COM500F1
+     C*
+     C                   EXFMT     COM500C1
+     C*
+     C                   IF        SORTORDER = NAME
+     C                   EVAL      POSKEY = POSKY1
+     C                   ELSE
+     C                   EVAL      POSKEY = POSKY2
+     C                   ENDIF
+     C*
+     C                   CALL      'LSPCLRM'
+     C                   PARM                    PGMSGQ
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* CLSFL2 - CLEAR SUBFILE
+     C*****************************************************************
+     C     CLSFL2        BEGSR
+     C*
+     C                   Z-ADD     0             RRN2
+     C                   Z-ADD     0             HIRRN2
+     C                   SETOFF                                       57
+     C                   SETON                                        58
+     C                   WRITE     COM500C2
+     C                   SETOFF                                       58
+     C                   SETON                                        57
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* LDSFL2 - LOAD SUBFILE OF RECORD DELETES
+     C*****************************************************************
+     C     LDSFL2        BEGSR
+     C*
+     C                   Z-ADD     1             DSOCUR
+     C     DSOCUR        OCCUR     OPTTBL
+     C*
+     C     DSOCUR        DOWLE     TBLNO
+     C*                                                    COUNT
+     C     TBOPT         IFEQ      DELETE
+     C*
+     C                   MOVEL     TBKEY         MAGTNO
+     C                   MOVEL     TBKEY         MAGTNO1
+     C                   MOVEL     TBFNAM        AGTNAM
+     C                   ADD       1             RRN2
+     C                   WRITE     COM500S2
+     C                   ENDIF
+     C*
+     C                   ADD       1             DSOCUR
+     C     DSOCUR        OCCUR     OPTTBL
+     C*
+     C                   ENDDO
+     C*
+     C                   Z-ADD     RRN2          HIRRN2
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* DSSFL2 - DISPLAY THE DELETE CONFIRMATION SUBFILE
+     C*****************************************************************
+     C     DSSFL2        BEGSR
+     C*
+     C                   WRITE     COM500F2
+     C                   EXFMT     COM500C2
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* SNDMSG - SEND ERROR MESSAGE TO PROGRAM MESSAGE QUEUE FOR DISPLAY
+     C*****************************************************************
+     C     SNDMSG        BEGSR
+     C*
+     C                   MOVE      YES           ERRORS
+     C*
+     C     MSGID         IFNE      *BLANKS
+     C                   CALL      'LSPSNDM'
+     C                   PARM                    MSGID
+     C                   PARM                    MSGDTA
+     C                   PARM                    PGMSGQ
+     C                   ENDIF
+     C*
+     C                   MOVE      *BLANKS       MSGID             7
+     C                   MOVE      *BLANKS       MSGDTA          256
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* SETIN - SET INDICATOR
+     C*****************************************************************
+     C     SETIND        BEGSR
+     C*
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* CHNNLK - CHAIN WITH NO RECORD LOCK
+     C*****************************************************************
+     C     CHNNLK        BEGSR
+     C*
+     C     AGTKEY        CHAIN     COMAGTM
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* RDNLK - READ WITH NO RECORD LOCK
+     C*****************************************************************
+     C     RDNLK         BEGSR
+     C*
+     C* READ WITH NO RECORD LOCK
+     C*
+     C                   MOVE      NO            VALREC
+     C*
+     C     *IN99         DOUEQ     *ON
+     C     VALREC        OREQ      YES
+     C*
+     C                   IF        SORTORDER = NAME
+     C                   READ      LFCMSAXR                               99
+     C                   ELSE
+     C     CMCO          READE     COMAGTM                                99
+     C                   ENDIF
+     C*
+     C     *IN99         IFEQ      *OFF
+     C                   EXSR      CHKREC
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* RDPNLK - READ PRIOR WITH NO RECORD LOCK
+     C*****************************************************************
+     C     RDPNLK        BEGSR
+      *
+     C                   MOVE      NO            VALREC
+     C*
+     C     *IN99         DOUEQ     *ON
+     C     VALREC        OREQ      YES
+     C*
+     C                   IF        SORTORDER = NAME
+     C                   READP     LFCMSAXR                               99
+     C                   ELSE
+     C     CMCO          READPE    COMAGTM                                99
+     C                   ENDIF
+     C*
+     C     *IN99         IFEQ      *OFF
+     C                   EXSR      CHKREC
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* SETKEY - SET LOWER LIMIT WITH KEY
+     C*****************************************************************
+     C     SETKEY        BEGSR
+     C*
+     C                   IF        SORTORDER = NAME
+     C     NAMKEY        SETLL     LFCMSAXR                               99
+     C                   ELSE
+     C     AGTKEY        SETLL     COMAGTM                                99
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* SETLOV - SET LOWER LIMIT WITH LOW VALUES
+     C*****************************************************************
+     C     SETLOV        BEGSR
+     C*
+     C                   IF        SORTORDER = NAME
+     C     *LOVAL        SETLL     LFCMSAXR                               99
+     C                   ELSE
+     C     CMCO          SETLL     COMAGTM                                99
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* SETKGT - SET GREATER THAN KEY
+     C*****************************************************************
+     C     SETKGT        BEGSR
+     C                   IF        SORTORDER = NAME
+     C     NAMKEY        SETGT     LFCMSAXR
+     C                   ELSE
+     C     AGTKEY        SETGT     COMAGTM
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* CHKREC - CHECK RECORD FOR SELECTION
+     C*****************************************************************
+     C     CHKREC        BEGSR
+     C*
+     C                   IF        SORTORDER = NAME AND
+     C                             CRCO <> CMCO
+     C                   EVAL      VALREC = NO
+     C                   ELSE
+     C*
+     C                   IF        SORTORDER = NAME
+     C                   EVAL      MAGTNO = CRCTL1
+     C                   EXSR      CHNNLK
+     C                   ENDIF
+     C
+     C*
+     C     SSACTIVE      IFEQ      YES
+     C     MTRMYR        ANDNE     *ZERO
+     C                   EVAL      VALREC = NO
+     C                   ELSE
+     C                   EVAL      VALREC = YES
+     C                   ENDIF
+     C*
+     C* FORMAT AGENTS NAME
+     C*
+     C                   IF        VALREC = YES
+     C                   CLEAR                   PRM205
+     C                   CLEAR                   CLTM
+     C                   CLEAR                   CLTA
+     C*
+     C                   MOVE      CMCO          CMP205
+     C                   MOVEL     MAGTNO        CT1205
+     C                   MOVEL     'AGT'         TYP205
+     C                   MOVEL     '3'           NFM205
+     C                   MOVEL     '*'           AFM205
+     C*
+     C                   CALL      'CMS205'
+     C                   PARM                    PRM205
+     C                   PARM                    CLTM
+     C                   PARM                    CLTA
+     C*
+DB01 C                   MOVEL(P)  FNM205        IGCP1
+DB01 C                   Z-ADD     030           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         AGTNAM
+DB01 C*
+     C                   MOVE      MHIRMO        INMON
+     C                   MOVE      MHIRDA        INDAY
+     C                   MOVE      MHIRYR        INYR
+     C                   MOVE      ' '           FMTC01
+     C                   CALL      'DATEFMT'
+     C                   PARM                    PRMDAT
+     C     RTNCD         IFEQ      '00'
+     C                   MOVE      OUTDTE        HIRDAT
+     C                   END
+     C                   IF        MTRMYR = *ZERO
+     C                   EVAL      TRMDAT = *BLANKS
+     C                   ELSE
+     C                   MOVE      MTRMMO        INMON
+     C                   MOVE      MTRMDA        INDAY
+     C                   MOVE      MTRMYR        INYR
+     C                   MOVE      ' '           FMTC01
+     C                   CALL      'DATEFMT'
+     C                   PARM                    PRMDAT
+     C     RTNCD         IFEQ      '00'
+     C                   MOVE      OUTDTE        TRMDAT
+     C                   END
+     C                   ENDIF
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* DLTRCD - DELETE RECORD WITH MAGTNO
+     C*****************************************************************
+     C     DLTRCD        BEGSR
+     C*
+     C* CALL COM504 TO DELETE AGENT
+     C
+     C                   CLEAR                   COM504
+     C                   MOVEL     MAGTNO        AGTN504
+     C                   MOVEL     'DELETE '     PMDE504
+     C
+     C                   CALL      'COM504'
+     C                   PARM                    COM504
+     C
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* CURSOR - FIND CURSOR POSITION
+     C*****************************************************************
+     C     CURSOR        BEGSR
+     C*
+     C                   Z-ADD     *ZERO         ROW               3 0
+     C                   Z-ADD     *ZERO         COL               3 0
+     C*
+     C     ROWCOL        DIV       256           ROW
+     C                   MVR                     COL
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* SUBSET - SUBSET SCREEN
+     C*****************************************************************
+     C     SUBSET        BEGSR
+     C*
+     C                   MOVE      SORTORDER     SVORDER
+     C                   MOVE      SSACTIVE      SVACTIVE
+     C*
+     C                   WRITE     MSGCTL1
+     C                   EXFMT     COM500W1
+     C*
+     C                   CALL      'LSPCLRM'
+     C                   PARM                    PGMSGQ
+     C*
+     C     *INKC         IFEQ      *OFF
+     C     *INKL         ANDEQ     *OFF
+     C*
+     C     *INKE         IFEQ      *ON
+     C                   MOVE      SVORDER       SORTORDER
+     C                   MOVE      SVACTIVE      SSACTIVE
+     C                   ELSE
+     C*
+     C     SORTORDER     IFNE      YES
+     C     SORTORDER     ANDNE     NO
+     C                   EVAL      SORTORDER = NAME
+     C                   ENDIF
+     C*
+     C     SSACTIVE      IFNE      YES
+     C     SSACTIVE      ANDNE     NO
+     C                   EVAL      SSACTIVE = NO
+     C                   ENDIF
+     C*
+     C                   EVAL      *IN21 = (SORTORDER = NAME)
+     C*
+     C                   CLEAR                   POSKEY
+     C                   EXSR      STSFL1
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C     *INKC         IFEQ      *ON
+     C     *INKL         OREQ      *ON
+     C                   MOVE      SVORDER       SORTORDER
+     C                   MOVE      SVACTIVE      SSACTIVE
+     C*
+     C                   CALL      'LSPCLRM'
+     C                   PARM                    PGMSGQ
+     C                   ENDIF
+     C*
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* INTTBL - INITIALIZE OPTION PROCESSING TABLE
+     C*****************************************************************
+     C     INTTBL        BEGSR
+     C*
+     C                   Z-ADD     *ZERO         TBLNO
+     C     1             DO        TBMAX         DSOCUR
+     C     DSOCUR        OCCUR     OPTTBL
+     C                   MOVE      *HIVAL        TBOPT
+     C                   MOVE      *HIVAL        TBKEY
+     C                   ENDDO
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* INIT - INITIALIZATION
+     C*****************************************************************
+     C     INIT          BEGSR
+     C*
+     C     *ENTRY        PLIST
+     C                   PARM                    PRM500
+     C*
+     C                   Z-ADD     *ZERO         TBLNO             5 0
+     C*
+     C                   EXSR      INTTBL
+     C*
+     C     AGTKEY        KLIST
+     C                   KFLD                    CMCO
+     C                   KFLD                    MAGTNO
+     C*
+     C     NAMKEY        KLIST
+     C                   KFLD                    CMNAME
+     C*
+     C     MOD500        IFEQ      *BLANK
+     C                   EVAL      MOD500 = 'UPDATE '
+     C                   ENDIF
+     C*
+     C     MOD500        IFNE      'UPDATE '
+     C                   MOVEL     'INQUIRY'     MOD500
+     C                   EVAL      *IN20 = *OFF
+     C                   ELSE
+     C                   EVAL      *IN20 = *ON
+     C                   ENDIF
+     C*
+     C                   MOVE      NO            ERRORS            1
+     C                   MOVE      NO            OPTERR            1
+     C                   MOVE      NO            ANYOPT            1
+     C                   MOVE      NO            PNDOPT            1
+     C                   MOVE      *BLANKS       GETMSG            7
+     C
+     C                   EVAL      SORTORDER = NO
+     C                   EVAL      *IN21 = *OFF
+     C                   EVAL      SSACTIVE = NO
+     C*
+     C                   MOVEL     'COM500'      PGMSGQ           10
+     C*
+     C*
+     C     *LIKE         DEFINE    RRN1          RRN2
+     C     *LIKE         DEFINE    RRN1          HIRRN1
+     C     *LIKE         DEFINE    RRN2          HIRRN2
+     C*
+     C                   Z-ADD     *ZERO         RRN1              5 0
+     C                   Z-ADD     *ZERO         RRN2
+     C                   Z-ADD     *ZERO         HIRRN1
+     C                   Z-ADD     *ZERO         HIRRN2
+     C                   Z-ADD     *ZERO         X                 5 0
+     C                   Z-ADD     *ZERO         DSOCUR            5 0
+     C                   Z-ADD     *ZERO         SVOCUR            5 0
+     C                   MOVEL     '*'           FLDPGM
+     C*
+     C                   CALL      'GETID'
+     C                   PARM                    UID
+     C*
+     C                   MOVE      UID           SVUID
+     C                   MOVEL     'LSP'         SVAPID
+     C                   MOVEL     'COM500'      SVPROG
+     C*
+     C                   CALL      'LSPCHKSC'
+     C                   PARM                    SECPRM
+     C*
+     C     MOD500        IFEQ      'INQUIRY'
+     C                   MOVE      NO            SVDEL
+     C                   MOVE      NO            SVCHG
+     C                   MOVE      NO            SVCPY
+     C                   SETON                                          20
+     C                   ELSE
+     C                   SETOFF                                         20
+     C                   ENDIF
+     C*
+     C                   MOVE      *BLANKS       MSGRTN           77
+     C                   MOVE      'LSP0011'     MSGCD             7
+     C                   CALL      'LSPMSGID'
+     C                   PARM                    MSGCD
+     C                   PARM                    MSGRTN
+     C                   MOVE      MSGRTN        MSGWRK
+     C*
+     C*  RETRIEVE CURRENT SYSTEM DATE
+     C                   CALL      'LSPRTVDT'
+     C                   PARM                    CURRMM
+     C                   PARM                    CURRDD
+     C                   PARM                    CURRYY
+     C*
+     C     *DTAARA       DEFINE                  LSPCO
+     C     *DTAARA       DEFINE                  PRCDTA
+     C                   IN        *DTAARA
+     C*
+     C                   CALL      'LSPCLRM'
+     C                   PARM                    PGMSGQ
+     C*
+     C                   MOVE      *MONTH        INMON
+     C                   MOVE      *DAY          INDAY
+     C                   MOVE      *YEAR         INYR
+     C                   MOVE      '*'           FMTC01
+     C                   CALL      'DATEFMT'
+     C                   PARM                    PRMDAT
+     C     RTNCD         IFEQ      '00'
+     C                   MOVE      OUTDTE        SDATE
+     C                   END
+     C                   ENDSR
+DB01 C**************************************************************
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION *
+DB01 C**************************************************************
+DB01 C*
+DB01 C     IGCSR         BEGSR
+DB01 C                   MOVEL     *BLANKS       IGCP3
+DB01 C                   CALL      'DCU799'
+DB01 C                   PARM                    IGCP1           256
+DB01 C                   PARM                    IGCP2             3 0
+DB01 C                   PARM                    IGCP3           256
+DB01 C                   ENDSR

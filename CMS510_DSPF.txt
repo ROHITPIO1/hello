@@ -1,0 +1,260 @@
+      *   D0035   11/19/01   10:13:24   BEHLMANN     V4.4M02A
+      *   D0035   11/14/01   09:56:29   BEHLMANN     V4.4M02A
+M5713 *   5713   05/23/95  PAULH                                     V042M000
+M8559 *   8559   03/24/98  NELSON                                    V142M010
+     A*%%TS  SD  19950329  141916  FRIEDEL     REL-V3R0M5  5763-PW1
+M4970A*   4970   09/12/94  FRIEDEL
+M5713A*   5713   12/15/94  IZZO
+M4970A*   4970   07/09/94  PAULH
+M4970A*   4970   07/11/94  BRASEL
+M4970A*   4970   07/08/94  PAULH
+M4970A*   4970   07/08/94  PAULH
+M4970A*   4970   07/08/94  PAULH
+M4970A*   4970   07/08/94  PAULH
+M4970A*   4970   06/30/94  PAULH
+M4970A*   4970   06/30/94  PAULH
+M4970A*   4970   06/30/94  PAULH
+M5713A*   5713   12/15/94  TOM IZZO  (B & G CONSULTING)
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      REF(*LIBL/TAXDIST)
+     A                                      PRINT
+     A                                      ALTHELP
+     A                                      ALTPAGEUP
+     A                                      ALTPAGEDWN
+     A                                      HELP
+     A                                      CA03
+     A                                      CA12
+     A          R CMS510S1                  SFL
+     A  54                                  SFLNXTCHG
+     A            CRCLTN    R        H      REFFLD(RUSREL/CRCLTN *LIBL/CMSUSREL)
+     A            CPRLTX    R        H      REFFLD(RUSRTP/CPRLTX *LIBL/CMSUSRTP)
+     A            CRSEQN         2S 0H
+     A            SVCO      R        H      REFFLD(RUSREL/CRCO *LIBL/CMSUSREL)
+     A            OPT            2A  B 10  3
+     A  61                                  DSPATR(RI)
+     A  60                                  DSPATR(PC)
+     A            CRALPH    R        O 10  9REFFLD(RUSREL/CRALPH *LIBL/CMSUSREL)
+DB01 A            CNAME         45O  O 10 15
+     A  69        CRPCPT         5  2O 10 63EDTWRD('  0.  ')
+     A          R CMS510C1                  SFLCTL(CMS510S1)
+     A                                      SFLSIZ(0012)
+     A                                      SFLPAG(0012)
+     A                                      PAGEDOWN(08)
+     A                                      PAGEUP(07)
+     A                                      CF05
+     A N70                                  CF06
+     A                                      CF18
+     A                                      CF20
+     A                                      OVERLAY
+     A  50                                  SFLDSP
+     A  51                                  SFLDSPCTL
+     A  52                                  SFLCLR
+     A                                  1  2'CMS510'
+     A                                      COLOR(BLU)
+DB01 A            COMP          50O  O  1 16DSPATR(HI)
+DB01 A            SDATE      00010O  O  1071
+     A                                  2  2'CMS510C1'
+     A                                      COLOR(BLU)
+DB01 A            CS1201     00055O  O  2 16MSGID(CMS 1201 *LIBL/LSPMSGF)
+     A                                      DSPATR(HI)
+     A                                  2 73TIME
+DB01 A  26        S01161     00021O  O004002MSGID(S001161 *LIBL/INTMSGF)
+DB01 A  21        S06693     00021O  O004002MSGID(S006693 *LIBL/INTMSGF)
+DB01 A  22        S06694     00021O  O004002MSGID(S006694 *LIBL/INTMSGF)
+DB01 A  23        S06695     00021O  O004002MSGID(S006695 *LIBL/INTMSGF)
+DB01 A  24        S06696     00021O  O004002MSGID(S006696 *LIBL/INTMSGF)
+DB01 A  25        S06697     00021O  O004002MSGID(S006697 *LIBL/INTMSGF)
+     A            POL510    R        O  4 24REFFLD(RUSREL/CRCTL1 *LIBL/CMSUSREL)
+     A N22N24N25  BR510     R        O  4 35REFFLD(PRM510/BR510 *LIBL/PCMS510)
+     A                                      EDTWRD(' 0  ')
+     A  23        CTL2      R        O  4 35REFFLD(PRM510/BR510 *LIBL/PCMS510)
+DB01 A            LP0016     00077O  O  6  2MSGID(LSP 0016  *LIBL/LSPMSGF)
+     A                                      COLOR(BLU)
+DB01 A  70N20     S01162     00077O  O007002MSGID(S001162 *LIBL/INTMSGF)
+     A                                      COLOR(BLU)
+DB01 A            S06703     00077O  O007002MSGID(S006703 *LIBL/INTMSGF)
+     A                                      COLOR(BLU)
+DB01 A N27        S01163     00077O  O009002MSGID(S001163 *LIBL/INTMSGF)
+     A                                      DSPATR(HI)
+DB01 A            S06704     00077O  O009002MSGID(S006704 *LIBL/INTMSGF)
+     A                                      DSPATR(HI)
+     A          R CMS510F1
+     A                                      OVERLAY
+DB01 A            MORBOT        15O  O 22 65COLOR(WHT)
+     A                                      DSPATR(HI)
+DB01 A N70        S01164     00077O  O023002MSGID(S001164 *LIBL/INTMSGF)
+     A                                      COLOR(BLU)
+DB01 A  70N20     S06709     00077O  O023002MSGID(S006709 *LIBL/INTMSGF)
+     A                                      COLOR(BLU)
+DB01 A  70 20     S06710     00077O  O023002MSGID(S006710 *LIBL/INTMSGF)
+     A                                      COLOR(BLU)
+     A          R CMS510B
+     A                                      PAGEDOWN(08)
+     A                                      PAGEUP(07)
+     A N65N70N71                            CF13
+     A                                      CF15
+     A                                      CF17
+     A N66                                  CF04
+     A                                      OVERLAY
+     A            SVCO      R        H      REFFLD(RUSREL/CRCO *LIBL/CMSUSREL)
+     A            CRCLTN    R        H      REFFLD(RUSREL/CRCLTN *LIBL/CMSUSREL)
+     A                                  1  2'CMS510'
+     A                                      COLOR(BLU)
+DB01 A            COMP          50O  O  1 16DSPATR(HI)
+DB01 A            SDATE      00010O  O  1071
+     A                                  2  2'CMS510B'
+     A                                      COLOR(BLU)
+DB01 A  66 67     CS1211     00055O  O  2 15MSGID(CMS 1211 *LIBL/LSPMSGF)
+     A                                      DSPATR(HI)
+DB01 A  65 66     CS1212     00055O  O  2 15MSGID(CMS 1212 *LIBL/LSPMSGF)
+     A                                      DSPATR(HI)
+DB01 A N65N66N67  CS1210     00055O  O  2 15MSGID(CMS 1210 *LIBL/LSPMSGF)
+     A                                      DSPATR(HI)
+     A                                  2 73TIME
+DB01 A  26        S01165     00021O  O004002MSGID(S001165 *LIBL/INTMSGF)
+DB01 A  21        S06693     00021O  O004002MSGID(S006693 *LIBL/INTMSGF)
+DB01 A  22        S06694     00021O  O004002MSGID(S006694 *LIBL/INTMSGF)
+DB01 A  23        S06695     00021O  O004002MSGID(S006695 *LIBL/INTMSGF)
+DB01 A  24        S06696     00021O  O004002MSGID(S006696 *LIBL/INTMSGF)
+DB01 A  25        S06697     00021O  O004002MSGID(S006697 *LIBL/INTMSGF)
+     A            CRCTL1    R        O  4 24REFFLD(RUSREL/CRCTL1 *LIBL/CMSUSREL)
+     A N22N24N25  BR510     R        O  4 35REFFLD(RUSREL/CRCTL2 *LIBL/CMSUSREL)
+     A                                      EDTWRD(' 0  ')
+     A  23        CTL2      R        O  4 35REFFLD(PRM510/BR510 *LIBL/PCMS510)
+     A N65N66N67
+     AO 66 67
+DB01 A  65        S01166     00077O  O006002MSGID(S001166 *LIBL/INTMSGF)
+     A                                      COLOR(BLU)
+     A N65N66N67
+     AO 66 67
+DB01 AO 67        S06606     00077O  O006002MSGID(S006606 *LIBL/INTMSGF)
+     A                                      COLOR(BLU)
+DB01 A            CS1213     00022O  O  8  3MSGID(CMS 1213  *LIBL/LSPMSGF)
+     A  66        L12001     00001A  O  8 26MSGID(LSP 0012 *LIBL/LSPMSGF)
+     A N66 67     L13001     00001A  O  8 26MSGID(LSP 0013 *LIBL/LSPMSGF)
+     A N66N67     L14001     00001A  O  8 26MSGID(LSP 0014 *LIBL/LSPMSGF)
+     A            CRALPH    R        B  8 28REFFLD(RUSREL/CRALPH *LIBL/CMSUSREL)
+     A  66                                  DSPATR(PR)
+     A  66 67                               DSPATR(HI)
+     A  72                                  DSPATR(RI)
+     A  72                                  DSPATR(PC)
+DB01 A N66        LP0046     00025O  O  8 41MSGID(LSP 0046  *LIBL/LSPMSGF)
+DB01 A N71        CS1214     00022O  O  9  3MSGID(CMS 1214  *LIBL/LSPMSGF)
+     A N71        L12002     00001A  O  9 26MSGID(LSP 0012 *LIBL/LSPMSGF)
+DB01 A N71        CNAME         45O  O  9 28
+DB01 A N71        CS1215     00022O  O 10  3MSGID(CMS 1215  *LIBL/LSPMSGF)
+     A  65N71     L12003     00001A  O 10 26MSGID(LSP 0012 *LIBL/LSPMSGF)
+     A N65 67N71  L13002     00001A  O 10 26MSGID(LSP 0013 *LIBL/LSPMSGF)
+     A N65N67N71  L14002     00001A  O 10 26MSGID(LSP 0014 *LIBL/LSPMSGF)
+     A N71        CRASEQ    R        B 10 28REFFLD(RUSREL/CRASEQ *LIBL/CMSUSREL)
+     A  65                                  DSPATR(PR)
+     A  65 67                               DSPATR(HI)
+     A                                      EDTCDE(3)
+DB01 A N35        CS1234     00022O  O 11  3MSGID(CMS 1234  *LIBL/LSPMSGF)
+     A  65N35     L12004     00001A  O 11 26MSGID(LSP 0012 *LIBL/LSPMSGF)
+     A N65 67N35  L13003     00001A  O 11 26MSGID(LSP 0013 *LIBL/LSPMSGF)
+     A N65N67N35  L14003     00001A  O 11 26MSGID(LSP 0014 *LIBL/LSPMSGF)
+     A            CRPCPT    R        B 11 28REFFLD(RUSREL/CRPCPT *LIBL/CMSUSREL)
+     A  35                                  DSPATR(ND)
+     A  65
+     AO 35                                  DSPATR(PR)
+     A  65 67                               DSPATR(HI)
+     A                                      EDTCDE(3)
+     A            CS1207     00005A  O 13  3MSGID(CMS 1207  *LIBL/LSPMSGF)
+     A            CXTXT1    R        B 14  4REFFLD(RUSRTX/CXTXT1 *LIBL/CMSUSRTX)
+     A  65                                  DSPATR(PR)
+     A                                      CHECK(LC)
+     A            CXTXT2    R        B 15  4REFFLD(RUSRTX/CXTXT2 *LIBL/CMSUSRTX)
+     A  65                                  DSPATR(PR)
+     A                                      CHECK(LC)
+     A            CXTXT3    R        B 16  4REFFLD(RUSRTX/CXTXT3 *LIBL/CMSUSRTX)
+     A  65                                  DSPATR(PR)
+     A                                      CHECK(LC)
+     A            CXTXT4    R        B 17  4REFFLD(RUSRTX/CXTXT4 *LIBL/CMSUSRTX)
+     A  65                                  DSPATR(PR)
+     A                                      CHECK(LC)
+     A            CXTXT5    R        B 18  4REFFLD(RUSRTX/CXTXT5 *LIBL/CMSUSRTX)
+     A  65                                  DSPATR(PR)
+     A                                      CHECK(LC)
+DB01 A N36        XCRUS1        15O  O 20  4
+     A N36        S01167     00005A  O020020MSGID(S001167 *LIBL/INTMSGF)
+     A  65N36     L12005     00001A  O 20 26MSGID(LSP 0012 *LIBL/LSPMSGF)
+     A N65 67N36  L13004     00001A  O 20 26MSGID(LSP 0013 *LIBL/LSPMSGF)
+     A N65N67N36  L14004     00001A  O 20 26MSGID(LSP 0014 *LIBL/LSPMSGF)
+     A            CRUSR1    R        B 20 28REFFLD(RUSREL/CRUSR1 *LIBL/CMSUSREL)
+     A  36                                  DSPATR(ND)
+     A  65                                  DSPATR(PR)
+     A  65 67                               DSPATR(HI)
+DB01 A N37        XCRUS2        15O  O 21  4
+     A N37        S01168     00005A  O021020MSGID(S001168 *LIBL/INTMSGF)
+     A  65N37     L12006     00001A  O 21 26MSGID(LSP 0012 *LIBL/LSPMSGF)
+     A N65 67N37  L13005     00001A  O 21 26MSGID(LSP 0013 *LIBL/LSPMSGF)
+     A N65N67N37  L14005     00001A  O 21 26MSGID(LSP 0014 *LIBL/LSPMSGF)
+     A            CRUSR2    R        B 21 28REFFLD(RUSREL/CRUSR2 *LIBL/CMSUSREL)
+     A  37                                  DSPATR(ND)
+     A  65                                  DSPATR(PR)
+     A  65 67                               DSPATR(HI)
+     A N70N65N67
+DB01 A N71        S06716     00077O  O023002MSGID(S006716 *LIBL/INTMSGF)
+     A                                      COLOR(BLU)
+     A  66 67N65  S08213     00077O  O023002MSGID(S008213 *LIBL/INTMSGF)
+     A                                      COLOR(BLU)
+     A N70N65N67
+     A N71        S08216     00077O  O023002MSGID(S008216 *LIBL/INTMSGF)
+     A                                      COLOR(BLU)
+     A  70N71
+     AO 65        S08214     00077O  O023002MSGID(S008214 *LIBL/INTMSGF)
+     A                                      COLOR(BLU)
+     A  71        S08215     00077O  O023002MSGID(S008215 *LIBL/INTMSGF)
+     A                                      COLOR(BLU)
+     A          R CMS510S2                  SFL
+     A            CRCLTN    R        H      REFFLD(RUSREL/CRCLTN *LIBL/CMSUSREL)
+     A            CPRLTX    R        H      REFFLD(RUSRTP/CPRLTX *LIBL/CMSUSRTP)
+     A            CRSEQN    R        H      REFFLD(RUSREL/CRSEQN *LIBL/CMSUSREL)
+     A            SVCO      R        H      REFFLD(RUSREL/CRCO *LIBL/CMSUSREL)
+     A            CRCTL1    R        O  9  3REFFLD(RUSREL/CRCTL1 *LIBL/CMSUSREL)
+     A            CRCTL2    R        O  9 15REFFLD(RUSREL/CRCTL2 *LIBL/CMSUSREL)
+     A            CRALPH    R        O  9 25REFFLD(RUSREL/CRALPH *LIBL/CMSUSREL)
+DB01 A            CNAME         45O  O  9 33
+     A          R CMS510C2                  SFLCTL(CMS510S2)
+     A                                      SFLSIZ(0015)
+     A                                      SFLPAG(0014)
+     A                                      OVERLAY
+     A                                      SFLDSP
+     A  57                                  SFLDSPCTL
+     A  58                                  SFLCLR
+     A                                  1  2'CMS510'
+     A                                      COLOR(BLU)
+DB01 A            COMP          50O  O  1 16DSPATR(HI)
+DB01 A            SDATE      00010O  O  1071
+     A                                  2  2'CMS510C2'
+     A                                      COLOR(BLU)
+DB01 A            CS1218     00055O  O  2 16MSGID(CMS 1218 *LIBL/LSPMSGF)
+     A                                      DSPATR(HI)
+     A                                  2 73TIME
+DB01 A            LP0022     00077O  O  4  2MSGID(LSP 0022  *LIBL/LSPMSGF)
+     A                                      COLOR(BLU)
+DB01 A            LP0008     00077O  O  5  2MSGID(LSP 0008  *LIBL/LSPMSGF)
+     A                                      COLOR(BLU)
+DB01 A            CS1203     00015O  O  7 21MSGID(CMS 1203  *LIBL/LSPMSGF)
+     A                                      DSPATR(HI)
+DB01 A N21        S01170     00077O  O008002MSGID(S001170 *LIBL/INTMSGF)
+     A                                      DSPATR(HI)
+DB01 A  21        S06719     00077O  O008002MSGID(S006719 *LIBL/INTMSGF)
+     A                                      DSPATR(HI)
+     A          R CMS510F2
+DB01 A            LP0009     00077O  O 23  2MSGID(LSP 0009  *LIBL/LSPMSGF)
+     A                                      COLOR(BLU)
+     A          R SFLERR                    SFL
+     A                                      SFLMSGRCD(24)
+     A            FLDKEY                    SFLMSGKEY
+     A            FLDPGM                    SFLPGMQ
+     A          R SFLERRC                   SFLCTL(SFLERR)
+     A                                      SFLSIZ(0002)
+     A                                      SFLPAG(0001)
+     A                                      SFLINZ
+     A                                      SFLDSP
+     A                                      SFLDSPCTL
+     A N01                                  SFLEND
+     A            FLDPGM                    SFLPGMQ

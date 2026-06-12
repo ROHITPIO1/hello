@@ -1,0 +1,145 @@
+      *   D0154        04/11/05   14:31:12   FISCHER      V4.4M09
+      *   D0154        11/01/04   06:12:43   SIMONS       V4.4M09
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      REF(*LIBL/PDFFNDDS)
+     A                                      ALTPAGEUP
+     A                                      ALTPAGEDWN
+     A                                      CHECK(AB)
+     A                                      PRINT
+     A          R COM500S1                  SFL
+     A  54                                  SFLNXTCHG
+     A            MAGTNO    R        H      REFFLD(MAGTNO COMAGTM)
+     A            AGTNAM        30A  H
+     A            CMNAME    R        H      REFFLD(CMNAME CMSCLNTM)
+     A            CMCLTN    R        H      REFFLD(CMCLTN CMSCLNTM)
+     A            OPT            2A  B 11  3
+     A  61                                  DSPATR(RI)
+     A  60                                  DSPATR(PC)
+     A N21        MAGTNO1   R        O 11  8REFFLD(MAGTNO COMAGTM)
+     A N21        AGTNAM1       30A  O 11 20
+     A  21        AGTNAM2       30A  O 11  8
+     A  21        MAGTNO2   R        O 11 41REFFLD(MAGTNO COMAGTM)
+     A            HIRDAT        10A  O 11 53
+     A            TRMDAT        10A  O 11 66
+     A          R COM500C1                  SFLCTL(COM500S1)
+     A                                      SFLSIZ(0011)
+     A                                      SFLPAG(0011)
+     A                                      PAGEDOWN(08)
+     A                                      PAGEUP(07)
+     A                                      CA03
+     A N20                                  CF05
+     A N20                                  CF06
+     A                                      CF12
+     A                                      CF17
+     A                                      OVERLAY
+     A  50                                  SFLDSP
+     A  51                                  SFLDSPCTL
+     A  52                                  SFLCLR
+     A                                  1  2'COM500'
+     A                                      COLOR(BLU)
+     A            COMP          50O  O  1 16DSPATR(HI)
+     A            SDATE      00010O  O  1071
+     A                                  2  2'COM500C1'
+     A                                      COLOR(BLU)
+     A            S01229     00055O  O  2 15MSGID(S001229  *LIBL/INTMSGF)
+     A                                      DSPATR(HI)
+     A                                  2 73TIME
+     A            LP0017     00015O  O  4  2MSGID(LSP 0017  *LIBL/LSPMSGF)
+     A  21        POSKY1    R        B  4 18REFFLD(CMNAME CMSCLNTM)
+     A                                      CHECK(LC)
+     A N21        POSKY2    R        B  4 18REFFLD(MAGTNO COMAGTM)
+     A            LP0016     00077O  O  6  2MSGID(LSP 0016  *LIBL/LSPMSGF)
+     A                                      COLOR(BLU)
+     A  20        LP0033        74O  O  7  5MSGID(LSP0033 *LIBL/LSPMSGF)
+     A                                      COLOR(BLU)
+     A N20        LP0034        74O  O  7  5MSGID(LSP0034 *LIBL/LSPMSGF)
+     A                                      COLOR(BLU)
+     A N21        S01230     00077O  O009002MSGID(S001230 *LIBL/INTMSGF)
+     A                                      DSPATR(HI)
+     A N21        S01231     00077O  O010002MSGID(S001231 *LIBL/INTMSGF)
+     A                                      DSPATR(HI)
+     A  21        S01232     00077O  O009002MSGID(S001232 *LIBL/INTMSGF)
+     A                                      DSPATR(HI)
+     A  21        S01233     00077O  O010002MSGID(S001233 *LIBL/INTMSGF)
+     A                                      DSPATR(HI)
+     A          R COM500F1
+     A                                      OVERLAY
+     A            MORBOT        15O  O 22 65COLOR(WHT)
+     A                                      DSPATR(HI)
+     A  20        S03728        77O  O 23  2MSGID(S008242 *LIBL/INTMSGF)
+     A                                      COLOR(BLU)
+     A N20        S01232        77O  O 23  2MSGID(S008243 *LIBL/INTMSGF)
+     A                                      COLOR(BLU)
+     A          R COM500S2                  SFL
+     A            MAGTNO    R        H      REFFLD(MAGTNO COMAGTM)
+     A            MAGTNO1   R        O  8  2REFFLD(MAGTNO COMAGTM)
+     A            AGTNAM        30A  O  8 14
+     A          R COM500C2                  SFLCTL(COM500S2)
+     A                                      SFLSIZ(0015)
+     A                                      SFLPAG(0014)
+     A                                      CF12
+     A                                      OVERLAY
+     A                                      SFLDSP
+     A  57                                  SFLDSPCTL
+     A  58                                  SFLCLR
+     A                                  1  2'COM500'
+     A                                      COLOR(BLU)
+     A            COMP          50O  O  1 16DSPATR(HI)
+     A            SDATE      00010O  O  1071
+     A                                  2  2'COM500C2'
+     A                                      COLOR(BLU)
+     A            S08766     00055O  O  2 15MSGID(S00 8766 *LIBL/INTMSGF)
+     A                                  2 73TIME
+     A            LP0022     00077O  O  4  2MSGID(LSP 0022  *LIBL/LSPMSGF)
+     A                                      COLOR(BLU)
+     A            LP0008     00077O  O  5  2MSGID(LSP 0008  *LIBL/LSPMSGF)
+     A                                      COLOR(BLU)
+     A            S06766     00077O  O007002MSGID(S006766 *LIBL/INTMSGF)
+     A                                      DSPATR(HI)
+     A          R COM500F2
+     A            LP0009     00077O  O 23  2MSGID(LSP 0009  *LIBL/LSPMSGF)
+     A                                      COLOR(BLU)
+     A          R SFLERR                    SFL
+     A                                      SFLMSGRCD(24)
+     A            FLDKEY                    SFLMSGKEY
+     A            FLDPGM                    SFLPGMQ
+     A          R SFLERRC                   SFLCTL(SFLERR)
+     A                                      SFLSIZ(0002)
+     A                                      SFLPAG(0001)
+     A                                      SFLINZ
+     A                                      SFLDSP
+     A                                      SFLDSPCTL
+     A N01                                  SFLEND
+     A            FLDPGM                    SFLPGMQ
+     A          R COM500W1
+     A                                      WINDOW(MSGCTL1)
+     A                                      CA03
+     A                                      CF05
+     A                                      CF12
+     A                                      OVERLAY
+     A            S001234       58O  O  1  1MSGID(S001234 *LIBL/INTMSGF)
+     A                                      DSPATR(HI)
+     A            LP0021     00037O  O  3  2MSGID(LSP 0021  *LIBL/LSPMSGF)
+     A                                      COLOR(BLU)
+     A            S001235    00030O  O  5  3MSGID(S00 1235  *LIBL/INTMSGF)
+     A            SORTORDER      1A  B  5 35
+     A            S006721    00030O  O  6  3MSGID(S00 6721  *LIBL/INTMSGF)
+     A            SSACTIVE       1A  B  6 35
+     A            LP0025     00037O  O  9  2MSGID(LSP 0025  *LIBL/LSPMSGF)
+     A                                      COLOR(BLU)
+     A          R MSGSFL1                   SFL
+     A                                      SFLMSGRCD(10)
+     A            FLDKEY                    SFLMSGKEY
+     A            FLDPGM                    SFLPGMQ
+     A          R MSGCTL1                   SFLCTL(MSGSFL1)
+     A                                      SFLSIZ(0002)
+     A                                      SFLPAG(0001)
+     A                                      WINDOW(4 11 11 60)
+     A                                      OVERLAY
+     A                                      SFLDSP
+     A                                      SFLDSPCTL
+     A                                      SFLINZ
+     A N01                                  SFLEND
+     A                                      USRRSTDSP
+     A            FLDPGM                    SFLPGMQ

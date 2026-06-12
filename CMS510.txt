@@ -1,0 +1,3093 @@
+      *   C41996       07/13/05   16:52:41   PIGGOTT      V4.4M10
+      *   C38825       11/03/04   08:38:59   PAULH        V4.4M08
+      *   C37536       08/09/04   13:05:56   PAULH        V4.4M08
+      *   C35156       05/26/04   08:40:31   VOGEL        V4.4M08
+      *   D0120        03/17/04   13:37:57   SIMONS       V4.4M08
+      *   C35903       03/09/04   14:44:55   VOGEL        V4.4M08
+      *   C33119       01/09/04   13:25:07   PASLEY       V4.4M07
+      *   D0111        06/08/03   09:52:25   SIMONS       V4.4M06
+      *   C23647       05/16/03   06:01:33   SWAFFORD     V4.4M06
+      *   D0110R       05/06/03   14:42:16   MINTON       V4.4M06
+      *   C29191       04/16/03   13:58:28   PAULH        V4.4M06
+      *   C28380       02/09/03   11:23:39   SIMONS       V4.4M06
+      *   F2035        02/25/02   11:42:15   SWAFFORD     V4.4M03
+      *   D0047   01/22/02   16:04:55   MINTON       V4.4M03
+      *   D0035   11/14/01   09:56:29   BEHLMANN     V4.4M02A
+      *   M3893   02/10/01   13:42:05   SWAFFORD     V4.4M00
+      *   M3893   01/08/01   11:04:46   MINTON       V4.4M00
+      *   M3145   12/01/00   08:05:18   ROBERTS      V4.4M00
+M4368 *   4368   01/25/94  PAULH
+M4970 *   4970   06/02/94  FRIEDEL
+M4970 *   4970   06/14/94  BRASEL
+M4970 *   4970   06/14/94  PAULH
+M4970 *   4970   07/05/94  VANNATTA
+M5089 *   5089   10/19/94  FRIEDEL
+M5713 *   5713   12/19/94  TOM IZZO - BRADFORD AND GALT
+M5713 *   5713   12/20/94  IZZO
+M5713 *   5713   02/22/95  PAULH
+M5713 *   5713   03/14/95  FRIEDEL
+M4814 *   4814   07/25/95  WEILANDICH                                V042M000
+M6409 *   6409   09/18/95  KELLEY                                    V042M000
+M6466 *   6466   10/06/95  KELLEY                                    V042M000
+M5749 *   5749   10/09/95  YN                                        V042M000
+M4814 *   4814   03/27/96  SHARP                                     V043M000
+M6877 *   6877   06/04/96  YN                                        V043M000
+M7131 *   7131   10/25/96  MOSER                                     V043M000
+M8312 *   8312   11/14/97  VOGEL                                     V043M020
+M8605 *   8605   02/19/98  EICHER                                    V142M010
+M8605 *   8605   06/19/98  NELSON                                    V142M010
+M0355 *   0355   06/07/99  MANDAL                                    V142M010
+M8559 *   8559   06/18/99  LEONARD                                   V143M010
+M2796 *   2796   05/24/00  HENSLEY                                   V143M010
+M0904 *   0904   07/18/00  ROTH                                      V043M060
+M1008 *   1008   09/28/00  SWAFFORD                                  V143M010
+     H DFTACTGRP(*NO) ACTGRP('CMSGRP')
+     F*****************************************************************
+     F* CMS510 - SUBFILE SHELL                                       **
+     F*****************************************************************
+     F*                                                              **
+     F*  DISPLAY MESSAGES FOR CMS510 ARE CMS1200 THROUGH CMS1299     **
+     F*    ERROR MESSAGES FOR CMS510 ARE CMS1300 THROUGH CMS1399     **
+     F*                                                              **
+     F*             LIST RECORD HEADER         LSP4900               **
+     F*             ADD RECORD HEADER          LSP4901               **
+     F*             CHANGE RECORD HEADER       LSP4902               **
+     F*             COPY RECORD HEADER         LSP4903               **
+     F*             DISPLAY RECORD HEADER      LSP4904               **
+     F*             DELETE CONFIRMATION HEADER LSP4905               **
+     F*                                                              **
+     F*             FACT TABLE FOR : > . DATA POINTERS               **
+     F*                                                              **
+     F*  INDICATOR  65      66       67       KEY        DATA        **
+     F*           ...................................................**
+     F*  ADD      : OFF     OFF      OFF   NOT PR '.'   NOT PR '.'  .**
+     F*           :                                                 .**
+     F*  CHANGE   : OFF     ON       ON        PR ':'   NOT PR '>'  .**
+     F*           :                                                 .**
+     F*  DISPLAY  : ON      ON       OFF       PR ':'       PR ':'  .**
+     F*           :                                                 .**
+     F*  COPY     : OFF     OFF      ON    NOT PR '>'   NOT PR '>'  .**
+     F*           ...................................................**
+     F*                                                              **
+     F*  ++ FREE INDICATOR RANGES  27-49, 73-90                      **
+     F*                                                              **
+     F*****************************************************************
+     F**  PROPRIETARY RIGHTS NOTICE: ALL RIGHTS RESERVED. THIS       **
+     F**  MATERIAL CONTAINS THE VALUABLE PROPERTIES AND TRADE        **
+     F**  SECRETS OF GENELCO, INC. OF ST. LOUIS, MO. EMBODYING       **
+     F**  SUBSTANTIAL CREATIVE EFFORTS AND CONFIDENTIAL INFORMATION, **
+     F**  IDEAS, AND EXPRESSIONS, NO PART OF WHICH MAY BE REPRODUCED **
+     F**  OR TRANSMITTED IN ANY FORM OR BY ANY MEANS, ELECTRONIC,    **
+     F**  MECHANICAL, OR OTHERWISE, INCLUDING PHOTOCOPYING AND       **
+     F**  RECORDING OR IN CONNECTION WITH ANY INFORMATION STORAGE    **
+     F**  OR RETRIEVAL SYSTEM WITHOUT THE PERMISSION IN WRITING OF   **
+     F**  GENELCO, INC.                                              **
+     F**                                                             **
+     F**  COPYRIGHT NOTICE: COPYRIGHT 1982    GENELCO, INC.          **
+     F*****************************************************************
+     F** C R E A T I O N        **                                   **
+     F****************************                                   **
+     F**                                                             **
+     F**  PROGRAM NAME:   CMS510                                     **
+     F**  CREATED BY:     MARK FRIEDEL                               **
+     F**  DATE:           06/02/94                                   **
+     F**                                                             **
+     F**  NARRATIVE: CMS510 IS A MAINTENANCE PROGRAM FOR THE         **
+     F**             CLIENT RELATIONSHIP FILE.                       **
+     F**                                                             **
+     F**                                                             **
+     F**  CHANGED BY: WILLIAM C. HENZE                               **
+     F**  DATE:       10/22/2001                                     **
+     F**  NARRATIVE:  Added Function Key 17 for Additional Fields    **
+     F**              to screen CMS510B.                             **
+     F*****************************************************************
+     F*                                                              **
+     F*******************************                                **
+     F* 10 - 49 ERROR CONTROL INDICATORS                             **
+     F*******************************                                **
+     F*                                                              **
+     F*******************************                                **
+     F* SUBFILE CONTROL INDICATORS                                   **
+     F*******************************                                **
+     F* 50 - DISPLAY SFL1                                            **
+     F* 51 - DISPLAY SFL1 CTL                                        **
+     F* 52 - SFL CLEAR                                               **
+     F* 54 - SFLNXTCHG                                               **
+     F* 57 - DISPLAY SFL2 CTL                                        **
+     F* 58 - SFL2 CLEAR                                              **
+     F*******************************                                **
+     F* FIELD CONTROL INDICATORS                                     **
+     F*******************************                                **
+     F* 60 - PC                                                      **
+     F* 61 - RI                                                      **
+     F* 65 - PR PROTECT DATA FIELDS                                  **
+     F* 66 - PR PROTECT KEY FIELDS                                   **
+     F* 67 - CHANGE/COPY INDICATOR                                   **
+     F*******************************                                **
+     F* FIELD CONTROL INDICATORS                                     **
+     F*******************************                                **
+     F**                                                             **
+     F*******************************                                **
+     F* 70 - 89 MISCELLANEOUS INDICATORS                             **
+     F*******************************                                **
+     F* F-KEY                                                        **
+     F*******************************                                **
+     F* KC - F3  EXIT FUNCTION                                       **
+     F* KE - F5  SCREEN REFRESH                                      **
+     F* KF - F6  ADD                                                 **
+     F* KG - F7  SCROLLS BACKWARD                                    **
+     F* KH - F8  SCROLLS FORWARD                                     **
+     F* KL - F12 CANCEL AND RETURN TO PRIOR SCREEN                   **
+     F*******************************                                **
+     F* OPTIONS                                                      **
+     F*******************************                                **
+     F* 2  - CHANGE                                                  **
+     F* 3  - COPY                                                    **
+     F* 4  - DELETE                                                  **
+     F* 5  - DISPLAY                                                 **
+     F*******************************                                **
+      /EJECT
+     FLFCMSREL  IF A E           K DISK    RENAME(RUSREL:RLFREL)
+     FCMSUSREL  UF A E           K DISK
+     F                                      COMMIT
+     FCMSUSRTX  UF A E           K DISK
+     F                                      COMMIT
+     FCMSUSRTP  IF   E           K DISK
+     FCMSCLNAD  IF   E           K DISK
+     FCASCNTRM  UF   E           K DISK
+     FCMSCLNTM  IF   E           K DISK
+     FCCSEXTR   O    E             DISK
+     F                                      COMMIT
+     FCMS510    CF   E             WORKSTN INFDS(DATA)
+     F                                     SFILE(CMS510S1:RRN1)
+     F                                     SFILE(CMS510S2:RRN2)
+      /EJECT
+     D*****************************************************************
+     D* ARRAYS AND TABLES
+     D*****************************************************************
+     D ARY             S            256    DIM(100)
+     D ABEN            S              3    DIM(20) ASCEND
+     D ZBEN            S              3    DIM(20) ASCEND
+     D ZREL            S              3    DIM(10)
+     D ZCLT            S             10    DIM(10)
+      /EJECT
+     D******************************************************************
+     D* EXTERNALLY DESCRIBED DATA STRUCTURES
+     D******************************************************************
+     D LSPCO         E DS          1024    EXTNAME(LSPCOMST)
+     D PRMDAT        E DS                  EXTNAME(PDATEFMT)
+     D SECPRM        E DS                  EXTNAME(PLSPCHKSC)
+     D DTARC1        E DS                  EXTNAME(CMSUSREL)
+     D  RCDKEY                 1     23
+     D DTARC2        E DS                  EXTNAME(CMSUSRTX)
+     D PRM005        E DS                  EXTNAME(PCMS000)
+     D PRM510        E DS                  EXTNAME(PCMS510)
+     D PRM511        E DS                  EXTNAME(PCMS511)
+     D PRM100        E DS                  EXTNAME(PCMS100)
+     D COREXT        E DS                  EXTNAME(CCSEXTR)
+     D CMS205        E DS                  EXTNAME(PCMS205)
+     D CLTM          E DS                  EXTNAME(CMSCLNTM)
+     D CLTA          E DS                  EXTNAME(CMSCLNAD)
+     D USRDTA        E DS                  EXTNAME(USRDTA)
+     D WEBDTA        E DS                  EXTNAME(WEBDTA)
+     D LSP200        E DS                  EXTNAME(PLSP200)
+     D PLSSEQ        E DS                  EXTNAME(PGETSEQ)
+     D PDYF200       E DS                  EXTNAME(PDYF200)
+     D DYF360        E DS                  EXTNAME(PDYF360)
+      /EJECT
+     D*****************************************************************
+     D** PROGRAM DESCRIBED DATA STRUCTURES
+     D*****************************************************************
+     D HLDRC1          DS          1024
+     D HLDRC2          DS          1024
+     D*
+     D UPDRC1          DS          1024
+     D UPDRC2          DS          1024
+     D*
+3145 D TXTFLD          DS          1001
+     D*
+     D OPTTBL          DS                  OCCURS(100)
+     D  TBKEY                  1     23
+     D  TBCO                   1      4
+     D  TBCTL1                 5     14
+     D  TBCTL2                15     18  0
+     D  TBALPH                19     21
+     D  TBSEQN                22     23  0
+     D  TBOPT                 24     25
+     D  TONAME                26     70
+     D  TBCLTN                71     80
+     D  TBRLTX                81    105
+     D POSKEY          DS
+     D  POSCO                  1      4
+     D  POSC1                  5     14
+     D  POSC2                 15     18  0
+     D  POSTY                 19     21
+     D  POSSQ                 22     23  0
+     D NAMPRM          DS
+     D  ZFMT                   1      1
+     D  ZNAME                  2     61
+     D NULKEY          DS
+     D  NULCO                  1      4
+     D  NULC1                  5     14
+     D  NULC2                 15     18  0
+     D  NULTY                 19     21
+     D  NULSQ                 22     23  0
+     D OPTION          DS
+     D  OPTP1                  1      1
+     D  OPTP2                  2      2
+     D                 DS
+     D  PCTDAT                 1      5
+     D  PCT1                   1      3
+     D  PCT2                   4      5
+     D*
+     D                 DS
+     D  PCTNUM                 1      6
+     D  PCTONE                 1      3
+     D  PCTPRD                 4      4
+     D  PCTTWO                 5      6
+     D*
+     D MSGWRK          DS
+     D  MORLIT                 1     15
+     D  BOTLIT                16     30
+     D  FILL                  31     77
+     D*  CURRENT DATE
+     D                 DS
+     D  CURRYY                 1      4  0
+     D  CURRMM                 5      6  0
+     D  CURRDD                 7      8  0
+     D  CURRDT                 1      8  0
+     D WEBPGM          S                   LIKE(ERCALL) INZ('WEB101')
+     D PRM101        E DS                  EXTNAME(PWEB101)
+     D ERRLOG        E DS                  EXTNAME(WEBERLOG)
+     D*  INFDS CUSOR POSITION
+     D DATA            DS
+     D  FNCKEY               369    369
+     D  ROWCOL               370    371B 0
+     D                 DS
+     D  CORNAM                 1     60
+     D  CORPRE                 1      4
+     D  CORFNM                 5     24
+     D  CORMDI                25     25
+     D  CORLNM                26     54
+     D  CORSUF                55     60
+      /EJECT
+     D******************************************************************
+     D* NAMED CONSTANTS
+     D******************************************************************
+     D YES             C                   CONST('Y')
+     D NO              C                   CONST('N')
+     D ADMIN           C                   CONST('A')
+     D CLIENT          C                   CONST(10)
+     D PAGSIZ          C                   CONST(11)
+     D TBMAX           C                   CONST(100)
+     D CHANGE          C                   CONST(' 2')
+     D COPY            C                   CONST(' 3')
+     D DELETE          C                   CONST(' 4')
+     D DISPLY          C                   CONST(' 5')
+     D DISCLT          C                   CONST('12')
+     D ENTER           C                   CONST('1')
+      /EJECT
+     C*****************************************************************
+     C*
+     C     KEY1          KLIST
+     C                   KFLD                    SVCO
+     C                   KFLD                    CRCTL1
+     C                   KFLD                    CRCTL2
+     C*
+     C     KEY4          KLIST
+     C                   KFLD                    SVCO
+     C                   KFLD                    CRCTL1
+     C                   KFLD                    CRCTL2
+     C                   KFLD                    CRALPH
+     C                   KFLD                    CRSQHI
+     C*
+     C     KEY2          KLIST
+     C                   KFLD                    SVCO
+     C                   KFLD                    CRCTL1
+     C                   KFLD                    CRCTL2
+     C                   KFLD                    CRALPH
+     C                   KFLD                    CRSEQN
+     C*
+     C     KEY3          KLIST
+     C                   KFLD                    SVCO
+     C                   KFLD                    CRCTL1
+     C                   KFLD                    CRCTL2
+     C                   KFLD                    CRALPH
+     C*
+     C     BENKEY        KLIST
+     C                   KFLD                    SVCO
+     C                   KFLD                    CRCTL1
+     C                   KFLD                    CRCTL2
+     C                   KFLD                    CPRTYP
+     C*
+     C     CNTKY         KLIST
+     C                   KFLD                    SVCO
+     C                   KFLD                    CRCTL1
+     C                   KFLD                    CNTTYP
+     C*
+     C     SEQKEY        KLIST
+     C                   KFLD                    CRCLTN
+     C                   KFLD                    CRASEQ
+     C*
+     C     *ENTRY        PLIST
+     C                   PARM                    PRM510
+     C*
+     C                   EXSR      INIT
+     C*
+     C     SVERRF        IFEQ      NO
+     C                   EXSR      PSBFL
+     C                   ENDIF
+     C*
+     C                   CALL      'CMS510U9'
+     C                   PARM                    PRM510
+     C*
+     C                   CALL      'RCLRSC'
+     C                   SETON                                        LR
+      /EJECT
+     C*****************************************************************
+     C* PSBFL - PROCESS SUBFILE
+     C*****************************************************************
+     C     PSBFL         BEGSR
+     C*
+     C                   EXSR      CLSFL1
+     C                   MOVE      *LOVAL        POSKEY
+     C                   MOVE      CMCO          POSCO
+     C                   MOVE      POL510        POSC1
+     C                   MOVE      BR510         POSC2
+     C                   Z-ADD     *ZEROS        POSSQ
+     C                   EXSR      STSFL1
+     C                   EXSR      DSSFL1
+     C*
+     C     *INKC         DOWEQ     *OFF
+     C     *INKL         ANDEQ     *OFF
+     C*
+     C                   MOVE      NO            ERRORS
+     C                   MOVE      NO            OPTERR
+     C*
+     C     RRN1          IFGT      *ZERO
+     C     *INKE         ANDEQ     *OFF
+     C                   EXSR      STROPT
+     C                   ENDIF
+     C*
+     C     ERRORS        IFEQ      NO
+     C*
+     C     *IN07         CASEQ     *ON           PUSFL1
+     C     *IN08         CASEQ     *ON           PDSFL1
+     C     *INKE         CASEQ     *ON           REFRSH
+     C     *INKF         CASEQ     *ON           ADDREC
+     C     *INKS         CASEQ     *ON           ADDREC
+     C     *INKU         CASEQ     *ON           DSPHST
+     C     FNCKEY        CASEQ     ENTER         PRCOPT
+     C     POSKEY        CASNE     NULKEY        STSFL1
+     C                   CAS                     POSCUR
+     C                   ENDCS
+     C*
+     C                   ENDIF
+     C*
+     C                   EXSR      DSSFL1
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* STROPT - STORE OPTIONS ENTERED INTO THE OPTIONS SELECTED TABLE
+     C*****************************************************************
+     C     STROPT        BEGSR
+     C*
+     C                   READC     CMS510S1                               99
+     C*
+     C     *IN99         DOWEQ     *OFF
+     C*
+     C                   EXSR      EDTOPT
+     C*
+     C     OPTERR        IFEQ      NO
+     C                   EXSR      PTBL
+     C                   ENDIF
+     C*
+     C     OPTERR        IFEQ      YES
+     C                   SETON                                        5461
+     C                   SETON                                        60
+     C                   UPDATE    CMS510S1
+     C                   SETOFF                                       5461
+     C                   SETOFF                                       60
+     C                   ELSE
+     C                   SETOFF                                       5461
+     C                   SETOFF                                       60
+     C                   UPDATE    CMS510S1
+     C                   ENDIF
+     C*
+     C                   READC     CMS510S1                               99
+     C                   ENDDO
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* EDTOPT - EDIT OPTIONS ENTERED AS VALID AND USER IS AUTHORIZED
+     C*****************************************************************
+     C     EDTOPT        BEGSR
+     C*
+     C                   MOVE      NO            OPTERR
+     C                   MOVE      OPT           OPTION
+     C*
+     C     OPTP2         IFEQ      *BLANKS
+     C                   MOVE      OPTP1         OPTP2
+     C                   MOVE      *BLANKS       OPTP1
+     C                   MOVE      OPTION        OPT
+     C                   ENDIF
+     C*
+     C     OPT           IFNE      CHANGE
+     C****       OPT       ANDNECOPY                       ENTRY ERROR
+     C     OPT           ANDNE     DELETE
+     C     OPT           ANDNE     DISPLY
+     C     OPT           ANDNE     DISCLT
+     C     OPT           ANDNE     *BLANKS
+     C                   MOVE      YES           OPTERR
+     C                   MOVE      'LSP9013'     MSGID
+     C                   MOVEL     OPT           MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C*
+     C     OPT           IFNE      *BLANKS
+     C*
+     C     OPT           IFEQ      CHANGE
+     C     SVCHG         ANDEQ     NO
+     C     OPT           OREQ      COPY
+     C     SVCPY         ANDEQ     NO
+     C     OPT           OREQ      DELETE
+     C     SVDEL         ANDEQ     NO
+     C     OPT           OREQ      DISPLY
+     C     SVDSP         ANDEQ     NO
+     C                   MOVE      YES           OPTERR
+     C                   MOVE      'LSP9014'     MSGID
+     C                   MOVEL     OPT           MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C*
+     C     OPT           IFEQ      DELETE
+     C     CRALPH        IFEQ      'OW1'
+     C     CRALPH        OREQ      'PAY'
+     C     CRALPH        OREQ      'INS'
+     C     CRALPH        OREQ      'GRP'
+     C     CRALPH        OREQ      'BNK'
+     C     CRALPH        OREQ      'AH1'
+     C     CRALPH        OREQ      'AGT'
+     C                   MOVE      YES           OPTERR
+     C                   MOVE      'CMS2037'     MSGID
+     C                   MOVE      *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* PTBL - PLACE OPTION ENTERED INTO TABLE WITH RECORD KEY TO PROCESS
+     C*****************************************************************
+     C     PTBL          BEGSR
+     C*
+     C                   MOVE      SVCO          CRCO
+     C*
+     C                   EXSR      FKEY
+     C*                                                    KEY IN TABLE
+     C     RCDKEY        IFEQ      TBKEY
+     C*
+     C     OPT           IFEQ      *BLANKS
+     C                   MOVE      *HIVAL        TBOPT
+     C                   MOVE      *HIVAL        TBKEY
+     C                   ELSE
+     C                   MOVE      OPT           TBOPT
+     C                   ENDIF
+     C*
+     C                   ELSE
+     C*
+     C     OPT           IFNE      *BLANKS
+     C*
+     C     TBLNO         IFLT      TBMAX
+     C*
+     C     SVOCUR        IFNE      *ZERO
+     C     SVOCUR        OCCUR     OPTTBL
+     C                   ELSE
+     C                   ADD       1             TBLNO
+     C     TBLNO         OCCUR     OPTTBL
+     C                   ENDIF
+     C*
+     C* ++ MODIFIY TO SAVE ANY FIELDS IN TABLE REQUIRED FOR DELETE LIST
+     C*
+     C                   MOVE      OPT           TBOPT
+     C                   MOVE      RCDKEY        TBKEY
+     C                   MOVE      SVCO          TBCO
+     C                   MOVEL     CNAME         TONAME
+     C                   MOVE      CRCLTN        TBCLTN
+     C                   MOVE      CPRLTX        TBRLTX
+     C*
+     C                   ELSE
+     C                   MOVE      'LSP9006'     MSGID
+     C                   MOVEL     'OPTTBL'      MSGDTA
+     C                   EXSR      SNDMSG
+     C                   MOVE      YES           OPTERR
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* FKEY - LOOK UP KEY TO SEE IF ALREADY IN OPTION TABLE
+     C*****************************************************************
+     C     FKEY          BEGSR
+     C*
+     C                   Z-ADD     *ZERO         DSOCUR
+     C                   Z-ADD     *ZERO         SVOCUR
+     C*
+     C     DSOCUR        DOUGE     TBMAX
+     C     DSOCUR        ORGT      TBLNO
+     C     RCDKEY        OREQ      TBKEY
+     C*
+     C                   ADD       1             DSOCUR
+     C     DSOCUR        OCCUR     OPTTBL
+     C*
+     C     TBKEY         IFEQ      *HIVAL
+     C     SVOCUR        ANDEQ     *ZERO
+     C     DSOCUR        ANDLE     TBLNO
+     C                   Z-ADD     DSOCUR        SVOCUR
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* PRCOPT - PROCESS OPTIONS SELECTED
+     C*****************************************************************
+     C     PRCOPT        BEGSR
+     C*
+     C                   EXSR      SRTTBL
+     C*
+     C     ANYOPT        IFEQ      YES
+     C*
+     C                   EXSR      SFLOPT
+     C*
+     C     ERRORS        IFEQ      NO
+     C     *INKC         ANDEQ     *OFF
+     C     *INKL         ANDEQ     *OFF
+     C                   EXSR      INTTBL
+     C                   ENDIF
+     C*
+     C                   EXSR      STSFL1
+     C*
+     C                   ELSE
+     C*
+     C                   EXSR      POSCUR
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* SRTTBL - SORT THE OPTION SELECTED TABLE INTO RECORD KEY ORDER
+     C*****************************************************************
+     C     SRTTBL        BEGSR
+     C*
+     C                   MOVEA     *HIVAL        ARY
+     C                   MOVE      NO            ANYOPT
+     C*
+     C     1             DO        TBLNO         X
+     C     X             OCCUR     OPTTBL
+     C                   MOVEL     OPTTBL        ARY(X)
+     C                   ENDDO
+     C*
+     C                   SORTA     ARY
+     C*
+     C     1             DO        TBLNO         X
+     C*
+     C     X             OCCUR     OPTTBL
+     C                   MOVEL     ARY(X)        OPTTBL
+     C*
+     C     POSKEY        IFEQ      POSKEY
+     C     TBKEY         ANDNE     *HIVAL
+     C                   MOVE      YES           ANYOPT
+     C                   MOVEL     TBKEY         POSKEY
+     C                   ENDIF
+     C*                                                    SUBFILE
+     C                   ENDDO
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* SFLOPT - PROCESS EACH STORED OPTION
+     C*****************************************************************
+     C     SFLOPT        BEGSR
+     C*
+     C                   Z-ADD     *ZERO         X
+     C*
+     C     X             DOWLT     TBLNO
+     C     *INKC         ANDEQ     *OFF
+     C     *INKL         ANDEQ     *OFF
+     C     ERRORS        ANDEQ     NO
+     C*
+     C                   EXSR      SETIND
+     C*
+     C                   ADD       1             X
+     C     X             OCCUR     OPTTBL
+     C*
+     C     TBOPT         CASEQ     CHANGE        CHGREC
+     C     TBOPT         CASEQ     COPY          CPYREC
+     C     TBOPT         CASEQ     DELETE        PRCDLT
+     C     TBOPT         CASEQ     DISPLY        DSPREC
+     C     TBOPT         CASEQ     DISCLT        CMS00X
+     C                   ENDCS
+
+      * COMMIT CHANGE, COPY, AND DELETE TRANSACTIONS.
+     C                   IF        ERRORS = NO AND (TBOPT <> DISPLY AND
+     C                             TBOPT <> DISCLT)
+     C                   COMMIT
+     C                   ELSE
+     C                   ROLBK
+     C                   ENDIF
+     C*
+     C     ERRORS        IFEQ      NO
+     C     *INKL         ANDEQ     *OFF
+     C                   MOVE      *HIVAL        TBOPT
+     C                   MOVE      *HIVAL        TBKEY
+     C                   ELSE
+     C     TBKEY         IFNE      *HIVAL
+     C                   MOVEL     TBKEY         POSKEY
+     C                   SETON                                        60
+     C                   SETON                                        54
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* CHGREC - PROCESS CHANGE OPTION
+     C*****************************************************************
+     C     CHGREC        BEGSR
+     C*
+     C                   MOVE      TBKEY         RCDKEY
+     C                   MOVE      TBCO          SVCO
+     C                   MOVEL     TONAME        CNAME
+     C                   EXSR      CHNNLK
+     C*
+     C     CRALPH        CHAIN     CMSUSRTP                           97
+     C*
+     C                   SETOFF                                         71
+     C     CPCREQ        IFEQ      NO
+     C                   SETON                                          71
+     C                   ENDIF
+     C*
+     C                   MOVE      YES           COFLG
+     C     TBCO          IFEQ      *BLANKS
+     C                   MOVE      NO            COFLG
+     C                   ENDIF
+     C*
+     C     *IN99         IFEQ      *OFF
+     C*
+     C                   MOVEL     DTARC1        HLDRC1
+     C*
+     C     *IN98         IFEQ      *OFF
+     C                   MOVEL     DTARC2        HLDRC2
+     C                   ELSE
+     C                   CLEAR                   DTARC2
+     C                   CLEAR                   HLDRC2
+     C                   ENDIF
+     C*
+     C                   SETON                                        66
+     C                   SETON                                        67
+     C*
+     C     *INKC         DOUEQ     *ON
+     C     *INKL         OREQ      *ON
+     C     ERRORS        OREQ      NO
+     C     FNCKEY        ANDEQ     ENTER
+     C*
+     C                   WRITE     SFLERRC
+     C*
+     C*
+     C     CPUBEN        IFEQ      'Y'
+     C                   MOVE      *OFF          *IN35
+     C                   ELSE
+     C                   MOVE      *ON           *IN35
+     C                   ENDIF
+     C*
+     C*
+     C                   EXSR      DSPSCR
+     C*
+     C                   CALL      'LSPCLRM'
+     C                   PARM                    PGMSGQ
+     C*
+     C     *INKC         IFEQ      *OFF
+     C     *INKL         ANDEQ     *OFF
+     C*
+     C                   SELECT
+     C     *INKD         WHENEQ    *ON
+     C                   EXSR      F4LIST
+     C     *INKM         WHENEQ    *ON
+     C                   EXSR      ALPHA
+     C     *INKP         WHENEQ    *ON
+     C                   EXSR      CMS005
+      *
+      * F17=Additional Fields
+      *
+     C     *INKR         WHENEQ    *ON
+     C                   EXSR      ADDFLD
+     C                   OTHER
+     C                   EXSR      EDTCHG
+     C                   ENDSL
+     C*
+     C     ERRORS        IFEQ      NO
+     C     FNCKEY        ANDEQ     ENTER
+     C*
+     C                   MOVEL     DTARC1        UPDRC1
+     C                   MOVEL     DTARC2        UPDRC2
+     C*
+     C                   EXSR      CHNWLK
+     C*
+     C     *IN99         IFEQ      *ON
+     C                   MOVE      'LSP9009'     MSGID
+     C                   MOVEL     *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ELSE
+     C     HLDRC1        IFEQ      DTARC1
+     C*
+     C                   MOVEL     UPDRC1        DTARC1
+     C*
+     C                   EXSR      UPDRCD
+     C*
+     C     *IN99         IFEQ      *ON
+     C                   MOVE      'LSP9009'     MSGID
+     C                   MOVEL     *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ELSE
+     C*
+     C                   EXSR      USEREXIT7
+     C*
+     C* ONLY DO CLIENT CORRESPONDENCE ON INFORCE BUSINESS
+     C     STS510        IFEQ      'A'
+     C                   EXSR      CCSCHG
+     C                   ENDIF
+     C*
+     C                   END
+     C                   ELSE
+     C                   MOVE      'LSP9008'     MSGID
+     C                   MOVEL     *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C                   SETOFF                                       66
+     C                   SETOFF                                       67
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* CPYREC - COPY EXISTING RECORD WITH NEW KEY
+     C*****************************************************************
+     C     CPYREC        BEGSR
+     C*
+     C                   SETON                                        67
+     C*
+     C                   MOVE      TBKEY         RCDKEY
+     C                   MOVE      TBCO          SVCO
+     C                   MOVEL     TONAME        CNAME
+     C                   EXSR      CHNNLK
+     C*
+     C     CRALPH        CHAIN     CMSUSRTP                           97
+     C*
+     C                   MOVE      CPCREQ        HLDCRQ            1
+     C*
+     C                   SETOFF                                         71
+     C     CPCREQ        IFEQ      NO
+     C                   SETON                                          71
+     C                   ENDIF
+     C*
+     C                   MOVE      YES           COFLG
+     C     TBCO          IFEQ      *BLANKS
+     C                   MOVE      NO            COFLG
+     C                   ENDIF
+     C*
+     C     *IN99         IFEQ      *OFF
+     C*
+     C     *IN98         IFEQ      *OFF
+     C                   MOVEL     DTARC2        HLDRC2
+     C                   ELSE
+     C                   CLEAR                   DTARC2
+     C                   CLEAR                   HLDRC2
+     C                   ENDIF
+     C*
+     C     *INKC         DOUEQ     *ON
+     C     *INKL         OREQ      *ON
+     C     ERRORS        OREQ      NO
+     C     FNCKEY        ANDEQ     ENTER
+     C*
+     C                   WRITE     SFLERRC
+     C*
+     C*
+     C     CPUBEN        IFEQ      'Y'
+     C                   MOVE      *OFF          *IN35
+     C                   ELSE
+     C                   MOVE      *ON           *IN35
+     C                   ENDIF
+     C*
+     C*
+     C                   EXSR      DSPSCR
+     C*
+     C                   CALL      'LSPCLRM'
+     C                   PARM                    PGMSGQ
+     C*
+     C     *INKC         IFEQ      *OFF
+     C     *INKL         ANDEQ     *OFF
+     C*
+     C                   SELECT
+     C     *INKD         WHENEQ    *ON
+     C                   EXSR      F4LIST
+      *
+      * F17=Additional Fields
+      *
+     C     *INKR         WHENEQ    *ON
+     C                   EXSR      ADDFLD
+     C                   OTHER
+     C                   EXSR      EDTCPY
+     C                   ENDSL
+     C*
+     C     ERRORS        IFEQ      NO
+     C     FNCKEY        ANDEQ     ENTER
+     C*
+     C                   EXSR      GETSEQ
+     C                   WRITE     RUSREL                               99
+     C*
+     C     *IN99         IFEQ      *ON
+     C                   MOVE      'LSP9003'     MSGID
+     C                   MOVEL     'CMSUSREL'    MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ELSE
+     C                   EXSR      USEREXIT7
+     C*
+     C* ONLY DO CLIENT CORRESPONDENCE ON INFORCE BUSINESS
+     C     STS510        IFEQ      'A'
+     C                   EXSR      CCSADD
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDIF
+     C*
+     C                   SETOFF                                       67
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* DSPREC - DISPLAY DATA RECORD IN CMSUSREL
+     C*****************************************************************
+     C     DSPREC        BEGSR
+     C*
+     C                   MOVE      TBKEY         RCDKEY
+     C                   MOVE      TBCO          SVCO
+     C                   MOVEL     TONAME        CNAME
+     C                   EXSR      CHNNLK
+     C*
+     C     CRALPH        CHAIN     CMSUSRTP                           97
+     C*
+     C                   SETOFF                                         71
+     C     CPCREQ        IFEQ      NO
+     C                   SETON                                          71
+     C                   ENDIF
+     C*
+     C                   MOVE      YES           COFLG
+     C     TBCO          IFEQ      *BLANKS
+     C                   MOVE      NO            COFLG
+     C                   ENDIF
+     C*
+     C     *IN99         IFEQ      *ON
+     C                   MOVE      'LSP9007'     MSGID
+     C                   MOVEL     *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ELSE
+     C*
+     C     *IN98         IFEQ      *OFF
+     C                   MOVEL     DTARC2        HLDRC2
+     C                   ELSE
+     C                   CLEAR                   DTARC2
+     C                   CLEAR                   HLDRC2
+     C                   ENDIF
+     C*
+     C     *INKC         DOUEQ     *ON
+     C     *INKL         OREQ      *ON
+     C     FNCKEY        OREQ      ENTER
+     C*
+     C                   SETON                                        65
+     C                   SETON                                        66
+     C                   WRITE     SFLERRC
+     C*
+     C*
+     C     CPUBEN        IFEQ      'Y'
+     C                   MOVE      *OFF          *IN35
+     C                   ELSE
+     C                   MOVE      *ON           *IN35
+     C                   ENDIF
+     C*
+     C*
+     C                   EXSR      DSPSCR
+     C                   SETOFF                                       65
+     C                   SETOFF                                       66
+     C*
+     C                   SELECT
+     C     *INKP         WHENEQ    *ON
+     C                   EXSR      CMS005
+      *
+      * F17=Additional Fields
+      *
+     C     *INKR         WHENEQ    *ON
+     C                   EXSR      ADDFLD
+     C                   ENDSL
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* PRCDLT - PROCESS ALL DELETE ENTRIES FROM THE OPTION TABLE
+     C*****************************************************************
+     C     PRCDLT        BEGSR
+     C*
+     C                   EXSR      CLSFL2
+     C                   EXSR      LDSFL2
+     C*
+     C     RRN2          IFGT      *ZERO
+     C*
+     C                   EXSR      DSSFL2
+     C*
+     C     FNCKEY        IFEQ      ENTER
+     C                   EXSR      DELREC
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* DELREC - PROCESS A DELETE FOR EACH RECORD IN THE DELETE
+     C*          CONFIRMATION SUBFILE
+     C*****************************************************************
+     C     DELREC        BEGSR
+     C*
+     C                   Z-ADD     1             RRN2
+     C*
+     C     RRN2          DOWLE     HIRRN2
+     C     ERRORS        ANDEQ     NO
+     C*
+     C     RRN2          CHAIN     CMS510S2                           99
+     C*
+     C                   MOVE      YES           COFLG
+     C     SVCO          IFEQ      *BLANKS
+     C                   MOVE      NO            COFLG
+     C                   ENDIF
+     C*
+     C* RETRIEVE RECORD BEFORE DELETE FOR TRANSACTION HISTORY
+     C                   EXSR      CHNNLK
+     C*
+     C                   EXSR      DLTRCD
+     C*
+     C* CHANGE ASSIGNED FIELD TO N ON POLICY CONTRACT
+     C*
+     C     CRALPH        CHAIN(N)  CMSUSRTP                           96
+     C     CPUASN        IFEQ      'Y'
+     C     KEY3          CHAIN     CMSUSREL                           95
+     C     *IN95         IFEQ      *ON
+     C     CNTKY         CHAIN     CASCNTRM                           94
+     C     *IN94         IFEQ      *OFF
+     C                   MOVE      'N'           MCASGN
+     C                   UPDATE    RCNTRM
+     C                   ENDIF
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C     *IN99         IFEQ      *ON
+     C                   MOVE      'LSP9004'     MSGID
+     C                   MOVEL     *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C*
+     C     *IN98         IFEQ      *ON
+     C                   MOVE      'LSP9005'     MSGID
+     C                   MOVEL     *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C*
+     C     ERRORS        IFEQ      YES
+     C                   MOVE      RCDKEY        POSKEY
+     C                   SETON                                        5461
+     C                   SETON                                        60
+     C                   ELSE
+     C*
+     C* ONLY DO CLIENT CORRESPONDENCE ON INFORCE BUSINESS
+     C                   IF        STS510 = 'A'
+     C                   EXSR      CCSDLT
+     C                   ENDIF
+
+     C*
+     C                   EXSR      FKEY
+     C     RCDKEY        IFEQ      TBKEY
+     C                   MOVE      *HIVAL        TBKEY
+     C                   MOVE      *HIVAL        TBOPT
+     C                   ENDIF
+
+     C                   ENDIF
+     C*
+     C                   ADD       1             RRN2
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* ADDREC - CHECK SECURITY CLEARANCE TO ADD RECORD TO CMSUSREL
+     C*****************************************************************
+     C     ADDREC        BEGSR
+     C*
+     C     *INKF         IFEQ      *ON
+     C     SVADD         ANDEQ     NO
+     C     *INKS         OREQ      *ON
+     C     SVADD         ANDEQ     NO
+     C                   MOVE      *OFF          *INKF
+     C                   MOVE      'LSP9055'     MSGID
+     C                   MOVEL     OPT           MSGDTA
+     C                   SETON                                        60
+     C                   EXSR      SNDMSG
+     C                   ELSE
+     C                   EXSR      PRCADD
+     C                   ENDIF
+     C*
+     C* REPOSITION DATA FILE TO LOAD SUBFILE
+     C*
+     C     HIRRN1        IFGT      *ZERO
+     C                   Z-ADD     1             RRN1
+     C     RRN1          CHAIN     CMS510S1                           99
+     C                   MOVE      NO            COFLG
+     C     SVCO          IFNE      *BLANKS
+     C                   MOVE      YES           COFLG
+     C                   ENDIF
+     C                   MOVE      RCDKEY        POSKEY
+     C                   ELSE
+     C                   MOVE      CMCO          POSCO
+     C                   MOVE      POL510        POSC1
+     C                   MOVE      BR510         POSC2
+     C                   Z-ADD     *ZEROS        POSSQ
+     C                   MOVE      *LOVAL        POSTY
+     C                   ENDIF
+     C*
+     C                   EXSR      STSFL1
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* PRCADD - ADD RECORD TO CMSUSREL
+     C*****************************************************************
+     C     PRCADD        BEGSR
+     C*
+     C                   MOVE      'N'           TXTFLG            1
+     C*
+     C     *INKS         IFEQ      *ON
+     C                   SETON                                        71
+     C                   MOVE      'Y'           TXTFLG
+     C                   ENDIF
+     C*
+     C                   EXSR      INTADD
+     C*
+     C     *INKC         DOUEQ     *ON
+     C     *INKL         OREQ      *ON
+     C*
+     C                   WRITE     SFLERRC
+     C*
+     C     CRALPH        IFNE      *BLANKS
+     C     CRALPH        CHAIN     CMSUSRTP                           99
+     C                   ELSE
+     C                   MOVE      *BLANKS       CPUBEN
+     C                   ENDIF
+     C*
+     C     CPUBEN        IFEQ      'Y'
+     C                   MOVE      *OFF          *IN35
+     C                   ELSE
+     C                   MOVE      *ON           *IN35
+     C                   ENDIF
+     C*
+     C*
+     C                   EXSR      DSPSCR
+     C*
+     C                   CALL      'LSPCLRM'
+     C                   PARM                    PGMSGQ
+     C*
+     C     *INKC         IFEQ      *OFF
+     C     *INKL         ANDEQ     *OFF
+     C*
+     C                   SELECT
+     C     *INKD         WHENEQ    *ON
+     C                   EXSR      F4LIST
+     C     *INKM         WHENEQ    *ON
+     C                   EXSR      ALPHA
+     C     *INKP         WHENEQ    *ON
+     C                   EXSR      CMS005
+      *
+      * F17=Additional Fields
+      *
+     C     *INKR         WHENEQ    *ON
+     C                   EXSR      ADDFLD
+     C                   OTHER
+     C                   EXSR      EDTADD
+     C                   ENDSL
+     C*
+     C     ERRORS        IFEQ      NO
+     C     FNCKEY        ANDEQ     ENTER
+     C*
+     C     CPCDEP        IFEQ      'Y'
+     C                   MOVE      CMCO          CRCO
+     C                   MOVE      'Y'           COFLG
+     C                   ELSE
+     C                   MOVE      *BLANKS       CRCO
+     C                   MOVE      'N'           COFLG
+     C                   ENDIF
+     C*
+     C                   EXSR      GETSEQ
+     C*
+     C                   EXSR      LIFEWEB
+     C*
+     C                   WRITE     RUSREL                               99
+     C*
+     C                   EXSR      USEREXIT7
+     C*
+     C     *IN99         IFEQ      *OFF
+     C*
+     C* CHANGE ASSIGNED FIELD TO Y ON POLICY CONTRACT
+     C*
+     C     CRALPH        CHAIN(N)  CMSUSRTP                           96
+     C     CPUASN        IFEQ      'Y'
+     C     CNTKY         CHAIN     CASCNTRM                           95
+     C     MCASGN        IFEQ      'N'
+     C                   MOVE      'Y'           MCASGN
+     C                   UPDATE    RCNTRM
+     C                   ENDIF
+     C                   ENDIF
+
+     C* ONLY DO CLIENT CORRESPONDENCE ON INFORCE BUSINESS
+     C                   IF        STS510 = 'A'
+     C                   EXSR      CCSADD
+     C                   ENDIF
+     C*
+     C     CXTXT1        IFNE      *BLANKS
+     C     CXTXT2        ORNE      *BLANKS
+     C     CXTXT3        ORNE      *BLANKS
+     C     CXTXT4        ORNE      *BLANKS
+     C     CXTXT5        ORNE      *BLANKS
+     C                   MOVE      CRCO          CXCO
+     C                   MOVE      CRCTL1        CXCTL1
+     C                   Z-ADD     CRCTL2        CXCTL2
+     C                   Z-ADD     CRSEQN        CXSEQN
+     C                   MOVE      CRALPH        CXALPH
+     C                   MOVE      CRSEQN        CXSEQN
+     C                   WRITE     RUSRTX
+     C                   ENDIF
+
+     C                   COMMIT
+
+     C*
+     C                   EXSR      INTADD
+     C*
+     C                   ELSE
+     C*
+     C                   MOVE      'LSP9003'     MSGID
+     C                   MOVEL     'CMSUSREL'    MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDSR
+      /EJECT
+      **********************************************
+      **  GETWEB - GET WEB DTAARA                 **
+      **********************************************
+     C     GETWEB        BEGSR
+      *
+      * Check if Company is web enabled.
+      *
+     C                   EVAL      CO200 = CMCO
+     C                   MOVEL     'WEBDTA'      DTA200
+     C                   MOVE      'R'           ACT200
+     C                   MOVE      'N'           LCK200
+      *
+     C                   CALL      'LSP200'
+     C                   PARM                    LSP200
+     C                   PARM                    WEBDTA
+      *
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* INTADD - INITIALIZE ADD
+     C*****************************************************************
+     C     INTADD        BEGSR
+     C*
+     C                   CLEAR                   DTARC1
+     C                   MOVE      STS510        CRRSTS
+     C                   Z-ADD     *ZEROS        CRCTL2
+     C                   Z-ADD     *ZEROS        CRSEQN
+     C                   Z-ADD     *ZEROS        CRPCPT
+     C                   Z-ADD     1             CRASEQ
+     C                   MOVE      POL510        CRCTL1
+     C                   MOVE      BR510         CRCTL2
+     C                   MOVE      *BLANKS       CNAME
+     C                   MOVE      *BLANKS       CXTXT1
+     C                   MOVE      *BLANKS       CXTXT2
+     C                   MOVE      *BLANKS       CXTXT3
+     C                   MOVE      *BLANKS       CXTXT4
+     C                   MOVE      *BLANKS       CXTXT5
+     C*
+     C* AUTO SELECT ALPHA SEARCH IF F6=ADD WAS SELECTED
+     C     *INKF         IFEQ      *ON
+     C                   EXSR      ALPHA
+     C                   MOVE      ZSREL1        CRALPH
+     C                   MOVE      ZSCLT1        CRCLTN
+     C                   EXSR      GETCLN
+     C                   ENDIF
+     C*
+     C                   EXSR      INITB
+     C                   EXSR      SETIND
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* REFRSH - REBUILD SUBFILE FROM CURRENT POSITION AND ERASE
+     C*          ENTERED OPTIONS
+     C*****************************************************************
+     C     REFRSH        BEGSR
+     C*
+     C                   EXSR      INTTBL
+     C*
+     C* REPOSITION DATA FILE TO LOAD SUBFILE
+     C*
+     C     HIRRN1        IFGT      *ZERO
+     C                   Z-ADD     1             RRN1
+     C     RRN1          CHAIN     CMS510S1                           99
+     C                   MOVE      RCDKEY        POSKEY
+     C                   ELSE
+     C                   MOVE      CMCO          POSCO
+     C                   MOVE      POL510        POSC1
+     C                   MOVE      BR510         POSC2
+     C                   Z-ADD     *ZEROS        POSSQ
+     C                   MOVE      *LOVAL        POSTY
+     C                   ENDIF
+     C*
+     C                   MOVE      YES           COFLG
+     C     SVCO          IFEQ      *BLANKS
+     C                   MOVE      NO            COFLG
+     C                   ENDIF
+     C*
+     C                   EXSR      STSFL1
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* STSFL1 - START SUBFILE FOR REDISPLAY
+     C*****************************************************************
+     C     STSFL1        BEGSR
+     C*
+     C* START SUBFILE FOR REDISPLAY
+     C*
+     C                   MOVE      POSKEY        RCDKEY
+     C                   EXSR      SETKEY
+     C*
+     C     *IN99         IFEQ      *ON
+     C                   EXSR      RDNLK
+     C*                                                     NEXT RECORD
+     C                   ELSE
+     C*
+     C     *IN99         IFEQ      *OFF
+     C                   EXSR      RDPNLK
+     C*                                                     TO REC PRIOR
+     C     *IN99         IFEQ      *ON
+     C                   EXSR      SETKEY
+     C                   EXSR      RDNLK
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   EXSR      CLSFL1
+     C*
+     C                   EXSR      LDSFL1
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* PDSFL1 - PAGE DOWN SUBFILE
+     C*****************************************************************
+     C     PDSFL1        BEGSR
+     C*
+     C     HIRRN1        IFGT      *ZERO
+     C     HIRRN1        CHAIN     CMS510S1                           99
+     C                   MOVE      NO            COFLG
+     C     SVCO          IFNE      *BLANKS
+     C                   MOVE      YES           COFLG
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C                   EXSR      SETKGT
+     C                   EXSR      RDNLK
+     C*
+     C     *IN99         IFEQ      *OFF
+     C                   EXSR      CLSFL1
+     C                   EXSR      LDSFL1
+     C                   ELSE
+     C                   MOVE      'LSP9011'     MSGID
+     C                   MOVE      *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C                   EXSR      POSCUR
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* PUSFL1 - PAGE UP SUBFILE
+     C*****************************************************************
+     C     PUSFL1        BEGSR
+     C*
+     C     HIRRN1        IFGT      *ZERO
+     C                   Z-ADD     1             RRN1
+     C     RRN1          CHAIN     CMS510S1                           99
+     C                   MOVE      YES           COFLG
+     C     SVCO          IFEQ      *BLANKS
+     C                   MOVE      NO            COFLG
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C                   EXSR      SETKEY
+     C                   EXSR      RDPNLK
+     C*
+     C     *IN99         IFEQ      *OFF
+     C*
+     C                   EXSR      CLSFL1
+     C*
+     C                   Z-ADD     1             RECCNT            5 0
+     C*
+     C     *IN99         DOWNE     *ON
+     C     RECCNT        ANDLT     PAGSIZ
+     C                   EXSR      RDPNLK
+     C                   ADD       1             RECCNT
+     C                   ENDDO
+     C*
+     C     *IN99         IFEQ      *ON
+     C                   EXSR      SETLOV
+     C                   EXSR      RDNLK
+     C                   ENDIF
+     C*
+     C                   EXSR      LDSFL1
+     C*
+     C                   ELSE
+     C                   MOVE      'LSP9012'     MSGID
+     C                   MOVE      *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C                   EXSR      POSCUR
+     C                   END
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* POSCUR - POSITION CURSOR TO FIRST SUBFILE RECORD
+     C*****************************************************************
+     C     POSCUR        BEGSR
+     C*
+     C     HIRRN1        IFGT      *ZERO
+     C                   Z-ADD     1             RRN1
+     C     RRN1          CHAIN     CMS510S1                           99
+     C                   SETON                                        6054
+     C                   UPDATE    CMS510S1
+     C                   SETOFF                                       6054
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* LDSFL1 - LOAD SUBFILE FROM RECORD POSITIONED TO FOR SIZE OF PAGE
+     C*****************************************************************
+     C     LDSFL1        BEGSR
+     C*
+     C     ERRORS        IFEQ      NO
+     C     OPTERR        ANDEQ     NO
+     C                   SETON                                        6054
+     C                   ENDIF
+     C*
+     C     *IN99         DOWEQ     *OFF
+     C     PAGSIZ        ANDGT     RRN1
+     C*
+     C                   EXSR      FKEY
+     C*
+     C     RCDKEY        IFEQ      TBKEY
+     C                   MOVE      TBOPT         OPT
+     C                   ELSE
+     C                   MOVE      *BLANKS       OPT
+     C                   ENDIF
+     C* SHARE INDICATOR
+     C                   SETOFF                                       69
+     C*
+     C     CRALPH        CHAIN     CMSUSRTP                           99
+     C     *IN99         IFEQ      *ON
+     C                   MOVE      *BLANKS       CPRLTX
+     C                   ELSE
+     C     CPUBEN        IFEQ      'Y'
+     C                   SETON                                        69
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C*
+     C                   ADD       1             RRN1
+     C                   WRITE     CMS510S1
+     C*
+     C                   SETOFF                                       5461
+     C                   SETOFF                                       60
+     C*
+     C                   EXSR      RDNLK
+     C                   ENDDO
+     C*
+     C* SET SCREEN LITERAL FROM " MORE..." OR "BOTTOM"
+     C*
+     C                   Z-ADD     RRN1          HIRRN1
+     C     *IN99         IFEQ      *ON
+     C                   MOVE      BOTLIT        MORBOT
+     C                   ELSE
+     C                   MOVE      MORLIT        MORBOT
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* CLSFL1 - CLEAR LIST SCREEN
+     C*****************************************************************
+     C     CLSFL1        BEGSR
+     C*
+     C                   Z-ADD     0             RRN1
+     C                   Z-ADD     0             HIRRN1
+     C                   SETOFF                                       51
+     C                   SETON                                        52
+     C                   WRITE     CMS510C1
+     C                   SETOFF                                       50
+     C                   SETON                                        51
+     C                   SETOFF                                       52
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* DSSFL1 - DISPLAY LIST SCREEN
+     C*****************************************************************
+     C     DSSFL1        BEGSR
+     C*
+     C                   SETOFF                                       71
+     C*
+     C     RRN1          IFEQ      *ZERO
+     C                   SETOFF                                       50
+     C                   ELSE
+     C                   SETON                                        50
+     C                   ENDIF
+     C*
+     C                   MOVE      CMCO          POSCO
+     C                   MOVE      POL510        POSC1
+     C                   MOVE      BR510         POSC2
+     C                   Z-ADD     *ZEROS        POSC2
+     C                   Z-ADD     *ZEROS        POSSQ
+     C*
+     C                   EXSR      BALPCT
+     C*
+     C                   WRITE     SFLERRC
+     C*
+     C                   WRITE     CMS510F1
+     C*
+     C                   EXFMT     CMS510C1
+     C*
+     C                   CALL      'LSPCLRM'
+     C                   PARM                    PGMSGQ
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* CLSFL2 - CLEAR SUBFILE
+     C*****************************************************************
+     C     CLSFL2        BEGSR
+     C*
+     C                   Z-ADD     0             RRN2
+     C                   Z-ADD     0             HIRRN2
+     C                   SETOFF                                       57
+     C                   SETON                                        58
+     C                   WRITE     CMS510C2
+     C                   SETOFF                                       58
+     C                   SETON                                        57
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* LDSFL2 - LOAD SUBFILE OF RECORD DELETES
+     C*****************************************************************
+     C     LDSFL2        BEGSR
+     C*
+     C                   Z-ADD     1             DSOCUR
+     C     DSOCUR        OCCUR     OPTTBL
+     C*
+     C     DSOCUR        DOWLE     TBLNO
+     C*                                                    COUNT
+     C     TBOPT         IFEQ      DELETE
+     C                   MOVE      TBCO          SVCO
+     C                   MOVE      TBCTL1        CRCTL1
+     C                   MOVE      TBCTL2        CRCTL2
+     C                   MOVE      TBALPH        CRALPH
+     C                   MOVE      TBSEQN        CRSEQN
+     C                   MOVE      TBCLTN        CRCLTN
+     C                   MOVE      TBRLTX        CPRLTX
+     C                   MOVEL     TONAME        CNAME
+     C                   ADD       1             RRN2
+     C                   WRITE     CMS510S2
+     C                   ENDIF
+     C*
+     C                   ADD       1             DSOCUR
+     C     DSOCUR        OCCUR     OPTTBL
+     C*
+     C                   ENDDO
+     C*
+     C                   Z-ADD     RRN2          HIRRN2
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* DSSFL2 - DISPLAY THE DELETE CONFIRMATION SUBFILE
+     C*****************************************************************
+     C     DSSFL2        BEGSR
+     C*
+     C                   WRITE     CMS510F2
+     C                   EXFMT     CMS510C2
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* SNDMSG - SEND ERROR MESSAGE TO PROGRAM MESSAGE QUEUE FOR DISPLAY
+     C*****************************************************************
+     C     SNDMSG        BEGSR
+     C*
+     C                   MOVE      YES           ERRORS
+     C*
+     C     MSGID         IFNE      *BLANKS
+     C                   CALL      'LSPSNDM'
+     C                   PARM                    MSGID
+     C                   PARM                    MSGDTA
+     C                   PARM                    PGMSGQ
+     C                   ENDIF
+     C*
+     C                   MOVE      *BLANKS       MSGID             7
+     C                   MOVE      *BLANKS       MSGDTA          256
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* EDTCHG - EDIT CHANGES
+     C*****************************************************************
+     C*
+     C* ++ CODE HERE FOR CHANGE PROCESSING EDIT
+     C*
+     C     EDTCHG        BEGSR
+     C*
+     C                   MOVE      NO            ERRORS
+     C                   EXSR      SETIND
+     C*
+     C                   EXSR      EDTCOM
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* EDTCPY - EDIT COPY
+     C*****************************************************************
+     C*
+     C* ++ CODE HERE FOR COPY PROCESSING EDIT (USE CHANGE)
+     C*
+     C     EDTCPY        BEGSR
+     C*
+     C                   MOVE      NO            ERRORS
+     C                   EXSR      SETIND
+     C*
+     C     CRALPH        CHAIN     CMSUSRTP                           99
+     C     *IN99         IFEQ      *OFF
+     C     HLDCRQ        ANDNE     CPCREQ
+     C     HLDCRQ        IFEQ      'Y'
+     C                   MOVE      'CMS1309'     MSGID
+     C                   MOVE      *BLANKS       MSGDTA
+     C                   SETON                                        72
+     C                   EXSR      SNDMSG
+     C                   ELSE
+     C                   MOVE      'CMS1310'     MSGID
+     C                   MOVE      *BLANKS       MSGDTA
+     C                   SETON                                        72
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C                   EXSR      EDTCOM
+     C*
+     C     ERRORS        IFEQ      NO
+     C*
+     C                   EXSR      SETKEY
+     C*
+     C     *IN99         IFEQ      *ON
+     C                   MOVE      'LSP9010'     MSGID
+     C                   MOVEL     *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* EDTADD - EDIT ADD
+     C*****************************************************************
+     C*
+     C     EDTADD        BEGSR
+     C*
+     C                   MOVE      NO            ERRORS
+     C                   EXSR      SETIND
+     C*  GET NEXT SEQUENCE NUMBER FOR POLICY/TYPE
+     C                   MOVE      DTARC1        HLDRC1
+     C                   MOVE      CRCTL1        SVCTL1
+     C                   MOVE      CRCTL2        SVCTL2
+     C                   MOVE      CRALPH        SVALPH
+     C*
+     C     CRALPH        CHAIN     CMSUSRTP                           99
+     C*
+     C     CPCDEP        IFEQ      'N'
+     C                   MOVE      *BLANKS       SVCO
+     C                   ELSE
+     C                   MOVE      CMCO          SVCO
+     C                   ENDIF
+     C*
+     C     KEY4          SETGT     CMSUSREL                           89
+     C     SVCO          READPE(N) CMSUSREL                               89
+     C*
+     C     *IN89         IFEQ      *ON
+     C     CRCTL1        ORNE      SVCTL1
+     C     CRCTL2        ORNE      SVCTL2
+     C     CRALPH        ORNE      SVALPH
+     C                   Z-ADD     1             WKSEQN
+     C                   ELSE
+     C     CRSEQN        ADD       1             WKSEQN
+     C                   ENDIF
+     C*
+     C                   MOVE      HLDRC1        DTARC1
+     C                   CLEAR                   HLDRC1
+     C                   Z-ADD     WKSEQN        CRSEQN
+     C*
+     C                   EXSR      EDTCOM
+     C*
+     C* CHECK FOR INCONSISTENT BENEFICIARY ADD
+     C*
+     C     ERRORS        IFEQ      NO
+     C     CPUBEN        IFEQ      'Y'
+     C     CRALPH        LOOKUP    ABEN                                   88
+     C     *IN88         IFEQ      *ON
+     C     CRALPH        LOOKUP    ZBEN                                   88
+     C*
+     C     CRPCPT        IFEQ      *ZEROS
+     C     *IN88         ANDNE     *ON
+     C                   MOVE      'CMS1312'     MSGID
+     C                   MOVEL(P)  CRALPH        MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C*
+     C     CRPCPT        IFNE      *ZEROS
+     C     *IN88         ANDEQ     *ON
+     C                   MOVE      'CMS1313'     MSGID
+     C                   MOVEL(P)  CRALPH        MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C*
+     C                   ELSE
+     C*
+     C                   EXSR      SAVBEN
+     C     CRPCPT        IFEQ      *ZEROS
+     C                   EXSR      BLDPCT
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C     ERRORS        IFEQ      NO
+     C*
+     C                   EXSR      SETKEY
+     C*
+     C     *IN99         IFEQ      *OFF
+     C     CRALPH        IFEQ      'AGT'
+     C     CRALPH        OREQ      'AH1'
+     C     CRALPH        OREQ      'AH2'
+     C     CRALPH        OREQ      'BNK'
+     C     CRALPH        OREQ      'GRP'
+     C     CRALPH        OREQ      'INS'
+     C     CRALPH        OREQ      'JNT'
+     C     CRALPH        OREQ      'OW1'
+     C     CRALPH        OREQ      'OW2'
+     C     CRALPH        OREQ      'PAY'
+     C                   EXSR      SETKY2
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C     *IN99         IFEQ      *ON
+     C                   MOVE      'LSP9003'     MSGID
+     C                   MOVEL     'CMSUSREL'    MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* EDTCOM - EDIT COMMON
+     C*****************************************************************
+     C* COMMON PROCESSING EDIT
+     C*
+     C     EDTCOM        BEGSR
+     C*
+     C* TYPE MUST BE ENTERED
+     C     CRALPH        IFEQ      *BLANKS
+     C                   MOVE      'CMS1303'     MSGID
+     C                   MOVE      *BLANKS       MSGDTA
+     C                   SETON                                        72
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C*
+     C* TYPE MUST EXIST
+     C     CRALPH        CHAIN     CMSUSRTP                           99
+     C     *IN99         IFEQ      *ON
+     C                   MOVE      'CMS1302'     MSGID
+     C                   MOVE      *BLANKS       MSGDTA
+     C                   SETON                                        72
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C*
+     C     CRALPH        IFNE      *BLANKS
+     C*
+     C* SHOULD CLIENT EXIST FOR THE RELATIONSHIP
+     C     CRCLTN        IFEQ      *BLANKS
+     C     CPCREQ        ANDEQ     'Y'
+     C                   MOVE      'CMS1304'     MSGID
+     C                   MOVEL(P)  CRALPH        MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C     CPCREQ        IFEQ      'Y'
+     C     CRASEQ        ANDGT     *ZEROS
+     C     SEQKEY        SETLL     CMSCLNAD                               89
+     C     *IN89         IFEQ      *OFF
+     C                   SETON                                          73
+     C                   MOVE      'CMS1308'     MSGID
+     C                   MOVEL     *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C     CPAREQ        IFEQ      'Y'
+     C     CRASEQ        IFGT      *ZEROS
+     C     SEQKEY        SETLL     CMSCLNAD                               89
+     C     *IN89         IFEQ      *OFF
+     C                   SETON                                          73
+     C                   MOVE      'CMS1314'     MSGID
+     C                   MOVEL     *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C                   ELSE
+     C                   SETON                                          73
+     C                   MOVE      'CMS1314'     MSGID
+     C                   MOVEL     *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C     CRCLTN        IFEQ      *BLANKS
+     C                   MOVE      'T'           CRCLTP
+     C                   ENDIF
+     C* SHOULD TEXT BE ENTERED FOR THIS RELATIONSHIP
+     C     CPTREQ        IFEQ      'Y'
+     C     CXTXT1        IFEQ      *BLANKS
+     C     CXTXT2        ANDEQ     *BLANKS
+     C     CXTXT3        ANDEQ     *BLANKS
+     C     CXTXT4        ANDEQ     *BLANKS
+     C     CXTXT5        ANDEQ     *BLANKS
+     C                   MOVE      'CMS1305'     MSGID
+     C                   MOVEL(P)  CRALPH        MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C     CRCLTN        IFNE      *BLANKS
+     C     CXTXT1        IFNE      *BLANKS
+     C     CXTXT2        ORNE      *BLANKS
+     C     CXTXT3        ORNE      *BLANKS
+     C     CXTXT4        ORNE      *BLANKS
+     C                   MOVE      'B'           CRCLTP
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C     CRCLTN        IFNE      *BLANKS
+     C     CXTXT1        IFEQ      *BLANKS
+     C     CXTXT2        ANDEQ     *BLANKS
+     C     CXTXT3        ANDEQ     *BLANKS
+     C     CXTXT4        ANDEQ     *BLANKS
+     C                   MOVE      'C'           CRCLTP
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* ALPHA - ALPHA SEARCH
+     C*****************************************************************
+     C     ALPHA         BEGSR
+     C*
+     C                   CLEAR                   PRM100
+     C                   MOVEL     'CMS510 '     ZMODE
+     C                   MOVE      UDR510        ZUNDR
+     C                   MOVE      TYP510        ZSELCD
+     C                   MOVE      TYP510        ZENTTY
+     C                   MOVE      STS510        ZRSTS
+     C                   MOVE      'N'           ZUPREL
+     C*
+     C                   CALL      'CMS100'
+     C                   PARM                    PRM100
+     C*
+     C     CRALPH        IFEQ      *BLANKS
+     C     ZSREL1        OREQ      CRALPH
+     C                   MOVE      ZSREL1        CRALPH
+     C                   MOVE      ZSCLT1        CRCLTN
+     C                   EXSR      GETCLN
+     C                   ELSE
+     C                   MOVE      'CMS1306'     MSGID
+     C                   MOVE      *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C                   MOVE      NO            ERRORS
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* CMS00X - CLIENT DISPLAY
+     C*****************************************************************
+     C     CMS00X        BEGSR
+     C*
+     C                   MOVE      TBKEY         RCDKEY
+     C                   MOVE      TBCO          SVCO
+     C                   EXSR      CHNNLK
+     C*
+     C                   MOVE      YES           COFLG
+     C     TBCO          IFEQ      *BLANKS
+     C                   MOVE      NO            COFLG
+     C                   ENDIF
+     C*
+     C     *IN98         IFEQ      *OFF
+     C                   MOVEL     DTARC2        HLDRC2
+     C                   ELSE
+     C                   CLEAR                   DTARC2
+     C                   CLEAR                   HLDRC2
+     C                   ENDIF
+     C*
+     C                   EXSR      CMS005
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* CMS005 - CLIENT DISPLAY
+     C*****************************************************************
+     C     CMS005        BEGSR
+     C*
+     C     CRCLTN        IFEQ      *BLANKS
+     C*
+     C                   MOVE      'CMS1300'     MSGID
+     C                   MOVE      *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C*
+     C                   ELSE
+     C*
+     C     ACC510        IFEQ      'INQUIRY'
+     C*
+     C                   CLEAR                   PRM005
+     C                   MOVE      'N'           UND000
+     C                   MOVE      CRCLTN        CLT000
+     C*
+     C                   CALL      'CMS005'
+     C                   PARM                    PRM005
+     C*
+     C                   ELSE
+     C*
+     C                   MOVEL     'CMS510'      CBY000
+     C                   MOVE      CRCLTN        CLT000
+     C                   MOVE      UDR510        UND000
+     C                   MOVE      TYP510        ENT000
+     C                   CALL      'CMS000'
+     C                   PARM                    PRM005
+     C                   PARM                    ZREL
+     C                   PARM                    ZCLT
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* INITB - INITIALIZE SCREEN B
+     C*****************************************************************
+     C*
+     C     INITB         BEGSR
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* DSPHST - DISPLAY TRANSACTION HISTORY
+     C*****************************************************************
+     C*
+     C     DSPHST        BEGSR
+     C*
+     C                   CALL      'CMS540'
+     C                   PARM                    PRM510
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* SETIN - SET INDICATOR
+     C*****************************************************************
+     C     SETIND        BEGSR
+     C*
+     C                   SETOFF                                       727374
+     C                   SETOFF                                       7576
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* CHNNLK - CHAIN WITH NO RECORD LOCK
+     C*****************************************************************
+     C     CHNNLK        BEGSR
+     C*
+     C     KEY2          CHAIN(N)  CMSUSRTX                           98
+     C     KEY2          CHAIN(N)  CMSUSREL                           99
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* CHNWLK - CHAIN WITH RECORD LOCK
+     C*****************************************************************
+     C     CHNWLK        BEGSR
+     C*
+     C     KEY2          CHAIN     CMSUSRTX                           98
+     C     KEY2          CHAIN     CMSUSREL                           99
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* RDNLK - READ WITH NO RECORD LOCK
+     C*****************************************************************
+     C     RDNLK         BEGSR
+     C*
+     C* READ WITH NO RECORD LOCK
+     C*
+     C                   SETOFF                                           99
+     C*
+     C     *IN99         DOUEQ     *ON
+     C     VALREC        OREQ      YES
+     C*
+     C     COFLG         IFEQ      NO
+     C     KEY1          READE(N)  CMSUSREL                               99
+     C                   ENDIF
+     C*
+     C     *IN99         IFEQ      *ON
+     C                   MOVE      YES           COFLG
+     C                   MOVE      CMCO          SVCO
+     C     KEY1          SETLL     CMSUSREL                               99
+     C                   ENDIF
+     C*
+     C     COFLG         IFEQ      YES
+     C     KEY1          READE(N)  CMSUSREL                               99
+     C                   ENDIF
+     C*
+     C     *IN99         IFEQ      *OFF
+     C                   EXSR      CHKREC
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* RDPNLK - READ PRIOR WITH NO RECORD LOCK
+     C*****************************************************************
+     C     RDPNLK        BEGSR
+     C*
+     C                   SETOFF                                           99
+     C*
+     C     *IN99         DOUEQ     *ON
+     C     VALREC        OREQ      YES
+     C*
+     C     COFLG         IFEQ      YES
+     C     KEY1          READPE(N) CMSUSREL                               99
+     C                   ENDIF
+     C*
+     C     *IN99         IFEQ      *ON
+     C                   MOVE      NO            COFLG
+     C                   MOVE      *BLANKS       SVCO
+     C     KEY1          SETGT     CMSUSREL
+     C                   ENDIF
+     C*
+     C     COFLG         IFEQ      NO
+     C     KEY1          READPE(N) CMSUSREL                               99
+     C                   ENDIF
+     C*
+     C*
+     C     *IN99         IFEQ      *OFF
+     C                   EXSR      CHKREC
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*
+     C     CHKREC        BEGSR
+     C*****************************************************************
+     C* CHKREC - ENSURE THAT THE RECORD IS TO BE SHOWN ON SCREEN
+     C*****************************************************************
+     C*
+     C                   MOVE      NO            VALREC            1
+     C*
+     C     POL510        IFEQ      CRCTL1
+     C     BR510         ANDEQ     CRCTL2
+     C*
+     C     CRALPH        CHAIN     CMSUSRTP                           98
+     C*
+     C                   SELECT
+     C*
+     C     *IN98         WHENEQ    *OFF
+     C     CPRETY        ANDEQ     TYP510
+     C     RSQ510        ANDEQ     *ZERO
+     C                   MOVE      YES           VALREC            1
+     C
+     C     *IN98         WHENEQ    *OFF
+     C     CPRETY        ANDEQ     TYP510
+     C     CRSEQN        ANDEQ     RSQ510
+     C                   MOVE      YES           VALREC            1
+     C*
+     C     TYP510        WHENEQ    '*'
+     C     CPRETY        ANDEQ     '1'
+     C     TYP510        OREQ      '*'
+     C     CPRETY        ANDEQ     '2'
+     C                   MOVE      YES           VALREC            1
+     C                   ENDSL
+     C*
+     C     VALREC        IFEQ      YES
+     C     CRCLTP        IFEQ      'C'
+     C     CRCLTP        OREQ      'B'
+     C                   EXSR      GETCLN
+     C                   ELSE
+     C     KEY2          CHAIN     CMSUSRTX                           98
+DB01 C                   MOVEL     CXTXT1        CNAME
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C*    ##DBS         IFEQ      '1'
+DB01 C                   MOVEL     CNAME         IGCP1
+DB01 C                   Z-ADD     045           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         CNAME
+DB01 C*                  END
+DB01 C*
+DB01 C*** END OF INSERTED SOURCE
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* SETKY2 - SET LOWER LIMIT WITH KEY
+     C*****************************************************************
+     C     SETKY2        BEGSR
+     C*
+     C     KEY3          SETLL     CMSUSREL                               99
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* SETKEY - SET LOWER LIMIT WITH KEY
+     C*****************************************************************
+     C     SETKEY        BEGSR
+     C*
+     C     KEY2          SETLL     CMSUSREL                               99
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* SETLOV - SET LOWER LIMIT WITH LOW VALUES
+     C*****************************************************************
+     C     SETLOV        BEGSR
+     C*
+     C     KEY1          SETLL     CMSUSREL                               99
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* SETKGT - SET GREATER THAN KEY
+     C*****************************************************************
+     C     SETKGT        BEGSR
+     C*
+     C     KEY2          SETGT     CMSUSREL
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* UPDRCD - UPDATE RECORD
+     C*****************************************************************
+     C     UPDRCD        BEGSR
+     C*
+     C                   EXSR      LIFEWEB
+     C*
+3145 C                   EXSR      GETSEQ
+     C                   UPDATE    RUSREL                               99
+     C*
+3145 C                   MOVE      UPDRC2        TXTFLD
+
+     C     HLDRC2        IFNE      *BLANKS
+     C*
+     C     TXTFLD        IFNE      *BLANKS
+     C                   MOVEL     UPDRC2        DTARC2
+     C                   MOVE      SVCO          CXCO
+     C                   MOVE      CRCTL1        CXCTL1
+     C                   Z-ADD     CRCTL2        CXCTL2
+     C                   MOVE      CRALPH        CXALPH
+     C                   Z-ADD     CRSEQN        CXSEQN
+     C                   EXSR      GETSEQ
+     C                   UPDATE    RUSRTX                               99
+     C                   ELSE
+     C                   EXSR      GETSEQ
+     C                   DELETE    RUSRTX
+     C                   ENDIF
+     C*
+     C                   ELSE
+     C*
+     C     TXTFLD        IFNE      *BLANKS
+     C                   MOVEL     UPDRC2        DTARC2
+     C                   MOVE      SVCO          CXCO
+     C                   MOVE      CRCTL1        CXCTL1
+     C                   Z-ADD     CRCTL2        CXCTL2
+     C                   MOVE      CRALPH        CXALPH
+     C                   Z-ADD     CRSEQN        CXSEQN
+     C                   EXSR      GETSEQ
+     C                   WRITE     RUSRTX
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* DLTRCD - DELETE RECORD
+     C*****************************************************************
+     C     DLTRCD        BEGSR
+     C*
+     C                   EXSR      GETSEQ
+     C     KEY2          DELETE    CMSUSRTX                           9998
+     C     KEY2          DELETE    CMSUSREL                           9998
+     C*
+     C* DELETE DYNAMIC USER FIELDS
+     C                   CLEAR                   DYF360
+     C                   EVAL      SRC360 = 'CMSUSREL'
+     C                   MOVEL     CRCTL1        KY1360
+     C                   MOVEL     CRCTL2        KY2360
+     C                   MOVEL     CRALPH        KY3360
+     C                   MOVEL     CRSEQN        KY4360
+     C                   CALL      'DYF360'
+     C                   PARM                    DYF360
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* CURSOR - FIND CURSOR POSITION
+     C*****************************************************************
+     C     CURSOR        BEGSR
+     C*
+     C                   Z-ADD     *ZERO         ROW               3 0
+     C                   Z-ADD     *ZERO         COL               3 0
+     C*
+     C     ROWCOL        DIV       256           ROW
+     C                   MVR                     COL
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* GETCLN - GET CLIENT NAME
+     C*****************************************************************
+     C     GETCLN        BEGSR
+     C*
+     C     CRCLTN        CHAIN     CMSCLNTM                           97
+     C     *IN97         IFEQ      *OFF
+     C                   MOVEL(P)  CMNAME        ZNAME
+     C     CMNCIN        IFEQ      'N'
+     C                   MOVE      '2'           ZFMT
+     C                   CALL      'NAMEFMT'
+     C                   PARM                    NAMPRM
+     C                   ENDIF
+DB01 C                   MOVEL     ZNAME         CNAME
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C*    ##DBS         IFEQ      '1'
+DB01 C                   MOVEL     CNAME         IGCP1
+DB01 C                   Z-ADD     045           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         CNAME
+DB01 C*                  END
+DB01 C*
+DB01 C*** END OF INSERTED SOURCE
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* F4LIST - LIST FUNCTION
+     C*****************************************************************
+     C     F4LIST        BEGSR
+     C*
+     C                   Z-ADD     *ZERO         ROW               3 0
+     C                   Z-ADD     *ZERO         COL               3 0
+     C*
+     C     ROWCOL        DIV       256           ROW
+     C                   MVR                     COL
+     C*
+     C     ROW           IFEQ      8
+     C                   CLEAR                   PRM511
+     C                   Z-ADD     3             ROW511
+     C                   Z-ADD     30            COL511
+     C                   MOVE      TYP510        ETY511
+     C                   MOVE      TXTFLG        TXT511
+     C                   CALL      'CMS511'
+     C                   PARM                    PRM511
+     C     REL511        IFNE      *BLANKS
+     C                   MOVE      REL511        CRALPH
+     C     CRALPH        CHAIN     CMSUSRTP                           98
+     C                   ENDIF
+     C*
+     C                   ELSE
+     C                   MOVE      'LSP9032'     MSGID
+     C                   MOVE      *BLANKS       MSGDTA
+     C                   EXSR      SNDMSG
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* INTTBL - INITIALIZE OPTION PROCESSING TABLE
+     C*****************************************************************
+     C     INTTBL        BEGSR
+     C*
+     C                   Z-ADD     *ZERO         TBLNO
+     C     1             DO        TBMAX         DSOCUR
+     C     DSOCUR        OCCUR     OPTTBL
+     C                   MOVE      *HIVAL        TBOPT
+     C                   MOVE      *HIVAL        TBKEY
+     C                   ENDDO
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* DSPSCR - DISPLAY SCREEN
+     C*****************************************************************
+     C     DSPSCR        BEGSR
+     C*
+     C*  ++ USED FOR MUITIPLE SCREEN B'S
+     C*
+     C                   Z-ADD     1             CURPAG
+     C*
+     C                   EXFMT     CMS510B
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     CCSADD        BEGSR
+     C*****************************************************************
+     C* CLTADD - WRITE CLIENT CORRESPONDENCE FOR ADD RELATIONSHIP     *
+     C*****************************************************************
+     C*
+     C                   CLEAR                   REXTR
+     C*
+     C     MCCNTR        IFNE      *BLANKS
+     C     CNTKY         CHAIN     CASCNTRM                           99
+     C     *IN99         IFEQ      *OFF
+     C                   MOVEL     MCCRCD        CECRCD
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C                   MOVE      CMCO          CECO
+     C                   MOVE      'REL'         CETYPE
+     C                   Z-ADD     *MONTH        CELTRM
+     C                   Z-ADD     *DAY          CELTRD
+     C                   Z-ADD     *YEAR         CELTRY
+     C                   MOVEL     UID           CEUSER
+     C                   MOVE      'N'           CECEPR
+     C*
+     C* RETRIEVE NAME AND ADDRESS
+     C                   CLEAR                   CMS205
+     C*
+     C                   MOVE      CMCO          CMP205
+     C                   MOVEL     CRCLTN        CT1205
+     C                   MOVE      'CLT'         TYP205
+     C                   MOVE      '8'           NFM205
+     C                   MOVE      '2'           AFM205
+     C*
+     C                   CALL      'CMS205'
+     C                   PARM                    CMS205
+     C                   PARM                    CLTM
+     C                   PARM                    CLTA
+     C*
+     C     RTN205        IFEQ      *ZEROS
+     C                   MOVE      CMNCIN        CEINCI
+     C                   MOVE      CMSXCD        CEISEX
+     C     CMNCIN        IFEQ      'C'
+DB01 C                   MOVEL     CMNAME        CEILNM
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C*    ##DBS         IFEQ      '1'
+DB01 C                   MOVEL     CEILNM        IGCP1
+DB01 C                   Z-ADD     029           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         CEILNM
+DB01 C*                  END
+DB01 C*
+DB01 C*** END OF INSERTED SOURCE
+     C                   ELSE
+     C     CMNCIN        IFEQ      'N'
+     C                   MOVEL     FNM205        CORNAM
+     C                   ELSE
+     C                   MOVE      *BLANKS       CORNAM
+DB01 C                   MOVEL     FNM205        CORLNM
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C*    ##DBS         IFEQ      '1'
+DB01 C                   MOVEL     CORLNM        IGCP1
+DB01 C                   Z-ADD     029           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         CORLNM
+DB01 C*                  END
+DB01 C*
+DB01 C*** END OF INSERTED SOURCE
+     C                   ENDIF
+     C*
+     C                   MOVEL     CORPRE        CEINMP
+     C                   MOVEL     CORFNM        CEIFNM
+     C                   MOVEL     CORMDI        CEIMDI
+     C                   MOVEL     CORLNM        CEILNM
+     C                   MOVEL     CORSUF        CEINMS
+     C                   ENDIF
+     C                   MOVE      CYCAD1        CEIAD1
+     C                   MOVE      CYCAD2        CEIAD2
+     C                   MOVE      CYCAD3        CEIAD3
+     C                   MOVE      CYCCIT        CEICTY
+     C                   MOVE      CYCSTA        CEISTA
+     C                   MOVE      CYCZIP        CEIZIP
+     C                   MOVE      CYCNRY        CEICNY
+     C                   MOVE      CMEMAL        CEIEML
+     C                   MOVE      CMSPEC        CEISPC
+     C                   ENDIF
+     C*
+     C                   MOVE      CRCTL1        CEPOLN
+     C                   Z-ADD     CRCTL2        CEFAC1
+     C                   MOVEL     CRALPH        CEDSC1
+     C                   MOVEL     CPRLTX        CEDSC2
+     C                   MOVEL     'ADDED'       CEDSC3
+     C*
+     C                   CALL      'CCS000U1'
+     C                   PARM                    COREXT
+     C*
+     C                   WRITE     REXTR
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     CCSDLT        BEGSR
+     C*****************************************************************
+     C* CLTDLT - WRITE CLIENT CORRESPONDENCE FOR DELETE RELATION      *
+     C*****************************************************************
+     C*
+     C                   CLEAR                   REXTR
+     C*
+     C     MCCNTR        IFNE      *BLANKS
+     C     CNTKY         CHAIN     CASCNTRM                           99
+     C     *IN99         IFEQ      *OFF
+     C                   MOVEL     MCCRCD        CECRCD
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C                   MOVE      CMCO          CECO
+     C                   MOVE      'REL'         CETYPE
+     C                   Z-ADD     *MONTH        CELTRM
+     C                   Z-ADD     *DAY          CELTRD
+     C                   Z-ADD     *YEAR         CELTRY
+     C                   MOVEL     UID           CEUSER
+     C                   MOVE      'N'           CECEPR
+     C*
+     C* RETRIEVE NAME AND ADDRESS
+     C                   CLEAR                   CMS205
+     C*
+     C                   MOVE      CMCO          CMP205
+     C                   MOVEL     CRCLTN        CT1205
+     C                   MOVE      'CLT'         TYP205
+     C                   MOVE      '8'           NFM205
+     C                   MOVE      '2'           AFM205
+     C*
+     C                   CALL      'CMS205'
+     C                   PARM                    CMS205
+     C                   PARM                    CLTM
+     C                   PARM                    CLTA
+     C*
+     C     RTN205        IFEQ      *ZEROS
+     C                   MOVE      CMNCIN        CEINCI
+     C                   MOVE      CMSXCD        CEISEX
+     C     CMNCIN        IFEQ      'C'
+DB01 C                   MOVEL     CMNAME        CEILNM
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C*    ##DBS         IFEQ      '1'
+DB01 C                   MOVEL     CEILNM        IGCP1
+DB01 C                   Z-ADD     029           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         CEILNM
+DB01 C*                  END
+DB01 C*
+DB01 C*** END OF INSERTED SOURCE
+     C                   ELSE
+     C     CMNCIN        IFEQ      'N'
+     C                   MOVEL     FNM205        CORNAM
+     C                   ELSE
+     C                   MOVE      *BLANKS       CORNAM
+DB01 C                   MOVEL     FNM205        CORLNM
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C*    ##DBS         IFEQ      '1'
+DB01 C                   MOVEL     CORLNM        IGCP1
+DB01 C                   Z-ADD     029           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         CORLNM
+DB01 C*                  END
+DB01 C*
+DB01 C*** END OF INSERTED SOURCE
+     C                   ENDIF
+     C*
+     C                   MOVEL     CORPRE        CEINMP
+     C                   MOVEL     CORFNM        CEIFNM
+     C                   MOVEL     CORMDI        CEIMDI
+     C                   MOVEL     CORLNM        CEILNM
+     C                   MOVEL     CORSUF        CEINMS
+     C                   ENDIF
+     C                   MOVE      CYCAD1        CEIAD1
+     C                   MOVE      CYCAD2        CEIAD2
+     C                   MOVE      CYCAD3        CEIAD3
+     C                   MOVE      CYCCIT        CEICTY
+     C                   MOVE      CYCSTA        CEISTA
+     C                   MOVE      CYCZIP        CEIZIP
+     C                   MOVE      CYCNRY        CEICNY
+     C                   MOVE      CMSPEC        CEISPC
+     C                   ENDIF
+     C*
+     C                   MOVE      CRCTL1        CEPOLN
+     C                   Z-ADD     CRCTL2        CEFAC1
+     C                   MOVEL     CRALPH        CEDSC1
+     C                   MOVEL     CPRLTX        CEDSC2
+     C                   MOVEL     'DELETED'     CEDSC3
+     C*
+     C                   CALL      'CCS000U1'
+     C                   PARM                    COREXT
+     C*
+     C                   WRITE     REXTR
+     C*
+     C                   ENDSR
+      /EJECT
+     C     CCSCHG        BEGSR
+     C*****************************************************************
+     C* CLTCHG - WRITE CLIENT CORRESPONDENCE FOR CHANGE RELATION      *
+     C*****************************************************************
+     C*
+     C                   CLEAR                   REXTR
+     C*
+     C     MCCNTR        IFNE      *BLANKS
+     C     CNTKY         CHAIN     CASCNTRM                           99
+     C     *IN99         IFEQ      *OFF
+     C                   MOVEL     MCCRCD        CECRCD
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C                   MOVE      CMCO          CECO
+     C                   MOVE      'REL'         CETYPE
+     C                   Z-ADD     *MONTH        CELTRM
+     C                   Z-ADD     *DAY          CELTRD
+     C                   Z-ADD     *YEAR         CELTRY
+     C                   MOVEL     UID           CEUSER
+     C                   MOVE      'N'           CECEPR
+     C*
+     C* RETRIEVE NAME AND ADDRESS BEFORE CHANGE
+     C                   CLEAR                   CMS205
+     C*
+     C                   MOVE      CMCO          CMP205
+     C                   MOVEL     TBCLTN        CT1205
+     C                   MOVE      'CLT'         TYP205
+     C                   MOVE      '8'           NFM205
+     C                   MOVE      '2'           AFM205
+     C*
+     C                   CALL      'CMS205'
+     C                   PARM                    CMS205
+     C                   PARM                    CLTM
+     C                   PARM                    CLTA
+     C*
+     C     RTN205        IFEQ      *ZEROS
+     C                   MOVE      CMNCIN        CEINCI
+     C                   MOVE      CMSXCD        CEISEX
+     C     CMNCIN        IFEQ      'C'
+DB01 C                   MOVEL     CMNAME        CEILNM
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C*    ##DBS         IFEQ      '1'
+DB01 C                   MOVEL     CEILNM        IGCP1
+DB01 C                   Z-ADD     029           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         CEILNM
+DB01 C*                  END
+DB01 C*
+DB01 C*** END OF INSERTED SOURCE
+     C                   ELSE
+     C     CMNCIN        IFEQ      'N'
+     C                   MOVEL     FNM205        CORNAM
+     C                   ELSE
+     C                   MOVE      *BLANKS       CORNAM
+DB01 C                   MOVEL     FNM205        CORLNM
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C*    ##DBS         IFEQ      '1'
+DB01 C                   MOVEL     CORLNM        IGCP1
+DB01 C                   Z-ADD     029           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         CORLNM
+DB01 C*                  END
+DB01 C*
+DB01 C*** END OF INSERTED SOURCE
+     C                   ENDIF
+     C*
+     C                   MOVEL     CORPRE        CEINMP
+     C                   MOVEL     CORFNM        CEIFNM
+     C                   MOVEL     CORMDI        CEIMDI
+     C                   MOVEL     CORLNM        CEILNM
+     C                   MOVEL     CORSUF        CEINMS
+     C                   ENDIF
+     C                   MOVE      CYCAD1        CEIAD1
+     C                   MOVE      CYCAD2        CEIAD2
+     C                   MOVE      CYCAD3        CEIAD3
+     C                   MOVE      CYCCIT        CEICTY
+     C                   MOVE      CYCSTA        CEISTA
+     C                   MOVE      CYCZIP        CEIZIP
+     C                   MOVE      CYCNRY        CEICNY
+     C                   MOVE      CMSPEC        CEISPC
+     C                   ENDIF
+     C*
+     C* RETRIEVE NAME AND ADDRESS AFTER CHANGE
+     C                   CLEAR                   CMS205
+     C*
+     C                   MOVE      CMCO          CMP205
+     C                   MOVEL     CRCLTN        CT1205
+     C                   MOVE      'CLT'         TYP205
+     C                   MOVE      '8'           NFM205
+     C                   MOVE      '2'           AFM205
+     C*
+     C                   CALL      'CMS205'
+     C                   PARM                    CMS205
+     C                   PARM                    CLTM
+     C                   PARM                    CLTA
+     C*
+     C     RTN205        IFEQ      *ZEROS
+     C                   MOVE      CMNCIN        CEONCI
+     C                   MOVE      CMSXCD        CEOSEX
+     C     CMNCIN        IFEQ      'C'
+DB01 C                   MOVEL     CMNAME        CEOLNM
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C*    ##DBS         IFEQ      '1'
+DB01 C                   MOVEL     CEOLNM        IGCP1
+DB01 C                   Z-ADD     029           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         CEOLNM
+DB01 C*                  END
+DB01 C*
+DB01 C*** END OF INSERTED SOURCE
+     C                   ELSE
+     C     CMNCIN        IFEQ      'N'
+     C                   MOVEL     FNM205        CORNAM
+     C                   ELSE
+     C                   MOVE      *BLANKS       CORNAM
+DB01 C                   MOVEL     FNM205        CORLNM
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C*    ##DBS         IFEQ      '1'
+DB01 C                   MOVEL     CORLNM        IGCP1
+DB01 C                   Z-ADD     029           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         CORLNM
+DB01 C*                  END
+DB01 C*
+DB01 C*** END OF INSERTED SOURCE
+     C                   ENDIF
+     C*
+     C                   MOVEL     CORPRE        CEONMP
+     C                   MOVEL     CORFNM        CEOFNM
+     C                   MOVEL     CORMDI        CEOMDI
+     C                   MOVEL     CORLNM        CEOLNM
+     C                   MOVEL     CORSUF        CEONMS
+     C                   ENDIF
+     C                   MOVE      CYCAD1        CEOAD1
+     C                   MOVE      CYCAD2        CEOAD2
+     C                   MOVE      CYCAD3        CEOAD3
+     C                   MOVE      CYCCIT        CEOCTY
+     C                   MOVE      CYCSTA        CEOSTA
+     C                   MOVE      CYCZIP        CEOZIP
+     C                   MOVE      CYCNRY        CEOCNY
+     C                   MOVE      CMSPEC        CEOSPC
+     C                   ENDIF
+     C*
+     C                   MOVE      CRCTL1        CEPOLN
+     C                   Z-ADD     CRCTL2        CEFAC1
+     C                   MOVEL     CRALPH        CEDSC1
+     C                   MOVEL     CPRLTX        CEDSC2
+     C                   MOVEL     'CHANGED'     CEDSC3
+     C*
+     C                   CALL      'CCS000U1'
+     C                   PARM                    COREXT
+     C*
+     C                   WRITE     REXTR
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* LIFEWEB - SEND CLIENT RELATIONSHIPS TO LIFEVIEW
+     C*****************************************************************
+     C     LIFEWEB       BEGSR
+     C*
+     C                   EXSR      GETWEB
+     C
+     C                   IF        WBNABL = YES
+     C                   MOVEL     CRCLTN        CTL101
+     C                   Z-ADD     CLIENT        CTY101
+     C                   MOVE      ADMIN         STP101
+     C                   MOVE      *BLANK        DLT101
+     C                   Z-ADD     0             RID101
+     C                   MOVE      'CLT'         TRG101
+      *
+     C                   CALL      'WEB101'
+     C                   PARM                    PRM101
+      *
+     C                   IF        %ERROR = *ON
+     C                   EVAL      MSGID = 'WEB0066'
+     C                   EXSR      ERROR_ROUTINE
+     C                   ENDIF
+      *
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+      *****************************************************************
+      * ERROR_ROUTINE  SEND ERROR to WEBERLOG
+      *****************************************************************
+     C     ERROR_ROUTINE BEGSR
+      *
+     C                   CLEAR                   ERRLOG
+      *
+      * Retrieve error message text.
+     C                   EXSR      RTV_MSGTEXT
+      *
+     C                   EVAL      ERCOMP   =    CMCO
+     C                   EVAL      ERWCTT   =    CTY101
+     C                   EVAL      ERWCTN   =    CTL101
+     C                   EVAL      ERPSTY   =    *BLANKS
+     C                   EVAL      ERWRQM   =    *MONTH
+     C                   EVAL      ERWRQD   =    *DAY
+     C                   EVAL      ERWRQY   =    *YEAR
+     C                   TIME                    ERWRQT
+     C                   MOVE      UID           ERWRQU
+     C                   EVAL      ERRMID    =   MSGID
+     C                   EVAL      ERRMSG    =   ERMSG
+     C                   EVAL      ERRQID   =    RID101
+   36C                   EVAL      ERSTYP   =    STP101
+     C                   EVAL      ERCALL    =  'CMS510'
+      *
+     C                   CALL      'WEB152'
+     C                   PARM                    ERRLOG
+      *
+     C                   EVAL      MSGID      =   *BLANKS
+     C                   EVAL      ERMSG      =   *BLANKS
+      *
+     C                   ENDSR
+      /EJECT
+      *****************************************************************
+      * RTV_MSGTXT   RETRIEVE MESSAGE
+      *****************************************************************
+     C     RTV_MSGTEXT   BEGSR
+      *
+     C                   MOVE      *BLANKS       ERMSG            77
+      * Retrive error message text.
+     C                   CALL      'LSPMSGID'
+     C                   PARM                    MSGID
+     C                   PARM                    ERMSG
+      *
+     C                   IF        MSGID = 'WEB0066'
+     C     ERMSG         CAT       WEBPGM:1      ERMSG
+     C                   ENDIF
+      *
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* INIT - INITIALIZATION
+     C*****************************************************************
+     C     INIT          BEGSR
+     C*
+     C                   MOVE      NO            ERRORS            1
+     C                   MOVE      NO            OPTERR            1
+     C                   MOVE      NO            ANYOPT            1
+     C                   MOVE      NO            PNDOPT            1
+     C                   MOVE      *BLANKS       GETMSG            7
+     C*
+     C                   MOVE      NO            COFLG             1
+     C*
+     C                   MOVEL     'CMS510'      PGMSGQ           10
+     C*
+     C                   EXSR      INTTBL
+     C*
+     C     *LIKE         DEFINE    SVUID         UID
+     C     *LIKE         DEFINE    RRN1          RRN2
+     C     *LIKE         DEFINE    RRN1          HIRRN1
+     C     *LIKE         DEFINE    RRN2          HIRRN2
+     C     *LIKE         DEFINE    CRCTL1        SVCTL1
+     C     *LIKE         DEFINE    CRCTL2        SVCTL2
+     C     *LIKE         DEFINE    CRALPH        SVALPH
+     C     *LIKE         DEFINE    CRSEQN        WKSEQN
+     C     *LIKE         DEFINE    CRSEQN        CRSQHI
+     C     *LIKE         DEFINE    MCCTYP        CNTTYP
+     C                   MOVE      'I'           CNTTYP
+     C*
+     C                   Z-ADD     *HIVAL        CRSQHI
+     C                   CLEAR                   POSKEY
+     C                   CLEAR                   NULKEY
+     C                   MOVE      CMCO          NULCO
+     C                   MOVE      POL510        NULC1
+     C                   MOVE      BR510         NULC2
+     C*
+     C                   Z-ADD     2             BPAGES            2 0
+     C                   Z-ADD     1             CURPAG            2 0
+     C                   Z-ADD     *ZERO         RRN1              5 0
+     C                   Z-ADD     *ZERO         RRN2
+     C                   Z-ADD     *ZERO         HIRRN1
+     C                   Z-ADD     *ZERO         HIRRN2
+     C                   Z-ADD     *ZERO         X                 5 0
+     C                   Z-ADD     *ZERO         DSOCUR            5 0
+     C                   Z-ADD     *ZERO         SVOCUR            5 0
+     C                   Z-ADD     *ZERO         TBLNO             5 0
+     C                   MOVEL     '*'           FLDPGM
+     C*
+     C*  CONVERT SCREEN DATE TO USER'S FORMAT :
+     C                   MOVE      *MONTH        INMON
+     C                   MOVE      *DAY          INDAY
+     C                   MOVE      *YEAR         INYR
+     C                   MOVE      '*'           FMTC01
+     C                   CALL      'DATEFMT'
+     C                   PARM                    PRMDAT
+     C     RTNCD         IFEQ      '00'
+     C                   MOVE      OUTDTE        SDATE
+     C                   END
+     C*
+     C                   CALL      'GETID'
+     C                   PARM                    UID
+     C*
+     C                   MOVE      UID           SVUID
+     C                   MOVEL     'LSP'         SVAPID
+     C                   MOVEL     'CMS510'      SVPROG
+     C*
+     C                   CALL      'LSPCHKSC'
+     C                   PARM                    SECPRM
+     C*
+     C                   MOVE      *BLANKS       MSGRTN           77
+     C                   MOVE      'LSP0011'     MSGCD             7
+     C                   CALL      'LSPMSGID'
+     C                   PARM                    MSGCD
+     C                   PARM                    MSGRTN
+     C                   MOVE      MSGRTN        MSGWRK
+     C*
+     C                   SETOFF                                       702029
+     C     ACC510        IFEQ      'INQUIRY'
+     C                   MOVE      NO            SVADD
+     C                   MOVE      NO            SVCHG
+     C                   MOVE      NO            SVDEL
+     C                   MOVE      NO            SVCPY
+     C                   MOVE      YES           SVDSP
+     C                   SETON                                        70
+     C                   ELSE
+     C                   SETON                                        29
+     C     ACC510        IFEQ      'CMS100'
+     C                   SETON                                        7020
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C                   SETOFF                                       212223
+     C                   SETOFF                                       242526
+     C*
+     C                   Z-ADD     BR510         CTL2
+     C*
+     C* DISPLAY INFORMATIONAL TEXT AT TOP OF SCREEN
+     C                   SELECT
+     C     TYP510        WHENEQ    '1'
+     C     TYP510        OREQ      '2'
+     C     TYP510        OREQ      '*'
+     C                   SETON                                        21
+     C     TYP510        WHENEQ    '3'
+     C                   SETON                                        22
+     C     TYP510        WHENEQ    '4'
+     C                   SETON                                        23
+     C     TYP510        WHENEQ    '5'
+     C                   SETON                                        24
+     C     TYP510        WHENEQ    '6'
+     C                   SETON                                        25
+     C                   OTHER
+     C                   SETON                                        26
+     C                   ENDSL
+     C*
+     C     *DTAARA       DEFINE                  LSPCO
+     C                   IN        *DTAARA
+     C*
+     C                   MOVE      *BLANKS       SVCO
+     C*
+     C                   CALL      'LSPCLRM'
+     C                   PARM                    PGMSGQ
+     C*
+     C*  RETRIEVE CURRENT SYSTEM DATE
+     C                   CALL      'LSPRTVDT'
+     C                   PARM                    CURRMM
+     C                   PARM                    CURRDD
+     C                   PARM                    CURRYY
+     C*
+     C*
+     C                   MOVEL     CMCO          CO200
+     C                   MOVEL     'USRDTA'      DTA200
+     C                   MOVE      'R'           ACT200
+     C                   MOVE      'N'           LCK200
+     C                   CALL      'LSP200'
+     C                   PARM                    LSP200
+     C                   PARM                    USRDTA
+     C*
+     C     XCRUS1        IFEQ      *BLANKS
+     C                   MOVE      *ON           *IN36
+     C                   ELSE
+     C                   MOVE      *OFF          *IN36
+     C                   ENDIF
+     C*
+     C     XCRUS2        IFEQ      *BLANKS
+     C                   MOVE      *ON           *IN37
+     C                   ELSE
+     C                   MOVE      *OFF          *IN37
+     C                   ENDIF
+     C*
+     C                   MOVEL     CMCO          CO200
+     C                   MOVEL     'WEBDTA'      DTA200
+     C                   MOVE      'R'           ACT200
+     C                   MOVE      'N'           LCK200
+     C*
+     C                   CALL      'LSP200'
+     C                   PARM                    LSP200
+     C                   PARM                    WEBDTA
+     C*
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* BALPCT - BALANCE SHARE PERCENT TO 100 AND ALL RECORD WERE UPDATED
+     C*****************************************************************
+     C     BALPCT        BEGSR
+     C*
+     C     *LIKE         DEFINE    ERRORS        SAVERR
+     C*
+     C                   Z-ADD     *ZERO         TOTPCT            5 2
+     C                   MOVE      *BLANKS       ZBEN
+     C                   Z-ADD     1             B                 2 0
+     C                   Z-ADD     1             A                 2 0
+     C*
+     C                   MOVE      ERRORS        SAVERR
+     C*
+     C     *LOVAL        SETLL     CMSUSRTP
+     C*
+     C                   SETOFF                                           97
+     C*
+     C     *IN97         DOWEQ     *OFF
+     C     CPUBEN        ANDEQ     'N'
+     C                   READ      CMSUSRTP                               97
+     C                   ENDDO
+     C*
+     C     *IN97         DOWEQ     *OFF
+     C                   MOVE      'N'           PCTFLG            1
+     C     BENKEY        SETLL     CMSUSREL
+     C     BENKEY        READE     CMSUSREL                               38
+     C*
+     C     *IN38         DOWEQ     *OFF
+     C                   ADD       CRPCPT        TOTPCT
+     C                   MOVE      'Y'           PCTFLG
+     C     BENKEY        READE     CMSUSREL                               38
+     C                   ENDDO
+     C*
+     C     TOTPCT        IFNE      *ZEROS
+     C*
+     C                   EXSR      SAVBEN
+     C*
+     C     TOTPCT        IFGT      100.00
+     C     TOTPCT        ORLT      99.50
+     C                   MOVEL     *BLANKS       MSGDTA
+     C                   MOVEL     TOTPCT        PCTDAT
+     C                   MOVE      '.'           PCTPRD
+     C                   MOVE      PCT1          PCTONE
+     C     TOTPCT        IFLT      99.50
+     C                   MOVEL     ' '           PCTONE
+     C                   ENDIF
+     C                   MOVE      PCT2          PCTTWO
+     C                   MOVEL     CPRTYP        MSGDTA
+     C     MSGDTA        CAT       PCTNUM:0      MSGDTA
+     C                   MOVEL     'CMS1311'     MSGID
+     C                   EXSR      SNDMSG
+     C                   MOVE      SAVERR        ERRORS
+     C                   ENDIF
+     C*
+     C                   ELSE
+     C*
+     C     PCTFLG        IFEQ      'Y'
+     C                   EXSR      BLDPCT
+     C                   EXSR      SAVBEN
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   Z-ADD     *ZERO         TOTPCT            5 2
+     C*
+     C     *IN97         DOUEQ     *ON
+     C     CPUBEN        OREQ      'Y'
+     C                   READ      CMSUSRTP                               97
+     C                   ENDDO
+     C*
+     C                   ENDDO
+     C*
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* BLDPCT - BALANCE SHARE PERCENT TO 100 AND ALL RECORD WERE UPDATED
+     C*****************************************************************
+     C     BLDPCT        BEGSR
+     C*
+     C                   MOVEL     CPRTYP        ZBEN(B)
+     C*
+     C     B             IFLT      20
+     C                   ADD       1             B
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* SAVBEN - SAVE ALL BENEFICIARY TYPES USED
+     C*****************************************************************
+     C     SAVBEN        BEGSR
+     C*
+     C                   MOVEL     CPRTYP        ABEN(A)
+     C*
+     C     A             IFLT      20
+     C                   ADD       1             A
+     C                   ENDIF
+     C*
+     C                   ENDSR
+      /EJECT
+     C*****************************************************************
+     C* GETSEQ - GET SEQUENCE NUMBER
+     C*****************************************************************
+     C     GETSEQ        BEGSR
+     C*
+     C                   MOVE      'T'           SEQFLG
+     C                   CALL      'GETSEQ'
+     C                   PARM                    PLSSEQ
+     C*
+     C                   ENDSR
+DB01 C**************************************************************
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION *
+DB01 C**************************************************************
+DB01 C*
+DB01 C     IGCSR         BEGSR
+DB01 C                   MOVEL     *BLANKS       IGCP3
+DB01 C                   CALL      'DCU799'
+DB01 C                   PARM                    IGCP1           256
+DB01 C                   PARM                    IGCP2             3 0
+DB01 C                   PARM                    IGCP3           256
+DB01 C                   ENDSR
+     C/EJECT
+     C     ADDFLD        BEGSR
+     C********************************************************
+     C* ADDITIONAL FIELDS
+     C********************************************************
+     C                   CLEAR                   PDYF200
+     C                   MOVEL     'CMSUSREL'    SRC200
+     C     *IN29         IFEQ      *ON
+     C                   MOVEL     'UPDATE'      MOD200
+     C                   ELSE
+     C                   MOVEL     'INQUIRY'     MOD200
+     C                   ENDIF
+     C                   MOVEL     'CMS510'      PGM200
+     C                   MOVEL     CRCTL1        KY1200
+     C                   MOVEL     CRCTL2        KY2200
+     C                   MOVEL     CRALPH        KY3200
+     C                   MOVEL     CRSEQN        KY4200
+      *
+     C                   CALL      'DYF200'
+     C                   PARM                    PDYF200
+      *
+     C                   ENDSR
+     C/EJECT
+     C     USEREXIT7     BEGSR
+     C********************************************************
+     C* USEREXIT7 - CALL POST CHANGE USER EXIT
+     C********************************************************
+      *
+     C                   CALL      'CMS510U7'
+     C                   PARM                    PRM510
+     C                   PARM                    DTARC1
+      *
+     C                   ENDSR

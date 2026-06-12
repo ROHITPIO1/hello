@@ -1,0 +1,3322 @@
+    F** Program must be compiled with the CMSGRP activation group.**
+    F** Program must be compiled with the CMSGRP activation group.**
+    F** Program must be compiled with the CMSGRP activation group.**
+      *   C39144       07/20/05   14:26:41   PIGGOTT      V4.4M10
+      *   C35597       12/08/04   08:40:45   ROTH         V4.4M09
+      *   DBCS02       02/06/04   11:27:33   FISCHER      V4.4M07
+      *   R0010        12/12/03   10:48:40   VANNATTA     V4.4M07
+      *   D0126        10/01/03   09:49:47   ATLDP        V4.4M07
+      *   C32004       08/28/03   15:30:09   ROTH         V4.4M07
+      *   D0126        10/01/03   09:42:03   ATLDP        V4.4M07
+      *   D0128R       09/02/03   17:22:54   MINTON       V4.4M07
+      *   D0126        08/12/03   09:11:58   ATLDP        V4.4M07
+      *   D0111        06/24/03   10:47:05   MINTON       V4.4M06
+      *   D0110R       05/06/03   14:42:15   MINTON       V4.4M06
+      *   C29319       05/02/03   11:19:44   LATSCH       V4.4M06
+      *   C29423       04/30/03   09:22:39   LATSCH       V4.4M06
+      *   D0106R       03/28/03   00:07:30   DARNELL      V4.4M06
+      *   C28380       02/09/03   09:21:47   SIMONS       V4.4M06
+      *   C24881       08/12/02   12:00:58   SWAFFORD     V4.4M05
+      *   D0051        03/03/02   23:29:36   PAULH        V4.4M03
+      *   D0047        02/01/02   15:26:04   MINTON       V4.4M03
+      *   D0046        01/29/02   09:39:27   MINTON       V4.4M03
+      *   D0042   01/09/02   16:53:56   MINTON       V4.4M03
+      *   D0037   11/27/01   12:33:38   ATLDP        V4.4M02A
+      *   M3893   03/06/01   21:06:27   PAULH        V4.4M00
+      *   M3893   03/06/01   20:54:23   PAULH        V4.4M00
+      *   M3893   03/06/01   20:33:17   PAULH        V4.4M00
+      *   M3893   11/16/00   07:52:34   PAULH        V4.4M00
+M7637 *   7637   05/23/97  EICHER                                    V043M000
+M7959 *   7959   09/05/97  EICHER                                    V043M020
+M8559 *   8559   05/28/98  LEONARD                                   V142M010
+M8559 *   8559   06/08/98  NELSON                                    V142M010
+M8559 *   8559   06/10/98  SWAFFORD                                  V142M010
+M8559 *   8559   06/10/98  DARNELL                                   V142M010
+M0676 *   0676   08/17/99  SRINIVAS                                  V143M010
+M0370 *   0370   12/06/99  ROTH                                      V143M010
+M1297 *   1297   02/05/00  DARNELL                                   V143M010
+M0898 *   0898   03/10/00  SRINIVAS                                  V143M010
+M2453 *   2453   04/27/00  MSRINIVAS                                 V143M010
+M2458 *   2458   05/01/00  SRINIVAS                                  V143M010
+M2453 *   2453   05/01/00  SRINIVAS                                  V143M010
+M2523 *   2523   05/02/00  AUSTIN                                    V143M010
+M2526 *   2526   05/02/00  SRINIVAS                                  V143M010
+M2453 *   2453   05/16/00  AUSTIN                                    V143M010
+M3212 *   3212   07/17/00  ROTH                                      V143M030
+M3212 *   3212   08/08/00  SWAFFORD                                  V143M030
+     F*****************************************************************
+     F*   PROPRIETARY RIGHTS NOTICE: ALL RIGHTS RESERVED. THIS       **
+     F*   MATERIAL CONTAINS THE VALUABLE PROPERTIES AND TRADE        **
+     F*   SECRETS OF GENELCO, INC. OF ST. LOUIS, MO. EMBODYING       **
+     F*   SUBSTANTIAL CREATIVE EFFORTS AND CONFIDENTIAL INFORMATION, **
+     F*   IDEAS, AND EXPRESSIONS, NO PART OF WHICH MAY BE REPRODUCED **
+     F*   OR TRANSMITTED IN ANY FORM OR BY ANY MEANS, ELECTRONIC,    **
+     F*   MECHANICAL, OR OTHERWISE, INCLUDING PHOTOCOPYING AND       **
+     F*   RECORDING OR IN CONNECTION WITH ANY INFORMATION STORAGE    **
+     F*   OR RETRIEVAL SYSTEM WITHOUT THE PERMISSION IN WRITING OF   **
+     F*   GENELCO, INC.                                              **
+     F*                                                              **
+     F*   COPYRIGHT NOTICE: COPYRIGHT 1982    GENELCO, INC.          **
+     F*****************************************************************
+     F** C R E A T I O N        **                                   **
+     F****************************                                   **
+     F**                                                             **
+     F**  PROGRAM NAME: CMS100                                       **
+     F**                                                             **
+     F**  NARRATIVE: CLIENT MANAGEMENT SUBSYSTEM                     **
+     F**             ALPHA SEARCH/SELECTION OVER CLIENT MASTER       **
+     F**             SHOWING RELATIONSHIPS                           **
+     F**                                                             **
+     F** M A I N T E N A N C E  **                                   **
+     F****************************                                   **
+     F**                                                             **
+     F**  Changed by:   Mike Stricker                                **
+     F**  Date changed: 11/04/2002                                   **
+     F**  NARRATIVE:    Compile only, screen changes.                **
+     F**                                                             **
+     F**  Changed by:   Brian Loghry                                 **
+     F**  Date changed: 11/05/2002                                   **
+     F**  NARRATIVE:    Getting Decimal Data error when trying to    **
+     F**                alpha search in 'ORIC' company, last name    **
+     F**                'MONDRAGON'. Policy D920217 not found in     **
+     F**                CASCNTRM or NBSPCNTR so WRKMON, WRKDAY, and  **
+     F**                WRKYR were blank, I added INZ to data struct.**
+     F**                BLUG                                         **
+     **                                                             **
+     **  AFL - BKL 04/21/04 Mod's for 4.4.5 / 4.4.6 upgrade         **
+     **                                                             **
+     **  CHANGED BY:  Robert Szoke                                  **
+     **  DATE:        07/14/2008                                    **
+     **  NARRATIVE:   Added AFL mod's for 4.4.7 - 4.4.11 upgrade    **
+     **                                                                  **
+     **  Changed by : Bob Gulbransen                                **
+     **  Date :       04/30/2018                                    **
+     **  Project:     AS13-0083   bg01                              **
+     **  Narrative:   Modified to allow direct deposits             **
+     **                                                             **
+     F*****************************************************************
+     F/EJECT
+     FCMS100    CF   E             WORKSTN INFDS(SCNDTA)
+     F                                     SFILE(CMS100S1:RRN)
+     FLFCMSREL  IF   E           K DISK    USROPN
+     FCMSCLNTM  UF   E           K DISK    COMMIT
+     FCMSUSRTP  IF   E           K DISK
+     FCASCNTRM  IF   E           K DISK
+     FNBSPCNTR  IF   E           K DISK
+     FCASBENE   IF   E           K DISK
+     F                                     RENAME(RBENE:RADMIN)
+     FNBSBENE   IF   E           K DISK
+     FAPPBANK   IF   E           K DISK
+     FCOMAGTM   IF   E           K DISK
+     FAPPCTRL   IF   E           K DISK
+     FBLCGRMTR  IF   E           K DISK
+     FLFCLAIM   IF   E           K DISK
+     F*
+     FCMSCLNAD  UF   E           K DISK    USROPN COMMIT
+     F/EJECT
+     F*****************************************************************
+     F*                      ARRAYS AND TABLES
+     F*****************************************************************
+bg01 d entryParm       ds                  likeds(PRM205)
+bg01 d cltMstrParm     ds                  likeds(CLTREC)
+bg01 d cltAddressParm  ds                  likeds(CLTA)
+     D VODS            S             45    DIM(2) CTDATA PERRCD(1)
+     D VSEL            S              3    DIM(50)
+     D VTP             S             50    DIM(50)
+     D VALT            S              3    DIM(50)
+     D VDSC            S             25    DIM(50)
+     D EPOS            S              3  0 DIM(50)
+     D RLS             S              3    DIM(9)
+     D KYNM            S              1    DIM(60)
+     D FLD             S             25    DIM(12)
+     D ID              S              7    DIM(12) CTDATA PERRCD(1)
+     D/EJECT
+     D*****************************************************************
+     D*                       DATA STRUCTURES
+     D*****************************************************************
+     D PRM110        E DS                  EXTNAME(PCLM110)
+     D CLTREC        E DS                  EXTNAME(CMSCLNTM)
+     D SVCLT           DS          1024
+     D ALSDTA        E DS                  EXTNAME(ALSDTA)
+     D GRPPRM        E DS                  EXTNAME(PBLC800)
+     D PRM500        E DS                  EXTNAME(PCOM500)
+     D CLM100        E DS                  EXTNAME(PCLM100)
+     D ACCPRM        E DS                  EXTNAME(PAPP800)
+     D PRCDTA        E DS                  EXTNAME(PRCDTA)
+     D PRM510        E DS                  EXTNAME(PCMS510)
+     D PRM530        E DS                  EXTNAME(PCMS530)
+     D PRM994        E DS                  EXTNAME(PCMS994)
+     D PRM200        E DS                  EXTNAME(PLSP200)
+     D PRM204        E DS                  EXTNAME(PLSP204)
+     D LSP205        E DS                  EXTNAME(PLSP205)
+     D LSPCO         E DS          1024    EXTNAME(LSPCOMST)
+     D PRM000        E DS                  EXTNAME(PCMS000)
+     D RECPRM        E DS                  EXTNAME(PCMS100)
+     D  ZRELA                 39     68
+     D  ZREL                  39     68
+     D                                     DIM(10)
+     D  ZCLT                  69    168
+     D                                     DIM(10)
+     D PRM205        E DS                  EXTNAME(PCMS205)
+     D CLTA          E DS                  EXTNAME(CMSCLNAD)
+     D USRTP         E DS                  EXTNAME(CMSUSRTP)
+     D PRMDAT        E DS                  EXTNAME(PDATEFMT)
+     D DYF360        E DS                  EXTNAME(PDYF360)
+     D*
+     D SCNDTA          DS
+     D  FNCKEY               369    369
+     D  ROWCOL               370    371B 0
+     D*
+     D NAMPRM          DS
+     D  NAMFMT                 1      1
+     D  NAME                   2     61
+     D*
+     D OPTTBL          DS                  OCCURS(100)
+     D  TBKEY                  1     23
+     D  TBCO                   1      4
+     D  TBCTL1                 5     14
+     D  TBCTL2                15     18  0
+     D  TBALPH                19     21
+     D  TBSEQN                22     23  0
+     D  TBOPT                 24     25
+     D  TONAME                26     70
+     D  TBCLTN                71     80
+     D  TBRLTX                81    105
+     D                 DS
+     D  CMSDOB                 1      8  0
+     D  CMSDBY                 1      4  0
+     D  CMSDBM                 5      6  0
+     D  CMSDBD                 7      8  0
+     D*
+     D                 DS
+     D  FBDYMD                 1      8  0
+     D  FBDY                   1      4  0
+     D  FBDM                   5      6  0
+     D  FBDD                   7      8  0
+     D                 DS
+     D  TBDYMD                 1      8  0
+     D  TBDY                   1      4  0
+     D  TBDM                   5      6  0
+     D  TBDD                   7      8  0
+     D*
+     D                 DS
+     D  ZNAM                   1    200
+     D                                     DIM(10)
+     D  ZNAME1                 1     20
+     D  ZNAME2                21     40
+     D  ZNAME3                41     60
+     D  ZNAME4                61     80
+     D  ZNAME5                81    100
+     D  ZNAME6               101    120
+     D  ZNAME7               121    140
+     D  ZNAME8               141    160
+     D  ZNAME9               161    180
+     D  ZNAME0               181    200
+     D                 DS
+     D  ZADD                   1    470
+     D                                     DIM(10)
+     D  ZADD1                  1     47
+     D  ZADD2                 48     94
+     D  ZADD3                 95    141
+     D  ZADD4                142    188
+     D  ZADD5                189    235
+     D  ZADD6                236    282
+     D  ZADD7                283    329
+     D  ZADD8                330    376
+     D  ZADD9                377    423
+     D  ZADD0                424    470
+     D*
+     D CLTDTA          DS            73
+     D  CLNAME                 1     38
+     D  CLTTID                39     58
+     D  CLTSEX                61     61
+     D  CLTDOB                64     73
+     D*
+     D DOB             DS            10
+     D  CDBM                   1      2  0
+     D  DASH4                  3      3
+     D  CDBD                   4      5  0
+     D  DASH5                  6      6
+     D  CDBY                   7     10  0
+     D*
+     D  TIN1                   2      3  0
+     D  TIN2                   4     10  0
+     D*
+     D TID             DS            12
+     D  SSNPRE                 1      1
+     D  OSSN1                  1      4  0
+     D  DASH1                  5      5
+     D  OSSN2                  6      7  0
+     D  DASH2                  8      8
+     D  OSSN3                  9     12  0
+     D*
+     D  OTIN1                  2      3  0
+     D  DASH3                  4      4
+     D  OTIN2                  5     11  0
+     D*
+     D POLDTA          DS            73
+     D  PCO                    3      6
+     D  POLNUM                 9     18
+     D  STATUS                20     35
+     D  REL1                  36     38
+     D  RDSH1                 39     39
+     D  REL2                  40     42
+     D  RDSH2                 43     43
+     D  REL3                  44     46
+     D  EFFLBL                48     50
+     D  EFFDT                 52     61
+     D  BASLBL                63     66
+     D  BASPLN                68     73
+     D*
+     D CEFFDT          DS            10
+     D  MCEFFM                 1      2  0
+     D  PCEFFM                 1      2  0
+BLUG D**BLUG**  WRKMON                 1      2  0
+BLUG D  WRKMON                 1      2  0 inz
+     D  DASH10                 3      3
+     D  MCEFFD                 4      5  0
+     D  PCEFFD                 4      5  0
+BLUG D**BLUG**  WRKDAY                 4      5  0
+BLUG D  WRKDAY                 4      5  0 inz
+     D  DASH11                 6      6
+     D  MCEFFY                 7     10  0
+     D  PCEFFY                 7     10  0
+BLUG D**BLUG**  WRKYR                  7     10  0
+BLUG D  WRKYR                  7     10  0 inz
+     D*
+     D BNKDTA          DS            73
+     D  RTG1                   3      6  0
+     D  RT1                    7      7    INZ('-')
+     D  RTG2                   8     11  0
+     D  RT2                   12     21
+     D  CRCTL2                22     25  0
+     D*
+     D TRTG            DS             8
+     D  TRTG1                  1      4  0
+     D  TRTG2                  5      8  0
+     D  BCRTGN                 1      8  0
+     D  ACBANK                 1      8  0
+     D*
+     D ACTDTA          DS            73
+     D  ACO                    3      6
+     D  ACCTRL                 9     18
+     D  AC1                   19     24
+     D  ACACCT                25     44
+     D  AC2                   45     52
+     D  ARTG1                 53     56  0
+     D  AC3                   57     57    INZ('-')
+     D  ARTG2                 58     61  0
+     D  AC4                   62     69
+     D  ACBRCH                70     73  0
+     D*
+     D AGTDTA          DS            73
+     D  MCO                    3      6
+     D  MAGTNO                 9     17
+     D  MM1                   19     35
+     D  MHIRMO                36     37  0
+     D  MSL1                  38     38    INZ('/')
+     D  MHIRDA                39     40  0
+     D  MSL2                  41     41    INZ('/')
+     D  MHIRYR                42     45  0
+     D  AGTD1                  1     45
+     D  MM2                   46     62
+     D  MTRMMO                64     65  0
+     D  MSL3                  66     66    INZ('/')
+     D  MTRMDA                67     68  0
+     D  MSL4                  69     69    INZ('/')
+     D  MTRMYR                70     73  0
+     D*
+     D GRPDTA          DS            73
+     D  GCO                    3      6
+     D  GMGBNO                 9     18
+     D  GM1                   19     34
+     D  GMPYCD                35     36
+     D  GM2                   38     43
+     D  GMMODE                44     44
+     D  GM3                   45     57
+     D  GMBLTM                58     59  0
+     D  SLASH1                60     60    INZ('/')
+     D  GMBLTD                61     62  0
+     D  SLASH2                63     63    INZ('/')
+     D  GMBLTY                64     67  0
+     D CLMDTA          DS
+     D  C1CO                   3      6
+     D  C1CNBR                 9     18
+     D  CLM1                  19     29
+     D  C1CLMT                31     31
+     D  CLM2                  35     41
+     D  C1CLSC                43     43
+     D*
+     D OTHDTA          DS
+     D  OTYPE                  2      4
+     D  ODASH                  6      6    INZ('-')
+     D  ODESC                  8     33
+     D  ONAME                 34     79
+     D*
+     D STAT            DS            16
+     D  MCCSTA                 1      1
+     D  PCPSTA                 1      1
+     D PRM810          DS
+     D  POL810                 1     10
+     D  MOD810                11     17
+     D BNKPRM          DS
+     D  BNK810                 1      8
+     D  BRC810                 9     12
+     D  INQ810                13     13
+     D MSGWRK          DS
+     D  MORLIT                 1     15
+     D  BOTLIT                16     30
+     D  FILL                  31     77
+     D VDATE           DS
+     D  EDTDT                  1      8  0
+     D  MM                     1      2  0
+     D  DD                     3      4  0
+     D  YY                     5      8  0
+     D  FMT                    9      9
+     D  STS                   10     11
+     D USRO            DS           750
+     D DTAARA          DS
+     D  AREA1                  1    256
+     D  AREA2                257    512
+     D  AREA3                513    768
+     D  AREA4                769   1024
+     D  AREA5               1025   1280
+     D  AREA6               1281   1536
+     D  AREA7               1537   1792
+     D  AREA8               1793   2048
+     D/EJECT
+     D******************************************************************
+     D* NAMED CONSTANTS
+     D******************************************************************
+     D ENTER           C                   CONST('1')
+     D YES             C                   CONST('Y')
+     D NO              C                   CONST('N')
+     D TBMAX           C                   CONST(100)
+      /EJECT
+     C******************************************************************
+     C*
+     C     *ENTRY        PLIST
+     C                   PARM                    RECPRM
+bg01 c                   PARM                    entryParm
+bg01 c                   PARM                    cltMstrParm
+bg01 c                   PARM                    cltAddressParm
+     C*
+     C     KCNTRM        KLIST
+     C                   KFLD                    CRCO
+     C                   KFLD                    CRCTL1
+     C                   KFLD                    CNTTYP
+     C*
+     C     KCLM          KLIST
+     C                   KFLD                    CRCO
+     C                   KFLD                    CRCTL1
+     C*
+     C     KCLNTM        KLIST
+     C                   KFLD                    CMCLTN
+     C                   KFLD                    CO
+     C*
+     C     KCLNT2        KLIST
+     C                   KFLD                    CMCLTN
+     C                   KFLD                    BLKCO
+     C*                                                    INSERT
+     C     KPCNTR        KLIST
+     C                   KFLD                    CRCO
+     C                   KFLD                    CRCTL1
+     C*                                                    INSERT
+     C     KBANK         KLIST
+     C                   KFLD                    BNKRTG
+     C                   KFLD                    CRCTL2
+     C*
+     C     KGRMTR        KLIST
+     C                   KFLD                    CRCO
+     C                   KFLD                    CRCTL1
+     C*
+     C     KAGTRL        KLIST
+     C                   KFLD                    CRCO
+     C                   KFLD                    AGTNO
+     C*                                                    INSERT
+     C     KPCTRL        KLIST
+     C                   KFLD                    CRCO
+     C                   KFLD                    CRCTL1
+     C*                                                    INSERT
+     C     KLBENE        KLIST
+     C                   KFLD                    CRCO
+     C                   KFLD                    CRCTL1
+     C*                                                    INSERT
+     C     KNABEN        KLIST
+     C                   KFLD                    CRCO
+     C                   KFLD                    CRCTL1
+bg01
+bg01 c                   If        %Parms = 4
+bg01 c                   eval      NAMFMT =  '8'
+bg01 c                   eval      NAME = CLTMSTRPARM.CMNAME
+bg01 c                   Call      'NAMEFMT'
+bg01 c                   PARM                    NAMPRM
+bg01
+bg01 c                   Eval      SELFIR = %Trim(%Subst(namprm:4:20))
+bg01 c                   Eval      SELMID = %Trim(%Subst(namprm:26:1))
+bg01 c                   eval      SELLST = %Trim(%Subst(namprm:27:29))
+bg01
+bg01 c                   EndIf
+      /EJECT
+     C******************************************************************
+     C*                                                    INSERT
+     C                   EXSR      INIT
+     C*
+     C     *INKC         DOUEQ     *ON
+     C*
+     C                   EXSR      SNDSCR
+     C                   EXSR      INITRL
+     C*
+     C     *INKC         IFEQ      *OFF
+     C     *INKL         ANDEQ     *OFF
+     C*
+     C                   SELECT
+     C*
+     C     *INKD         WHENEQ    *ON
+     C                   EXSR      LSTCMP
+     C*
+     C     *INKF         WHENEQ    *ON
+     C                   EXSR      ADDCLT
+     C*
+     C                   OTHER
+     C                   EXSR      PRCINP
+     C     ERRORS        IFEQ      'N'
+     C                   EXSR      SFLCTL
+     C                   ENDIF
+     C*
+     C                   ENDSL
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C     ORIGCO        IFNE      CURRCO
+     C                   MOVE      ORIGCO        CO205
+     C                   MOVE      'N'           TST205
+     C                   MOVE      'Y'           UPD205
+     C                   CALL      'LSP205'
+     C                   PARM                    LSP205
+     C                   ENDIF
+     C*
+     C                   COMMIT
+bg01
+bg01 c                   If        %Parms = 4
+bg01 c                   eval      entryParm      =   PRM205
+bg01 c                   eval      cltMstrParm    = CLTREC
+bg01 c                   eval      cltAddressParm = CLTA
+bg01
+bg01 c                   endIf
+bg01
+     C                   SETON                                        LR
+     C                   CALL      'RCLRSC'
+     C/EJECT
+     C     SNDSCR        BEGSR
+     C*****************************************************************
+     C* SNDSCR - SEND SCREEN
+     C*****************************************************************
+     C*
+     C                   MOVE      *OFF          *INKC
+     C                   MOVE      *OFF          *INKL
+     C                   MOVE      *OFF          *INKF
+     C                   MOVE      *OFF          FNCKEY
+     C*
+     C     *INKC         DOWEQ     *OFF
+     C     *INKD         ANDEQ     *OFF
+     C     *INKL         ANDEQ     *OFF
+     C     *INKF         ANDEQ     *OFF
+     C     FNCKEY        ANDNE     ENTER
+     C*
+     C                   WRITE     CMS100A
+     C*
+     C     CONFRM        IFEQ      'N'
+     C                   READ      CMS100A                                99
+     C*
+     C* RESHOW CONFIRMATION WINDOW IF CANCEL FROM SELCETION SCREEN
+     C* WITH PENDING SELECTIONS
+     C     *INKL         IFEQ      *ON
+     C     ZCLT(1)       ANDNE     *BLANKS
+     C                   MOVE      *OFF          *INKL
+     C                   MOVE      'Y'           CONFRM
+     C                   ENDIF
+     C*
+     C                   ELSE
+     C*
+     C                   MOVE      'N'           CONFRM
+     C                   Z-ADD     2             BPAGES            2 0
+     C                   Z-ADD     1             CURPAG            2 0
+     C                   EXSR      GETADR
+     C*
+     C                   SETOFF                                       70
+     C     *IN07         DOUEQ     *OFF
+     C     *IN08         ANDEQ     *OFF
+     C*
+     C     ZCLT(6)       IFNE      *BLANKS
+     C                   MOVEL     MORLIT        MORBOT
+     C                   SETON                                        70
+     C                   ENDIF
+     C*
+     C     ZCALBY        IFEQ      'CLM100    '
+     C                   EVAL      *IN44  =   '1'
+     C                   ELSE
+     C                   EVAL      *IN44  =   '0'
+     C                   ENDIF
+     C*
+     C                   SELECT
+     C     CURPAG        WHENEQ    1
+     C                   EXFMT     CMS100W
+     C     CURPAG        WHENEQ    2
+     C                   MOVEL     BOTLIT        MORBOT
+     C                   EXFMT     CMS100W2
+     C                   ENDSL
+     C*
+     C     *IN07         IFEQ      *ON
+     C     CURPAG        ANDNE     1
+     C                   SUB       1             CURPAG
+     C                   ENDIF
+     C*
+     C     *IN08         IFEQ      *ON
+     C     CURPAG        ANDNE     BPAGES
+     C                   ADD       1             CURPAG
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C* RETURN TO SELECTION, IF CANCELING ON CLIENT CONFIRMATION SCREEN
+     C                   SELECT
+     C     *INKL         WHENEQ    *ON
+     C                   MOVE      *OFF          *INKL
+     C                   MOVEA     *BLANKS       ZNAM
+     C                   MOVEA     *BLANKS       ZADD
+     C                   MOVEA     *BLANKS       ZCLT
+     C                   MOVEA     *BLANKS       ZREL
+     C*
+     C* IF EXIT SELECTED DO NOT SAVE SELECTIONS
+     C     *INKC         WHENEQ    *ON
+     C                   MOVEA     *BLANKS       ZNAM
+     C                   MOVEA     *BLANKS       ZADD
+     C                   MOVEA     *BLANKS       ZCLT
+     C                   MOVEA     *BLANKS       ZREL
+     C*
+     C* IF ADDITIONAL RELEATIONS TO BE SELECTED
+     C     *INKF         WHENEQ    *ON
+     C                   MOVE      *OFF          *INKF
+     C*
+     C* IF ADDITIONAL RELEATIONS TO BE SELECTED
+     C     *INKQ         WHENEQ    *ON
+     C                   EXSR      UPDREL
+     C                   CLEAR                   PRM510
+     C                   MOVE      ZCTL1         POL510
+     C                   MOVE      ZCTL2         BR510
+     C                   MOVE      ZENTTY        TYP510
+     C                   MOVEL     'CMS100'      ACC510
+     C                   CALL      'CMS510'
+     C                   PARM                    PRM510
+     C*
+     C* END LOOP AND UPDATE USING CMS530
+     C                   MOVE      *ON           *INKC
+     C                   MOVE      ENTER         FNCKEY
+     C*
+     C                   ENDSL
+     C*
+     C* EXIT UPON ENTER KEY PRESSED IN CONFIRMATION SCREEN
+     C     FNCKEY        IFEQ      ENTER
+     C*
+     C     ZUPREL        IFEQ      'Y'
+     C                   EXSR      UPDREL
+     C                   ENDIF
+     C*
+     C                   MOVE      *ON           *INKC
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C     *INKL         IFEQ      *ON
+     C                   MOVE      *ON           *INKC
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     UPDREL        BEGSR
+     C*****************************************************************
+     C* UPDREL - UPDATE CLIENT CLIENT RELATIONS
+     C*****************************************************************
+     C*
+     C                   CLEAR                   PRM530
+     C                   MOVE      ZCTL1         POL530
+     C                   MOVE      ZCTL2         BR530
+     C                   MOVE      ZENTTY        ENT530
+     C                   MOVE      ZRSTS         STS530
+     C                   MOVEL     'UPDATE'      MOD530
+     C                   CALL      'CMS530'
+     C                   PARM                    PRM530
+     C                   PARM                    ZREL
+     C                   PARM                    ZCLT
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     GETADR        BEGSR
+     C*****************************************************************
+     C* GETADR - GET CLIENT ADDRESS FOR CONFIRMATION WINDOW
+     C*****************************************************************
+     C*
+     C                   Z-ADD     1             X
+     C     X             DOWLE     10
+     C*
+     C     ZCLT(X)       IFNE      *BLANKS
+     C                   CLEAR                   PRM205
+     C                   MOVEL     ZCLT(X)       CT1205
+     C                   MOVE      '2'           AFM205
+     C                   EXSR      CMS205
+     C*
+     C     RTN205        IFEQ      *ZEROS
+     C     RTN205        OREQ      '36'
+     C*
+     C                   MOVEL     CMNAME        NAME
+     C                   EXSR      FMTNAM
+     C                   MOVEL     NAME          ZNAM(X)
+     C*
+     C     CYCAD1        IFNE      *BLANKS
+     C     FAD205        ORNE      *BLANKS
+     C                   MOVE      *BLANKS       ZADD(X)
+     C                   CAT(P)    CYCAD1:3      ZADD(X)
+     C                   CAT       ',':0         ZADD(X)
+     C                   CAT       FAD205:2      ZADD(X)
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ADD       1             X
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     CMS205        BEGSR
+     C*****************************************************************
+     C* CMS205 - RETRIEVE CLIENT
+     C*****************************************************************
+     C*
+     C                   MOVE      'CLT'         TYP205
+     C                   Z-ADD     1             SEQ205
+     C*
+     C                   CALL      'CMS205'
+     C                   PARM                    PRM205
+     C                   PARM                    CLTREC
+     C                   PARM                    CLTA
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     PRCINP        BEGSR
+     C*****************************************************************
+     C* PRCINP - PROCESS ENTRIES FROM SCREEN
+     C*****************************************************************
+     C*
+     C                   MOVE      'N'           ERRORS            1
+     C                   MOVE      *BLANKS       MSG
+     C*
+     C                   Z-ADD     0             FBDM
+     C                   Z-ADD     0             FBDD
+     C                   Z-ADD     0             FBDY
+     C                   Z-ADD     0             TBDM
+     C                   Z-ADD     0             TBDD
+     C                   Z-ADD     0             TBDY
+     C*
+     C                   MOVEA     *BLANKS       KYNM(1)
+     C*
+     C     SELLST        IFNE      *BLANKS
+     C     SELID         ANDNE     *BLANKS
+     C                   MOVE      'Y'           ERRORS
+     C                   MOVE      'E006053'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   GOTO      ENDEDT
+     C                   END
+     C*
+     C     SELID         IFEQ      *BLANKS
+     C*
+     C     SELLST        IFEQ      *BLANKS
+     C     LLIMIT        ANDGT     0
+     C                   MOVE      'Y'           ERRORS
+     C                   MOVE      'E006051'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   GOTO      ENDEDT
+     C                   END
+     C*
+     C     SELFIR        IFNE      *BLANKS
+     C     SELLST        ANDEQ     *BLANKS
+     C                   MOVE      'Y'           ERRORS
+     C                   MOVE      'E006049'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   GOTO      ENDEDT
+     C                   END
+     C*
+     C                   MOVEA     SELLST        KYNM(1)
+     C*
+     C     SELMID        IFNE      *BLANKS
+     C     SELFIR        ANDEQ     *BLANKS
+     C                   MOVE      'Y'           ERRORS
+     C                   MOVE      'E006050'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   GOTO      ENDEDT
+     C                   END
+     C*
+     C                   MOVEA     SELLST        KYNM(1)
+     C*
+     C     SELFIR        IFNE      *BLANKS
+     C*
+     C                   Z-ADD     60            X                 3 0
+     C     X             DOWGT     0
+     C     KYNM(X)       ANDEQ     *BLANKS
+     C                   SUB       1             X
+     C                   END
+     C*
+     C                   ADD       1             X
+     C                   MOVEA     '/'           KYNM(X)
+     C                   ADD       1             X
+     C                   MOVEA     SELFIR        KYNM(X)
+     C*
+     C     SELMID        IFNE      *BLANKS
+     C*
+     C                   Z-ADD     60            X                 3 0
+     C     KYNM(X)       DOWEQ     *BLANKS
+     C                   SUB       1             X
+     C                   END
+     C*
+     C                   ADD       1             X
+     C                   MOVEA     '/'           KYNM(X)
+     C                   ADD       1             X
+     C                   MOVEA     SELMID        KYNM(X)
+     C*
+     C                   END
+     C*
+     C                   END
+     C*
+     C                   END
+     C*
+     C* VALIDATE COMPANY CODE
+     C     CO            IFNE      *BLANKS
+     C*
+     C                   MOVE      CO            CO205
+     C                   MOVE      'Y'           TST205
+     C                   MOVE      'N'           UPD205
+     C                   CALL      'LSP205'
+     C                   PARM                    LSP205
+     C     RC205         IFNE      *ZEROS
+     C                   MOVEL     RC205         RC                4
+     C                   EXSR      GETRC
+     C                   MOVE      'Y'           ERRORS
+     C                   MOVEL     MSGRTN        MSG
+     C                   GOTO      ENDEDT
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C* VALIDATE BIRTH DATES
+     C     SELFDB        IFNE      *BLANKS
+     C     SELTDB        ORNE      *BLANKS
+     C                   EXSR      VALDAT
+     C                   END
+      *
+     C     POLREL        IFEQ      *BLANKS
+     C     SELID         ANDNE     *BLANKS
+     C     POLREL        OREQ      *BLANKS
+     C     SELFDB        ANDNE     *BLANKS
+     C     POLREL        OREQ      *BLANKS
+     C     SELSEX        ANDNE     *BLANKS
+     C                   MOVE      'Y'           ERRORS
+     C                   MOVE      'E006056'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   GOTO      ENDEDT
+     C                   END
+     C*
+     C     SELLST        IFNE      *BLANKS
+     C     LLIMIT        ANDNE     0
+     C     SELFIR        ANDNE     *BLANKS
+     C     FLIMIT        ANDEQ     0
+     C                   MOVE      'Y'           ERRORS
+     C                   MOVE      'E006057'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   GOTO      ENDEDT
+     C                   END
+     C*
+     C     POLREL        IFEQ      'X'
+     C     INFCE         ANDEQ     *BLANK
+     C     PENDN         ANDEQ     *BLANK
+     C     TERM          ANDEQ     *BLANK
+     C                   MOVE      'Y'           ERRORS
+     C                   MOVE      'E006058'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   GOTO      ENDEDT
+     C                   END
+     C*
+     C     ENDEDT        ENDSR
+     C/EJECT
+     C     VALDAT        BEGSR
+     C*****************************************************************
+     C* VALDAT - VALIDATE BIRTH DATE
+     C*****************************************************************
+     C*
+     C* VALIDATE FROM BIRTH DATE
+     C     SELFDB        IFNE      *BLANKS
+     C                   CLEAR                   PRMDAT
+     C                   MOVE      SELFDB        INDTE
+     C*
+     C                   CALL      'DATEFMT'
+     C                   PARM                    PRMDAT
+     C*
+     C     RTNCD         IFNE      '00'
+     C                   MOVE      OUTDTE        SELFDB
+     C                   ENDIF
+     C*
+     C                   MOVE      OUTMON        MM
+     C                   MOVE      OUTDAY        DD
+     C                   MOVE      OUTYR         YY
+     C                   MOVE      '00'          STS
+     C                   MOVE      1             FMT
+     C                   CALL      'VALIDATE'
+     C                   PARM                    VDATE
+     C*
+     C     STS           IFNE      *ZERO
+     C                   MOVE      'Y'           ERRORS
+     C                   MOVE      'E050385'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   GOTO      ENDVAL
+     C                   ELSE
+     C                   MOVE      OUTMON        FBDM
+     C                   MOVE      OUTDAY        FBDD
+     C                   MOVE      OUTYR         FBDY
+     C                   END
+     C                   END
+     C*
+     C* VALIDATE TO BIRTH DATE
+     C     SELTDB        IFNE      *BLANKS
+     C     SELTDB        ANDNE     *HIVAL
+     C*
+     C                   CLEAR                   PRMDAT
+     C                   MOVE      SELTDB        INDTE
+     C*
+     C                   CALL      'DATEFMT'
+     C                   PARM                    PRMDAT
+     C*
+     C     RTNCD         IFNE      '00'
+     C                   MOVE      OUTDTE        SELTDB
+     C                   ENDIF
+     C                   MOVE      OUTMON        MM
+     C                   MOVE      OUTDAY        DD
+     C                   MOVE      OUTYR         YY
+     C                   MOVE      '00'          STS
+     C                   MOVE      1             FMT
+     C*
+     C                   CALL      'VALIDATE'
+     C                   PARM                    VDATE
+     C*
+     C     STS           IFNE      *ZERO
+     C                   MOVE      'Y'           ERRORS
+     C                   MOVE      'E006052'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   GOTO      ENDVAL
+     C                   ELSE
+     C                   MOVE      OUTMON        TBDM
+     C                   MOVE      OUTDAY        TBDD
+     C                   MOVE      OUTYR         TBDY
+     C                   ENDIF
+     C*
+     C     FBDYMD        IFGT      TBDYMD
+     C                   MOVE      'Y'           ERRORS
+     C                   MOVE      'E006054'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   GOTO      ENDVAL
+     C                   ENDIF
+     C*
+     C                   ELSE
+     C                   MOVE      *HIVAL        SELTDB
+     C                   Z-ADD     *HIVAL        TBDYMD
+     C                   ENDIF
+     C*
+     C     ENDVAL        ENDSR
+     C/EJECT
+     C     SFLCTL        BEGSR
+     C*****************************************************************
+     C* SFLCTL - SUBFILE CONTROL
+     C*****************************************************************
+     C*
+     C* ROUTINE TO PROVIDE SUBFILE PROCESSING CONTROL
+     C*
+     C                   EXSR      CLRSFL
+     C*
+     C                   MOVE      'Y'           STRREL            1
+     C*
+     C                   MOVEA     KYNM(1)       KEYNAM           60
+     C*
+     C                   MOVE      '*RST'        EOF994
+     C*
+     C                   Z-ADD     *ZERO         RECCNT            5 0
+     C                   MOVE      *BLANKS       CLTSEL
+     C                   MOVE      *BLANKS       POLSEL
+     C*
+     C                   SETOFF                                       99
+     C                   MOVE      'Y'           NEWCLT            1
+     C                   EXSR      ROLLUP
+     C*
+     C* THIS ALLOWS THEM TO CHOOSE AN OWNER AND NOT HAVE TO HIT F3 TWICE!
+     C*
+     C     *INKC         DOUEQ     *ON
+     C     *INKL         OREQ      *ON
+     C     ZREL(1)       ORNE      *BLANKS
+     C     *IN20         ANDEQ     *OFF
+     C     *IN58         ANDEQ     *OFF
+     C     *INKX         ANDEQ     *OFF
+     C*
+     C                   EXSR      DSPSFL
+     C*
+     C     *INKC         IFEQ      *OFF
+     C     *INKL         ANDEQ     *OFF
+     C*
+     C                   SELECT
+     C     *INKE         WHENEQ    *ON
+     C                   EXSR      REFRSH
+     C*
+     C     *INKX         WHENEQ    *ON
+     C                   EXSR      MOROPT
+     C*
+     C     *INKF         WHENEQ    *ON
+     C                   EXSR      ADDCLT
+     C*
+     C     *IN58         WHENEQ    *ON
+     C                   Z-ADD     *ZERO         RECCNT            5 0
+     C                   EXSR      ROLLUP
+     C*
+     C                   OTHER
+     C     RRN           IFNE      0
+     C                   EXSR      CHKSEL
+     C                   ENDIF
+     C                   ENDSL
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     REFRSH        BEGSR
+     C*****************************************************************
+     C* REFRSH
+     C*****************************************************************
+     C*
+     C                   EXSR      INITRL
+     C*
+     C                   EXSR      PRCINP
+     C*
+     C     ERRORS        IFEQ      'N'
+     C*
+     C* ROUTINE TO PROVIDE SUBFILE PROCESSING CONTROL
+     C*
+     C                   EXSR      CLRSFL
+     C*
+     C                   MOVE      'Y'           STRREL            1
+     C*
+     C                   MOVEA     KYNM(1)       KEYNAM           60
+     C*
+     C                   MOVE      '*RST'        EOF994
+     C*
+     C                   Z-ADD     *ZERO         RECCNT            5 0
+     C                   MOVE      *BLANKS       CLTSEL
+     C                   MOVE      *BLANKS       POLSEL
+     C*
+     C                   SETOFF                                       99
+     C                   MOVE      'Y'           NEWCLT            1
+     C                   EXSR      ROLLUP
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     ROLLUP        BEGSR
+     C*****************************************************************
+     C* ROLLUP
+     C*****************************************************************
+     C*
+     C                   Z-ADD     SVRRN         RRN
+     C                   MOVE      *BLANKS       CLTSEL
+     C                   MOVE      *BLANKS       POLSEL
+     C*
+     C     *IN99         DOWEQ     *OFF
+     C     RECCNT        ANDLT     14
+     C*
+     C     RECCNT        IFLT      14
+     C     NEWCLT        ANDEQ     'Y'
+     C                   EXSR      NXTCLT
+     C                   ENDIF
+     C*
+     C     ZSELCD        IFEQ      *BLANKS
+     C     OVRREL        OREQ      'Y'
+     C                   EXSR      GETREL
+     C                   ELSE
+     C     *IN99         IFEQ      *OFF
+     C                   EXSR      WRTSFL
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C     RECCNT        IFGT      1
+     C     RRN           SUB       RECCNT        DSPREC
+     C                   ADD       1             DSPREC
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     NXTCLT        BEGSR
+     C*****************************************************************
+     C* NXTCLT - NEXT CLIENT
+     C*****************************************************************
+     C*
+     C                   EXSR      GETCLT
+     C*
+     C     *IN99         IFEQ      *OFF
+     C                   EXSR      FMTCLT
+     C                   MOVE      'Y'           STRREL
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     GETCLT        BEGSR
+     C*****************************************************************
+     C* GETCLT - GET CLIENT
+     C*****************************************************************
+     C*
+     C                   MOVE      'N'           GOTONE            1
+     C*
+     C* READ THOUGH CLIENT RECORDS UNTIL ONE SELECTED
+     C*
+     C     *IN99         DOUEQ     *ON
+     C     GOTONE        OREQ      'Y'
+     C*
+     C     LLIMIT        IFGT      0
+     C                   MOVEL     SELLST        LST994
+     C                   MOVEL     SELFIR        FST994
+     C                   ELSE
+     C                   MOVEA     KYNM(1)       LST994
+     C                   MOVE      *BLANKS       FST994
+     C                   ENDIF
+     C*
+     C     SELID         IFNE      *BLANKS
+     C                   MOVEL     SELID         SSN994
+     C                   ELSE
+     C                   MOVE      *BLANKS       SSN994
+     C                   ENDIF
+     C*
+     C                   Z-ADD     FBDYMD        FBD994
+     C                   Z-ADD     TBDYMD        TBD994
+     C*
+     C                   MOVEL     ALSDTA        ALS994          256
+     C*
+DB03 C     LST994        IFEQ      *BLANK
+DB03 C                   MOVE      *LOVAL        LST994
+DB03 C                   ENDIF
+     C*
+DB03 C     FST994        IFEQ      *BLANK
+DB03 C                   MOVE      *LOVAL        FST994
+DB03 C                   ENDIF
+     C*
+     C                   CALL      'CMS994'
+     C                   PARM                    PRM994
+     C                   PARM                    CLTREC
+     C                   PARM                    ALS994
+     C*
+     C     EOF994        IFEQ      '*EOF'
+     C                   MOVE      *ON           *IN99
+     C*                    MOVELNAMNF     DATA
+     C                   ELSE
+     C                   MOVE      *OFF          *IN99
+     C                   ENDIF
+     C*
+     C     *IN99         IFEQ      *OFF
+     C*
+     C                   Z-ADD     CMDOBM        CMSDBM
+     C                   Z-ADD     CMDOBD        CMSDBD
+     C                   Z-ADD     CMDOBY        CMSDBY
+     C                   Z-ADD     CMDOBM        CDBM
+     C                   Z-ADD     CMDOBD        CDBD
+     C                   Z-ADD     CMDOBY        CDBY
+     C*
+     C     SELSEX        IFEQ      *BLANKS
+     C     SELFDB        ANDEQ     *BLANKS
+     C*
+     C     SELSEX        OREQ      CMSXCD
+     C     SELFDB        ANDEQ     *BLANKS
+     C*
+     C     SELSEX        OREQ      *BLANKS
+     C     CMSDOB        ANDGE     FBDYMD
+     C     CMSDOB        ANDLE     TBDYMD
+     C*
+     C     SELSEX        OREQ      CMSXCD
+     C     CMSDOB        ANDGE     FBDYMD
+     C     CMSDOB        ANDLE     TBDYMD
+     C*
+     C                   MOVE      'Y'           GOTONE
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     GETREL        BEGSR
+     C*****************************************************************
+     C* GETREL - GET RELATIONSHIP
+     C*****************************************************************
+     C*
+     C                   SETOFF                                       61
+     C                   SETON                                        60
+     C                   MOVE      'N'           NEWCLT
+     C*
+     C* CHECK TO SEE IF THE RELATIONSHIP FILE HAS BEEN OPENED.
+     C     OPNREL        IFEQ      'N'
+     C                   MOVE      'Y'           OPNREL
+     C                   OPEN      LFCMSREL
+     C                   ENDIF
+     C*
+     C* WRITE CLIENT RECORD
+     C     STRREL        IFEQ      'Y'
+     C*
+     C                   MOVE      'N'           PRCCLT            1
+     C                   MOVE      'N'           REDBLK            1
+     C*
+     C     CO            IFEQ      *BLANKS
+     C     CMCLTN        CHAIN     LFCMSREL                           98
+     C                   ELSE
+     C     KCLNTM        CHAIN     LFCMSREL                           98
+     C     *IN98         IFEQ      *ON
+     C     KCLNT2        CHAIN     LFCMSREL                           98
+     C                   MOVE      'Y'           REDBLK
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C     *IN98         IFEQ      *OFF
+     C                   EXSR      GETENT
+     C                   ENDIF
+     C*
+     C     *IN98         IFEQ      *ON
+     C     POLREL        ANDNE     *BLANK
+     C     BNKREL        ANDNE     *BLANK
+     C     GRPREL        ANDNE     *BLANK
+     C     ACTREL        ANDNE     *BLANK
+     C     AGTREL        ANDNE     *BLANK
+     C     OTHREL        ANDNE     *BLANK
+     C*
+     C                   MOVE      'Y'           PRCCLT            1
+     C*
+     C                   ELSE
+     C*
+     C     *IN98         DOWEQ     *OFF
+     C     PRCCLT        ANDEQ     'N'
+     C*
+     C                   SELECT
+     C     BNKREL        WHENNE    *BLANK
+     C     CPRETY        ANDEQ     '4'
+     C                   MOVE      'Y'           PRCCLT            1
+     C*
+     C     GRPREL        WHENNE    *BLANK
+     C     CPRETY        ANDEQ     '3'
+     C                   EXSR      CHKCMP
+     C     RC205         IFEQ      *ZERO
+     C                   MOVE      'Y'           PRCCLT            1
+     C                   ENDIF
+     C*
+     C     ACTREL        WHENNE    *BLANK
+     C     CPRETY        ANDEQ     '5'
+     C                   EXSR      CHKCMP
+     C     RC205         IFEQ      *ZERO
+     C                   MOVE      'Y'           PRCCLT            1
+     C                   ENDIF
+     C*
+     C     AGTREL        WHENNE    *BLANK
+     C     CPRETY        ANDEQ     '6'
+     C                   EXSR      CHKCMP
+     C     RC205         IFEQ      *ZERO
+     C                   MOVE      'Y'           PRCCLT            1
+     C                   ENDIF
+     C*
+     C     POLREL        WHENNE    *BLANK
+     C     CPRETY        ANDEQ     '1'
+     C     POLREL        ORNE      *BLANK
+     C     CPRETY        ANDEQ     '2'
+     C*
+     C                   EXSR      CHKCMP
+     C     RC205         IFEQ      *ZERO
+     C*
+     C     INFCE         IFNE      *BLANK
+     C     PENDN         ANDNE     *BLANK
+     C     TERM          ANDNE     *BLANK
+     C                   MOVE      'Y'           PRCCLT            1
+     C                   ELSE
+     C                   EXSR      CHKSTS
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C     OTHREL        WHENEQ    'X'
+     C     CPRETY        ANDNE     '1'
+     C     CPRETY        ANDNE     '2'
+     C     CPRETY        ANDNE     '3'
+     C     CPRETY        ANDNE     '4'
+     C     CPRETY        ANDNE     '5'
+     C     CPRETY        ANDNE     '6'
+     C                   MOVE      'Y'           PRCCLT            1
+     C*
+     C     POLREL        WHENEQ    *BLANK
+     C     BNKREL        ANDEQ     *BLANK
+     C     GRPREL        ANDEQ     *BLANK
+     C     ACTREL        ANDEQ     *BLANK
+     C     AGTREL        ANDEQ     *BLANK
+     C     OTHREL        ANDEQ     *BLANK
+     C                   MOVE      'Y'           PRCCLT            1
+     C*
+     C                   ENDSL
+     C*
+     C     PRCCLT        IFEQ      'N'
+     C                   EXSR      READFL
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C                   MOVE      'N'           STRREL
+     C*
+     C                   ENDIF
+     C*
+     C     PRCCLT        IFEQ      'Y'
+     C                   EXSR      WRTCLT
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C     *IN98         DOWEQ     *OFF
+     C     RECCNT        ANDLT     14
+     C*
+     C                   MOVE      *BLANKS       WRKTYP
+     C                   MOVE      'N'           RFOUND            1
+     C*
+     C                   SELECT
+     C*
+     C     BNKREL        WHENNE    *BLANKS
+     C     CPRETY        ANDEQ     '4'
+     C                   EXSR      PRCBNK
+     C*
+     C     GRPREL        WHENNE    *BLANKS
+     C     CPRETY        ANDEQ     '3'
+     C                   EXSR      PRCGRP
+     C*
+     C     ACTREL        WHENNE    *BLANKS
+     C     CPRETY        ANDEQ     '5'
+     C                   EXSR      PRCACT
+     C*
+     C     AGTREL        WHENNE    *BLANKS
+     C     CPRETY        ANDEQ     '6'
+     C                   EXSR      PRCAGT
+     C*
+     C     POLREL        WHENNE    *BLANKS
+     C     CPRETY        ANDEQ     '1'
+     C     POLREL        ORNE      *BLANKS
+     C     CPRETY        ANDEQ     '2'
+     C                   EXSR      PRCPOL
+     C*
+     C     CPRETY        WHENEQ    '7'
+     C     OTHREL        ANDEQ     'X'
+     C                   EXSR      PRCCLM
+     C*
+     C     CPRETY        WHENEQ    '8'
+     C     OTHREL        ANDEQ     'X'
+     C                   EXSR      PRCCRL
+     C*
+     C                   ENDSL
+     C*
+     C     RFOUND        IFEQ      'N'
+     C                   EXSR      READFL
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C     *IN98         IFEQ      '1'
+     C                   MOVE      'Y'           NEWCLT
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     CHKSTS        BEGSR
+     C*****************************************************************
+     C* CHKSTS - CHECK VALID POLICY STATUS FOR CLIENT SELECTION
+     C*****************************************************************
+     C*
+     C     KCNTRM        CHAIN     CASCNTRM                           97
+     C     *IN97         IFEQ      *ON
+     C     KPCNTR        CHAIN     NBSPCNTR                           96
+     C                   MOVE      'N'           POLSRC
+     C                   ELSE
+     C                   MOVE      'A'           POLSRC
+     C                   ENDIF
+     C*
+     C                   MOVE      'N'           PRCREC            1
+     C*
+     C                   EXSR      SLTPOL
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     WRTCLT        BEGSR
+     C*****************************************************************
+     C* WRTCLT - WRITE CLIENT RECORD
+     C*****************************************************************
+     C*
+     C     OVRREL        IFEQ      'Y'
+     C                   SETON                                        83
+     C                   ENDIF
+     C*
+     C                   SETON                                        61
+     C                   SETOFF                                       60
+     C                   MOVE      'C'           POLSRC
+     C                   EXSR      WRTSFL
+     C                   SETOFF                                       6183
+     C                   SETON                                        60
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     PRCPOL        BEGSR
+     C*****************************************************************
+     C* PRCPOL - PROCESS POLICY
+     C*****************************************************************
+     C*
+     C                   MOVE      'Y'           RFOUND
+     C*
+     C                   MOVE      'N'           RELATD            1
+     C                   MOVE      'N'           PRCREC            1
+     C                   MOVE      'N'           PRCCLT            1
+     C*
+     C                   MOVE      *BLANKS       RLS
+     C                   MOVEL     CRCTL1        PRVPOL
+     C*
+     C                   EXSR      FMTPOL
+     C*
+     C                   MOVE      CRCO          HCO
+     C                   MOVE      CRCO          PCO
+     C*
+     C     *IN98         DOWEQ     *OFF
+     C     CRCTL1        ANDEQ     PRVPOL
+     C     CPRETY        ANDEQ     '1'
+     C     *IN98         OREQ      *OFF
+     C     CRCTL1        ANDEQ     PRVPOL
+     C     CPRETY        ANDEQ     '2'
+     C*
+     C     PRCREC        IFEQ      'N'
+     C                   EXSR      SLTPOL
+     C                   ENDIF
+     C*
+     C     PRCREC        IFEQ      'Y'
+     C                   EXSR      CHKREL
+     C                   ENDIF
+     C*
+     C                   EXSR      READFL
+     C*
+     C                   ENDDO
+     C*
+     C     RELATD        IFEQ      'Y'
+     C     PRCREC        ANDEQ     'Y'
+     C*
+     C     1             DO        8             Y
+     C     RLS(Y)        IFNE      *BLANKS
+     C     REL1          IFEQ      *BLANKS
+     C                   MOVE      RLS(Y)        REL1
+     C                   ELSE
+     C     REL2          IFEQ      *BLANKS
+     C                   MOVE      RLS(Y)        REL2
+     C                   MOVE      '/'           RDSH1
+     C                   ELSE
+     C     REL3          IFEQ      *BLANKS
+     C                   MOVE      RLS(Y)        REL3
+     C                   MOVE      '/'           RDSH2
+     C*
+     C                   MOVEL     POLDTA        DATA
+     C                   EXSR      WRTSFL
+     C*
+     C                   MOVE      *BLANKS       REL1
+     C                   MOVE      *BLANKS       REL2
+     C                   MOVE      *BLANKS       REL3
+     C                   MOVE      *BLANKS       RDSH1
+     C                   MOVE      *BLANKS       RDSH2
+     C                   ENDIF
+     C                   ENDIF
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C     REL1          IFNE      *BLANKS
+     C                   MOVEL     POLDTA        DATA
+     C                   EXSR      WRTSFL
+     C                   ENDIF
+     C*
+     C                   END
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     PRCCLM        BEGSR
+     C*****************************************************************
+     C* PRCCLM - PROCESS CLAIM
+     C*****************************************************************
+     C*
+     C                   MOVE      CRCO          HCO
+     C                   EXSR      CHKCMP
+     C*
+     C     RC205         IFEQ      *ZEROS
+     C*
+     C     KCLM          CHAIN     LFCLAIM                            89
+     C     *IN89         IFEQ      *OFF
+     C                   MOVE      'Y'           RFOUND
+     C                   MOVE      'Y'           PRCCLT            1
+     C                   MOVE      'R'           POLSRC
+     C                   MOVEL(P)  CLMDTA        DATA
+     C                   MOVE      C1CNBR        CLTNUM
+     C                   EXSR      WRTSFL
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   EXSR      READFL
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     PRCCRL        BEGSR
+     C*****************************************************************
+     C* PRCCRL - PROCESS CLIENT RELATIONS
+     C*****************************************************************
+     C*
+     C                   MOVEL     CLTREC        SVCLT
+     C     CRCTL1        CHAIN(N)  CMSCLNTM                           89
+     C     *IN89         IFEQ      *OFF
+     C                   MOVEL     CMNAME        NAME
+     C                   EXSR      FMTNAM
+     C                   MOVE      'C'           POLSRC
+     C                   MOVEL     CPRTYP        OTYPE
+     C                   MOVEL     CPRLTX        ODESC
+DB01 C                   MOVEL     NAME          ONAME
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C*    ##DBS         IFEQ      '1'
+DB01 C                   MOVEL     ONAME         IGCP1
+DB01 C                   Z-ADD     046           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         ONAME
+DB01 C*                  END
+DB01 C*
+DB01 C*** END OF INSERTED SOURCE
+     C                   MOVE      CRCTL1        CLTNUM
+     C                   MOVEL(P)  OTHDTA        DATA
+     C                   EXSR      WRTCLT
+     C                   ENDIF
+     C                   MOVEL     SVCLT         CLTREC
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     SLTPOL        BEGSR
+     C*****************************************************************
+     C* SLTPOL - TEST POLICY STATUS AGAINST SELECTION OPTIONS FOR
+     C*           POLICY SELECTION
+     C*****************************************************************
+     C*
+     C                   EXSR      CHKCMP
+     C*
+     C     RC205         IFEQ      *ZERO
+     C*
+     C     POLREL        IFEQ      'X'
+     C     INFCE         ANDEQ     'X'
+     C     PENDN         ANDEQ     'X'
+     C     TERM          ANDEQ     'X'
+     C*
+     C                   MOVE      'Y'           PRCREC
+     C                   MOVE      'Y'           PRCCLT
+     C*
+     C                   ELSE
+     C*
+     C     INFCE         IFEQ      'X'
+     C     POLSRC        ANDEQ     'A'
+     C                   EXSR      POLINF
+     C                   ENDIF
+     C*
+     C     PENDN         IFEQ      'X'
+     C     POLSRC        ANDEQ     'N'
+     C     PRCREC        ANDEQ     'N'
+     C                   EXSR      POLPND
+     C                   ENDIF
+     C*
+     C     TERM          IFEQ      'X'
+     C     POLSRC        ANDEQ     'A'
+     C     PRCREC        ANDEQ     'N'
+     C     TERM          OREQ      'X'
+     C     POLSRC        ANDEQ     'N'
+     C     PRCREC        ANDEQ     'N'
+     C                   EXSR      POLTRM
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     POLINF        BEGSR
+     C*****************************************************************
+     C* POLINF - TEST INFORCE STATUS
+     C*****************************************************************
+     C*
+     C     MCCSTA        IFEQ      'I'
+     C     MCCSTA        OREQ      'P'
+     C     MCCSTA        OREQ      'V'
+     C     MCCSTA        OREQ      'R'
+     C     MCCSTA        OREQ      'E'
+     C                   MOVE      'Y'           PRCREC
+     C                   MOVE      'Y'           PRCCLT
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     POLPND        BEGSR
+     C*****************************************************************
+     C* POLPND - TEST PENDING STATUS
+     C*****************************************************************
+     C*
+     C     PCPSTA        IFEQ      'P'
+     C     PCPSTA        OREQ      'I'
+     C                   MOVE      'Y'           PRCREC
+     C                   MOVE      'Y'           PRCCLT
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     POLTRM        BEGSR
+     C*****************************************************************
+     C* POLTRM - TEST TERMINATED STATUS
+     C*****************************************************************
+     C*
+     C     POLSRC        IFEQ      'A'
+     C     MCCSTA        IFEQ      'C'
+     C     MCCSTA        OREQ      'T'
+     C     MCCSTA        OREQ      'N'
+     C     MCCSTA        OREQ      'L'
+     C     MCCSTA        OREQ      'S'
+     C     MCCSTA        OREQ      'D'
+     C     MCCSTA        OREQ      'K'
+     C     MCCSTA        OREQ      'X'
+     C     MCCSTA        OREQ      'M'
+     C                   MOVE      'Y'           PRCREC
+     C                   MOVE      'Y'           PRCCLT
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C     POLSRC        IFEQ      'N'
+     C     PCPSTA        IFEQ      'D'
+     C     PCPSTA        OREQ      'W'
+     C                   MOVE      'Y'           PRCREC
+     C                   MOVE      'Y'           PRCCLT
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     PRCBNK        BEGSR
+     C*****************************************************************
+     C* PRCBNK - PROCESS BANK RELATIONSHIP
+     C*****************************************************************
+     C*
+     C                   MOVEL     CRCTL1        BNKRTG
+     C*
+     C     KBANK         CHAIN     APPBANK                            89
+     C     *IN89         IFEQ      *OFF
+     C                   MOVE      'Y'           RFOUND
+     C                   MOVEL     CRCTL1        HBANK
+     C                   Z-ADD     CRCTL2        HBRCH
+     C                   Z-ADD     TRTG1         RTG1
+     C                   Z-ADD     TRTG2         RTG2
+     C                   MOVE      'B'           POLSRC
+     C                   MOVEL     TRTG          CLTNUM
+     C*
+     C                   MOVE      BNKDTA        DATA
+     C                   EXSR      WRTSFL
+     C                   ENDIF
+     C*
+     C                   EXSR      READFL
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     PRCGRP        BEGSR
+     C*****************************************************************
+     C* PRCGRP - PROCESS GROUP RELATIONSHIP
+     C*****************************************************************
+     C*
+     C                   MOVE      CRCO          HCO
+     C                   MOVE      CRCO          GCO
+     C                   EXSR      CHKCMP
+     C*
+     C     RC205         IFEQ      *ZEROS
+     C*
+     C     KGRMTR        CHAIN     BLCGRMTR                           89
+     C                   MOVE      'Y'           RFOUND
+     C                   MOVE      'G'           POLSRC
+     C                   MOVEL     CRCTL1        CLTNUM
+     C                   MOVE      GRPDTA        DATA
+     C                   EXSR      WRTSFL
+     C                   ENDIF
+     C*
+     C                   EXSR      READFL
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     PRCAGT        BEGSR
+     C*****************************************************************
+     C* PRCAGT - PROCESS AGENT RELATIONSHIP
+     C*****************************************************************
+     C*
+     C                   MOVE      CRCO          HCO
+     C                   MOVE      CRCO          MCO
+     C                   EXSR      CHKCMP
+     C*
+     C     RC205         IFEQ      *ZEROS
+     C*
+     C                   MOVEL(P)  CRCTL1        CLTNUM
+     C*
+DB01 C                   MOVEL     CRCTL1        AGTNO
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C*    ##DBS         IFEQ      '1'
+DB01 C                   MOVEL     AGTNO         IGCP1
+DB01 C                   Z-ADD     009           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         AGTNO
+DB01 C*                  END
+DB01 C*
+DB01 C*** END OF INSERTED SOURCE
+     C     KAGTRL        CHAIN     COMAGTM                            89
+     C     *IN89         IFEQ      *ON
+     C                   Z-ADD     *ZEROS        MTRMMO
+     C                   Z-ADD     *ZEROS        MTRMDA
+     C                   Z-ADD     *ZEROS        MTRMYR
+     C                   Z-ADD     *ZEROS        MHIRMO
+     C                   Z-ADD     *ZEROS        MHIRDA
+     C                   Z-ADD     *ZEROS        MHIRYR
+     C                   ENDIF
+     C*
+     C                   MOVE      'Y'           RFOUND
+     C                   MOVE      'E'           POLSRC
+     C                   MOVEL     CRCTL1        CLTNUM
+     C*
+     C     MTRMMO        IFEQ      *ZEROS
+     C     MTRMDA        ANDEQ     *ZEROS
+     C     MTRMYR        ANDEQ     *ZEROS
+     C                   MOVEL(P)  AGTD1         DATA
+     C                   ELSE
+     C                   MOVE(P)   AGTDTA        DATA
+     C                   ENDIF
+     C*
+     C                   EXSR      WRTSFL
+     C                   ENDIF
+     C*
+     C                   EXSR      READFL
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     PRCACT        BEGSR
+     C*****************************************************************
+     C* PRCACT - PROCESS ACCOUNT CONTROL RELATIONSHIP
+     C*****************************************************************
+     C*
+     C                   MOVE      CRCO          HCO
+     C                   MOVE      CRCO          ACO
+     C                   EXSR      CHKCMP
+     C*
+     C     RC205         IFEQ      *ZEROS
+     C*
+     C     KPCTRL        CHAIN     APPCTRL                            89
+     C     *IN89         IFEQ      *OFF
+     C     ACTYPE        IFEQ      'CC'
+     C                   MOVE      *BLANKS       ACACCT
+     C                   ENDIF
+     C                   MOVE      'Y'           RFOUND
+     C                   Z-ADD     TRTG1         ARTG1
+     C                   Z-ADD     TRTG2         ARTG2
+     C                   MOVE      'D'           POLSRC
+     C                   MOVEL     ACCTRL        CLTNUM
+     C                   MOVE      ACTDTA        DATA
+     C                   EXSR      WRTSFL
+     C                   EXSR      READFL
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     READFL        BEGSR
+     C*****************************************************************
+     C* READFL - READ FILE RELATIONSHIP
+     C*****************************************************************
+     C*
+     C     CO            IFEQ      *BLANKS
+     C*
+     C     CMCLTN        READE     LFCMSREL                               98
+     C*
+     C                   ELSE
+     C*
+     C     REDBLK        IFEQ      'N'
+     C     KCLNTM        READE     LFCMSREL                               98
+     C                   ENDIF
+     C     *IN98         IFEQ      *ON
+     C                   MOVE      'Y'           REDBLK            1
+     C     KCLNT2        CHAIN     LFCMSREL                           98
+     C                   ENDIF
+     C*
+     C     REDBLK        IFEQ      'Y'
+     C     KCLNT2        READE     LFCMSREL                               98
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C     *IN98         IFEQ      *OFF
+     C                   EXSR      GETENT
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     GETENT        BEGSR
+     C*****************************************************************
+     C* GETENT - GET ENTITY
+     C*****************************************************************
+     C*
+     C     CRALPH        CHAIN     CMSUSRTP                           69
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     FMTCLT        BEGSR
+     C*****************************************************************
+     C* FMTCLT - FORMAT CLIENT DATA
+     C*****************************************************************
+     C*
+     C                   MOVE      CMNAME        NAME
+     C                   EXSR      FMTNAM
+DB01 C                   MOVEL     NAME          CLNAME
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C*    ##DBS         IFEQ      '1'
+DB01 C                   MOVEL     CLNAME        IGCP1
+DB01 C                   Z-ADD     038           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         CLNAME
+DB01 C*                  END
+DB01 C*
+DB01 C*** END OF INSERTED SOURCE
+DB01 C                   MOVEL     NAME          CLTNAM
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C*    ##DBS         IFEQ      '1'
+DB01 C                   MOVEL     CLTNAM        IGCP1
+DB01 C                   Z-ADD     045           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         CLTNAM
+DB01 C*                  END
+DB01 C*
+DB01 C*** END OF INSERTED SOURCE
+     C*
+     C     CMNCIN        IFEQ      'C'
+     C                   MOVE      *BLANKS       CLTDOB
+     C                   MOVE      *BLANKS       CLTSEX
+     C                   ELSE
+     C                   CLEAR                   PRMDAT
+     C                   MOVE      CDBM          INMON
+     C                   MOVE      CDBD          INDAY
+     C                   MOVE      CDBY          INYR
+     C                   MOVE      ' '           FMTC01
+     C                   CALL      'DATEFMT'
+     C                   PARM                    PRMDAT
+     C     RTNCD         IFEQ      '00'
+     C                   MOVE      OUTDTE        CLTDOB
+     C                   ENDIF
+     C                   MOVE      CMSXCD        CLTSEX
+     C                   END
+     C                   MOVEL     CMTIDF        CLTTID
+     C                   MOVEL(P)  CLTDTA        DATA
+     C                   MOVE      'C'           POLSRC
+     C                   MOVE      CMCLTN        CLTNUM
+     C*
+     C                   SETOFF                                       60
+     C                   SETON                                        61
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     FMTNAM        BEGSR
+     C*****************************************************************
+     C* FMTNAM - FORMAT CLIENT NAME
+     C*****************************************************************
+     C*
+     C     CMNCIN        IFEQ      'N'
+     C                   MOVE      '3'           NAMFMT
+     C                   CALL      'NAMEFMT'
+     C                   PARM                    NAMPRM
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     CHKREL        BEGSR
+     C*****************************************************************
+     C* CHKREL - CHECK RELATIONSHIP
+     C*****************************************************************
+     C*
+     C                   MOVE      CRALPH        REL               3
+     C*
+     C                   EXSR      ADDREL
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     ADDREL        BEGSR
+     C*****************************************************************
+     C* ADDREL - ADDITIONAL RELATIONSHIP
+     C*****************************************************************
+     C*
+     C                   Z-ADD     1             Y                 1 0
+     C     REL           LOOKUP    RLS(Y)                                 85
+     C     *IN85         IFEQ      *OFF
+     C                   Z-ADD     1             Y
+     C     BLK3          LOOKUP    RLS(Y)                                 85
+     C     Y             IFLE      9
+     C                   MOVE      REL           RLS(Y)
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C                   MOVE      'Y'           RELATD
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     FMTPOL        BEGSR
+     C*****************************************************************
+     C* FMTPOL - FORMAT POLICY
+     C*****************************************************************
+     C*
+     C                   MOVE      *BLANKS       POLDTA
+     C                   MOVEL     CRCO          PCO
+     C                   MOVEL     CRCTL1        POLNUM
+     C*
+     C     KCNTRM        CHAIN     CASCNTRM                           97
+     C     *IN97         IFEQ      *ON
+     C     KPCNTR        CHAIN     NBSPCNTR                           96
+     C                   MOVE      'N'           POLSRC
+     C                   MOVE      'I'           WRKTYP
+     C                   MOVE      'I'           MCCTYP
+     C                   ELSE
+     C                   MOVE      'A'           POLSRC
+     C                   MOVE      MCCTYP        WRKTYP
+     C                   ENDIF
+     C*
+     C                   MOVE      '-'           DASH10
+     C                   MOVE      '-'           DASH11
+     C*
+     C                   CLEAR                   PRMDAT
+     C                   MOVE      WRKMON        INMON
+     C                   MOVE      WRKDAY        INDAY
+     C                   MOVE      WRKYR         INYR
+     C                   MOVE      ' '           FMTC01
+     C                   CALL      'DATEFMT'
+     C                   PARM                    PRMDAT
+     C     RTNCD         IFEQ      '00'
+     C                   MOVE      OUTDTE        EFFDT
+     C                   ENDIF
+     C*
+     C                   CALL      'GETSTS'
+     C                   PARM                    POLSRC
+     C                   PARM                    STAT
+     C                   PARM                    STATUS
+     C*
+     C                   MOVEL     'EFF'         EFFLBL
+     C*
+     C* INSURANCE CONTRACT
+     C     MCCTYP        IFEQ      'I'
+     C*
+     C                   MOVEL     'BASE'        BASLBL
+     C*
+     C     POLSRC        IFEQ      'A'
+     C     KLBENE        CHAIN     CASBENE                            90
+     C     *IN90         IFEQ      *ON
+     C                   MOVE      'NONE  '      BASPLN
+     C                   ELSE
+     C                   MOVE      FPLAN         BASPLN
+     C                   ENDIF
+     C*
+     C                   ELSE
+     C*
+     C     KNABEN        CHAIN     NBSBENE                            90
+     C     *IN90         IFEQ      *ON
+     C                   MOVE      'NONE  '      BASPLN
+     C                   ELSE
+     C                   MOVE      BNPLAN        BASPLN
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ELSE
+     C*
+     C                   MOVE      'TYPE'        BASLBL
+     C                   MOVEL     MCCTYP        BASPLN
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     DSPSFL        BEGSR
+     C*****************************************************************
+     C* DSPSFL - DISPLAY SUBFILE
+     C*****************************************************************
+     C*
+     C     *IN58         IFNE      *ON
+     C*
+     C     HLDREC        IFGT      0
+     C                   Z-ADD     HLDREC        DSPREC
+     C                   Z-ADD     0             HLDREC
+     C                   ELSE
+     C                   Z-ADD     SAVREC        DSPREC
+     C                   ENDIF
+     C*
+     C     DSPREC        IFLT      1
+     C                   Z-ADD     1             DSPREC
+     C                   ENDIF
+     C                   ELSE
+     C                   Z-ADD     DSPREC        SAVREC            4 0
+     C                   ENDIF
+     C*
+     C     RRN           IFEQ      0
+     C                   SETOFF                                       50
+     C                   ELSE
+     C                   SETON                                        50
+     C                   ENDIF
+     C*
+     C                   SETON                                        51
+     C                   WRITE     CMS100F1
+     C                   EXFMT     CMS100C1
+     C*
+     C                   SETOFF                                       20
+     C                   MOVE      *BLANKS       MSG
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     CHKCMP        BEGSR
+     C*****************************************************************
+     C* CHKCMP - CHECK COMPANY AUTHORITY
+     C*****************************************************************
+     C*
+     C* IF THE SELECTION COMPANY IS EQUAL TO BLANKS SHOW ALL COMPANIES
+     C*  TO WHICH THEY HAVE AUTHORITY TO
+     C*
+     C                   SELECT
+     C*
+     C     XIMULT        WHENNE    'Y'
+     C                   MOVE      *ZEROS        RC205
+     C*
+     C     XIMULT        WHENEQ    'Y'
+     C     CO            ANDNE     *BLANKS
+     C     CO            ANDEQ     CRCO
+     C                   MOVE      *ZEROS        RC205
+     C*
+     C     XIMULT        WHENEQ    'Y'
+     C     CO            ANDEQ     *BLANKS
+     C                   MOVE      CRCO          CO205
+     C                   MOVE      'Y'           TST205
+     C                   MOVE      'N'           UPD205
+     C                   CALL      'LSP205'
+     C                   PARM                    LSP205
+     C*
+     C     XIMULT        WHENEQ    'Y'
+     C     CO            ANDNE     *BLANKS
+     C     CO            ANDNE     CRCO
+     C                   MOVE      *HIVAL        RC205
+     C*
+     C                   ENDSL
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     WRTSFL        BEGSR
+     C*****************************************************************
+     C* WRTSFL - WRITE SUBFILE
+     C*****************************************************************
+     C*
+     C                   ADD       1             RRN               5 0
+     C                   WRITE     CMS100S1
+     C                   ADD       1             RECCNT
+     C                   Z-ADD     RRN           SVRRN
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     CLRSFL        BEGSR
+     C*****************************************************************
+     C* CLRSFL - CLEAR SUBFILE
+     C*****************************************************************
+     C*
+     C                   SETOFF                                       5051
+     C                   SETON                                        52
+     C                   WRITE     CMS100C1
+     C                   SETON                                        5051
+     C                   SETOFF                                       52
+     C*
+     C                   Z-ADD     *ZERO         RRN
+     C                   Z-ADD     *ZERO         SVRRN             5 0
+     C                   Z-ADD     *ZERO         DSPREC
+     C                   Z-ADD     *ZERO         HLDREC
+     C                   Z-ADD     *ZERO         SAVREC
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     CHKSEL        BEGSR
+     C*****************************************************************
+     C* CHKSEL - CHECK SELECTION
+     C*****************************************************************
+     C*
+     C                   Z-ADD     0             HLDREC            4 0
+     C*
+     C* CHECK FOR ANY CHANGED SUBFILE RECORD
+     C*
+     C                   READC     CMS100S1                               91
+     C*
+     C     *IN91         DOWEQ     *OFF
+     C*
+     C                   EXSR      TSTSEL
+     C*
+     C     OVRREL        IFEQ      'Y'
+     C     POLSRC        ANDEQ     'C'
+     C                   SETON                                        83
+     C                   ENDIF
+     C*
+     C     POLSRC        IFEQ      'C'
+     C                   SETON                                        61
+     C                   SETOFF                                       60
+     C                   ELSE
+     C                   SETOFF                                       61
+     C                   SETON                                        60
+     C                   END
+     C*
+     C                   Z-ADD     RRN           HLDREC
+     C*
+     C                   UPDATE    CMS100S1
+     C                   SETOFF                                       53
+     C                   SETOFF                                       83
+     C*
+     C                   READC     CMS100S1                               91
+     C*
+     C                   END
+     C*
+     C     CURRCO        IFNE      ORIGCO
+     C                   MOVE      ORIGCO        CO205
+     C                   MOVE      'N'           TST205
+     C                   MOVE      'Y'           UPD205
+     C                   CALL      'LSP205'
+     C                   PARM                    LSP205
+     C                   MOVE      ORIGCO        CURRCO
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     TSTSEL        BEGSR
+     C*****************************************************************
+     C* TSTSEL - TEST SELECTION
+     C*****************************************************************
+     C*
+     C* TEST TO SEE IF CLIENT RECORD REQUESTED OR POLICY
+     C*
+     C* REMOVE LEADING BLANKS
+     C     CLTSEL        IFNE      *BLANKS
+     C     ' '           CHECK     CLTSEL        STR               1 0
+     C                   SUBST(P)  CLTSEL:STR    CLTSEL
+     C                   ENDIF
+     C*
+     C     CLTSEL        IFEQ      '5 '
+     C     *IN81         ANDEQ     *OFF
+     C*
+     C     CLTSEL        OREQ      '2 '
+     C     *IN25         ANDEQ     *ON
+     C*
+     C                   MOVEL     DATA          CLTDTA
+     C                   MOVEL     CLNAME        CLTNAM
+     C                   EXSR      DSPCLT
+     C                   MOVE      *BLANKS       CLTSEL
+     C                   ENDIF
+     C*
+     C     CLTSEL        IFNE      *BLANKS
+     C                   MOVEL     DATA          CLTDTA
+     C                   MOVEL     CLNAME        CLTNAM
+     C                   EXSR      HLDSEL
+     C                   SETON                                        53
+     C                   ENDIF
+     C*
+     C     POLSEL        IFEQ      '5'
+     C     POLSEL        OREQ      '7'
+     C     POLSRC        ANDEQ     'A'
+     C     WRKTYP        ANDEQ     'I'
+     C*
+     C                   MOVEL     DATA          POLDTA
+     C*
+     C* CHECK IF SELECTED RECORD IS IN A DIFFERENT COMAPNY
+     C*
+     C     HCO           IFNE      CURRCO
+     C                   MOVE      HCO           CO205
+     C                   MOVE      'N'           TST205
+     C                   MOVE      'Y'           UPD205
+     C*
+     C                   CALL      'LSP205'
+     C                   PARM                    LSP205
+     C*
+     C                   MOVE      HCO           CURRCO
+     C                   ENDIF
+     C*
+     C* WHAT TYPE OF RELATIONSHIP IS TO BE DISPLAYED
+     C*
+     C                   SELECT
+     C*
+     C     POLSEL        WHENEQ    '5'
+     C     POLSRC        ANDEQ     'N'
+     C                   EXSR      PNDPOL
+     C*
+     C     POLSEL        WHENEQ    '5'
+     C     POLSRC        ANDEQ     'A'
+     C                   EXSR      ACTPOL
+     C*
+     C     POLSEL        WHENEQ    '5'
+     C     POLSRC        ANDEQ     'B'
+     C                   EXSR      BANK
+     C*
+     C     POLSEL        WHENEQ    '5'
+     C     POLSRC        ANDEQ     'G'
+     C                   EXSR      GROUP
+     C*
+     C     POLSEL        WHENEQ    '5'
+     C     CRALPH        ANDEQ     'AGT'
+     C                   EXSR      AGENT
+     C*
+     C     POLSEL        WHENEQ    '5'
+     C     CRALPH        ANDEQ     'CLM'
+     C                   EXSR      CLAIM
+     C*
+     C     POLSEL        WHENEQ    '5'
+     C     POLSRC        ANDEQ     'D'
+     C                   EXSR      ACTCTL
+     C*
+     C     POLSEL        WHENEQ    '7'
+     C     POLSRC        ANDEQ     'A'
+     C                   EXSR      INFPOL
+     C*
+     C                   ENDSL
+     C*
+     C                   MOVE      *BLANKS       POLSEL
+     C*
+     C                   ELSE
+     C*
+     C     POLSEL        IFNE      *BLANKS
+     C                   SETON                                        20
+     C                   SETON                                        53
+     C*
+     C     POLSEL        IFEQ      '5'
+     C     POLSEL        OREQ      '7'
+     C*
+     C     POLSRC        IFEQ      'A'
+     C     WRKTYP        ANDNE     'I'
+     C                   MOVE      'E006061'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   ELSE
+     C                   MOVE      'E006059'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   ENDIF
+     C*
+     C                   ELSE
+     C                   MOVE      'E006048'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   Z-ADD     RRN           DSPREC
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     MOROPT        BEGSR
+     C*****************************************************************
+     C* MOROPT - DISPLAY MORE OPTIONS ON OPTION LINE
+     C*****************************************************************
+     C*
+     C* IF NO MORE OPTIONS START AT BEGINNING
+     C     BEGIN         IFEQ      'Y'
+     C                   Z-ADD     1             SPOS
+     C                   MOVE      'N'           BEGIN
+     C                   ENDIF
+     C*
+     C     SPOS          ADD       42            NPOS              3 0
+     C*
+     C     1             DO        42            N                 3 0
+     C     EPOS(N)       IFGT      NPOS
+     C     EPOS(N)       OREQ      *ZEROS
+     C     N             IFGT      1
+     C                   SUB       1             N
+     C                   ENDIF
+     C                   LEAVE
+     C                   ENDIF
+     C                   ENDDO
+     C*
+     C* SUBSTRING NEXT LINE OF OPTIONS
+     C     EPOS(N)       SUB       SPOS          LEN               3 0
+     C     LEN           IFLT      1
+     C                   Z-ADD     1             LEN
+     C                   ELSE
+     C                   ADD       1             LEN
+     C                   ENDIF
+     C     LEN           SUBST(P)  USRO:SPOS     USROPT
+     C*
+     C* SAVE STARTING POSITIONS FOR NEXT TIME THRU
+     C     1             ADD       EPOS(N)       SPOS              3 0
+     C*
+     C* IS THERE MORE OPTIONS, IF SO ADD THE "..." TO THE END.
+     C                   ADD       1             N
+     C                   MOVE      'Y'           BEGIN             1
+     C     EPOS(N)       IFNE      *ZEROS
+     C                   CAT       '...':1       USROPT
+     C                   MOVE      'N'           BEGIN             1
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     DSPCLT        BEGSR
+     C*****************************************************************
+     C* DSPCLT - DISPLAY CLIENT
+     C*****************************************************************
+     C*
+     C* DISPLAY THE CLIENT MASTER FOR SELECTED CLIENT
+     C*
+     C                   CLEAR                   PRM000
+     C                   MOVE      'Y'           UND000
+     C                   MOVE      ZUNDR         UND000
+     C                   MOVE      ZENTTY        ENT000
+     C                   MOVE      CLTNUM        CLT000
+     C                   MOVEL(P)  'CMS100'      CBY000
+     C     ZCALBY        IFEQ      'MENU'
+     C                   MOVEL(P)  'MENU'        CBY000
+     C                   ENDIF
+     C*
+     C     CLTSEL        IFEQ      '5  '
+     C*
+     C                   CALL      'CMS005'
+     C                   PARM                    PRM000
+     C*
+     C                   ELSE
+     C*
+     C                   CALL      'CMS000'
+     C                   PARM                    PRM000
+     C                   PARM                    ZREL
+     C                   PARM                    ZCLT
+     C*
+     C     CLT000        CHAIN(N)  CMSCLNTM                           98
+     C     *IN98         IFEQ      *OFF
+     C                   Z-ADD     CMDOBM        CMSDBM
+     C                   Z-ADD     CMDOBD        CMSDBD
+     C                   Z-ADD     CMDOBY        CMSDBY
+     C                   Z-ADD     CMDOBM        CDBM
+     C                   Z-ADD     CMDOBD        CDBD
+     C                   Z-ADD     CMDOBY        CDBY
+     C                   EXSR      FMTCLT
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     ACTPOL        BEGSR
+     C*****************************************************************
+     C* ACTPOL - DISPLAY THE POLICY SELECTED FROM THE ACTIVE MASTER
+     C*****************************************************************
+     C*
+     C                   CALL      'POS200'
+     C                   PARM                    POLNUM
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     PNDPOL        BEGSR
+     C*****************************************************************
+     C* PNDPOL - DISPLAY THE POLICY(S) SELECTED FOR THE CLIENT
+     C*****************************************************************
+     C*
+     C                   MOVEL     POLNUM        POL810
+     C                   MOVE      'INQUIRY'     MOD810
+     C*
+     C                   CALL      'NBS810'
+     C                   PARM                    PRM810
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     BANK          BEGSR
+     C*****************************************************************
+     C* BANK - DISPLAY THE POLICY SELECTED FROM THE BANK MASTER
+     C*****************************************************************
+     C*
+     C                   MOVE      HBANK         BNK810
+     C                   MOVE      HBRCH         BRC810
+     C                   MOVE      '1'           INQ810
+     C*
+     C                   CALL      'APP810'
+     C                   PARM                    BNKPRM
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     GROUP         BEGSR
+     C*****************************************************************
+     C* GROUP - DISPLAY THE POLICY SELECTED FROM THE GROUP MASTER
+     C*****************************************************************
+     C*
+     C                   MOVE      CLTNUM        GRPGNO
+     C                   MOVE      'INQUIRY'     GRPMOD
+     C*
+     C                   CALL      'BLC800'
+     C                   PARM                    GRPPRM
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     AGENT         BEGSR
+     C*****************************************************************
+     C* AGENT - DISPLAY THE POLICY SELECTED FROM THE AGENT MASTER
+     C*****************************************************************
+     C*
+DB01 C                   MOVEL     CLTNUM        AGT500
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C*    ##DBS         IFEQ      '1'
+DB01 C                   MOVEL     AGT500        IGCP1
+DB01 C                   Z-ADD     009           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         AGT500
+DB01 C*                  END
+DB01 C*
+DB01 C*** END OF INSERTED SOURCE
+     C                   MOVEL     'INQUIRY'     MOD500
+     C*
+     C                   CALL      'COM500'
+     C                   PARM                    PRM500
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     CLAIM         BEGSR
+     C*****************************************************************
+     C* CLAIM - DISPLAY THE CLAIM SELECTED
+     C*****************************************************************
+     C*
+     C     *DTAARA       DEFINE                  PGMACT           10
+     C                   IN        PGMACT
+     C*
+     C     PGMACT        IFNE      'CLM100'
+     C                   CLEAR                   CLM100
+     C                   MOVE      C1CLMT        CLT100
+     C                   MOVEL     CLTNUM        CNB100
+     C                   MOVEL     'INQ100 '     MOD100
+     C                   CALL      'CLM100'
+     C                   PARM                    CLM100
+     C                   ELSE
+     C     PGMACT        IFNE      'CLM110'
+     C                   CLEAR                   PRM110
+     C                   MOVE      C1CLMT        CLT110
+     C                   MOVE      C1CNBR        CNB110
+     C                   MOVEL     'INQ100 '     MOD110
+     C                   CALL      'CLM110'
+     C                   PARM                    PRM110
+     C                   ELSE
+     C                   MOVE      'E006068'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   ENDIF
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     ACTCTL        BEGSR
+     C*****************************************************************
+     C* ACTCTL - DISPLAY THE POLICY SELECTED FROM THE ACCT CONTROL MSTR
+     C*****************************************************************
+     C*
+     C                   MOVE      CLTNUM        ACCACN
+     C                   MOVE      'INQUIRY'     ACCMOD
+     C*
+     C                   CALL      'APP800'
+     C                   PARM                    ACCPRM
+     C*
+     C                   ENDSR
+     C/EJECT
+     C*****************************************************************
+     C* INFPOL - DO QUICK INQUIRY ON INFORCE POLICY ONLY
+     C*****************************************************************
+     C     INFPOL        BEGSR
+     C*
+     C                   CALL      'INQ200'
+     C                   PARM                    POLNUM
+     C*
+     C                   ENDSR
+      /EJECT
+     C     HLDSEL        BEGSR
+     C*****************************************************************
+     C* HLDSEL - TEST SELECTION AS VALID AND HOLD FOR UPDATE
+     C*****************************************************************
+     C*
+     C                   SELECT
+     C     ZENTTY        WHENEQ    '1'
+     C     ZENTTY        OREQ      '2'
+     C     ZENTTY        OREQ      '3'
+     C     ZENTTY        OREQ      '4'
+     C     ZENTTY        OREQ      '5'
+     C     ZENTTY        OREQ      '6'
+     C     ZENTTY        OREQ      '7'
+     C     ZENTTY        OREQ      '8'
+     C     ZENTTY        OREQ      '*'
+     C     ZENTTY        OREQ      'A'
+     C     ZSELCD        OREQ      '9'
+     C*
+     C                   MOVE      CLTSEL        WRKSEL
+     C                   Z-ADD     1             I                 3 0
+     C     CLTSEL        LOOKUP    VSEL(I)                                21
+     C     *IN21         IFEQ      *OFF
+     C*
+     C                   Z-ADD     1             I
+     C     CLTSEL        LOOKUP    VALT(I)                                21
+     C     *IN21         IFEQ      *OFF
+     C                   SETON                                        20
+     C                   MOVE      'E006048'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   ELSE
+     C                   MOVE      VSEL(I)       WRKSEL
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C     ZSELCD        WHENEQ    'D'
+     C                   EXSR      DLTCLT
+     C*
+     C     ZSELCD        WHENEQ    *BLANK
+     C     CLTSEL        ANDNE     *BLANKS
+     C                   SETON                                        20
+     C                   MOVE      'E006048'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C*
+     C     ZSELCD        WHENEQ    *ZERO
+     C     CLTSEL        ANDNE     *BLANKS
+     C                   SETON                                        20
+     C                   MOVE      'E006048'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C*
+     C     ZENTTY        WHENEQ    'B'
+     C     CLTSEL        ANDNE     'RPT'
+     C                   SETON                                        20
+     C                   MOVE      'E006048'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C*
+     C                   ENDSL
+     C*
+     C                   EXSR      EDTREL
+     C*
+     C* ADD SELECTION TO TABLE OR REPLACE ANY RE-SELECTIONS
+     C     MSG           IFEQ      *BLANKS
+     C     ZSELCD        ANDNE     'D'
+     C*
+     C                   MOVE      'N'           DONE              1
+     C     ZSELCD        IFEQ      '9'
+     C                   MOVE      'N'           CPUBEN
+     C                   MOVE      'N'           CPUASN
+     C                   ELSE
+     C                   MOVEL     VTP(I)        USRTP
+     C                   ENDIF
+     C*
+     C     1             DO        10            X
+     C*
+     C     DONE          IFEQ      'N'
+     C     ZREL(X)       ANDEQ     *BLANKS
+     C     DONE          OREQ      'N'
+     C     ZREL(X)       ANDEQ     VSEL(I)
+     C     CPUASN        ANDEQ     'N'
+     C     CPUBEN        ANDEQ     'N'
+     C                   MOVE      VSEL(I)       ZREL(X)
+     C                   MOVE      CLTNUM        ZCLT(X)
+     C                   MOVEL     CLTNAM        ZNAM(X)
+     C                   MOVE      'Y'           DONE
+     C                   MOVE      'Y'           CONFRM
+     C*
+     C                   ELSE
+     C*
+     C     DONE          IFEQ      'Y'
+     C     ZREL(X)       ANDEQ     CLTSEL
+     C     CPUASN        ANDEQ     'N'
+     C     CPUBEN        ANDEQ     'N'
+     C                   MOVE      *BLANKS       ZREL(X)
+     C                   MOVE      *BLANKS       ZCLT(X)
+     C                   MOVE      *BLANKS       ZNAM(X)
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDDO
+     C*
+     C* TOTAL SELECTIONS MUST NOT EXCEED TEN
+     C     DONE          IFEQ      'N'
+     C                   SETON                                        20
+     C                   MOVE      'E006062'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   ENDIF
+     C*
+     C                   MOVE      *BLANKS       CLTSEL
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     EDTREL        BEGSR
+     C*****************************************************************
+     C* EDTREL - EDIT RELATIONS AND WHAT MUST BE ENTERED
+     C*****************************************************************
+     C*
+     C* GET CLIENT ADDRESS
+     C                   CLEAR                   PRM205
+     C                   MOVE      CLTNUM        CT1205
+     C                   MOVE      '2'           AFM205
+     C                   EXSR      CMS205
+     C*
+     C* VERIFY NO DATE OF DEATH EXISTS ON CLIENT RECORD
+     C     CMDODY        IFNE      *ZEROS
+     C     CMDODM        ORNE      *ZEROS
+     C     CMDODD        ORNE      *ZEROS
+     C                   SETON                                        20
+     C                   MOVE      'E050382'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   ENDIF
+     C*
+     C* MUST HAVE ADDRESS FOR THESE RELATIONSHIPS
+     C     WRKSEL        IFEQ      'OW1'
+     C     WRKSEL        OREQ      'OW2'
+     C     WRKSEL        OREQ      'PAY'
+     C     WRKSEL        OREQ      'GRP'
+     C*
+     C     RTN205        IFEQ      '36'
+     C                   SETON                                        20
+     C                   MOVE      'E006064'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVE      CTLMSG        MSG
+     C                   MOVEL     CLTSEL        MSG
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C*  VERIFY SEX CODE AND BIRTH DATE ARE PRESENT
+     C     WRKSEL        IFEQ      'INS'
+     C     WRKSEL        OREQ      'JNT'
+     C*
+     C     CMSXCD        IFEQ      ' '
+     C                   SETON                                        20
+     C                   MOVE      'E006065'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVE      CTLMSG        MSG
+     C                   MOVEL     CLTSEL        MSG
+     C                   ENDIF
+     C*
+     C     CMDOBY        IFEQ      *ZEROS
+     C     CMDOBM        OREQ      *ZEROS
+     C     CMDOBD        OREQ      *ZEROS
+     C                   SETON                                        20
+     C                   MOVE      'E006066'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVE      CTLMSG        MSG
+     C                   MOVEL     CLTSEL        MSG
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C*  VERIFY TAX I.D. USAGE IS PRESENT
+     C     WRKSEL        IFEQ      'OW1'
+     C     CMTIDU        ANDEQ     0
+     C                   SETON                                        20
+     C                   MOVE      'E006067'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVE      CTLMSG        MSG
+     C                   MOVEL     CLTSEL        MSG
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     INITRL        BEGSR
+     C*****************************************************************
+     C* INITRL - INITIALIZE ANY BLANKED OUT SELECTED RELATIONS
+     C*****************************************************************
+     C*
+     C                   MOVE      *BLANKS       MSG
+     C*
+     C     ZSELCD        IFNE      *BLANK
+     C     OVRREL        ANDEQ     'N'
+     C*
+     C     LLIMIT        IFNE      XLASTL
+     C     FLIMIT        ORNE      XFRSTL
+     C     *LOCK         IN        ALSDTA
+     C                   Z-ADD     LLIMIT        XLASTL
+     C                   Z-ADD     FLIMIT        XFRSTL
+     C                   OUT       ALSDTA
+     C                   ENDIF
+     C*
+     C* CHANGE THE DATA AREA FIELDS TO SELECT ALL CLIENTS SINCE ACCESS
+     C* ROUTINE CMS994 USES THE ALSDTA AS A PARM FOR SELECTION. THIS
+     C* IS PLACED HERE TO NOT UPDATE THE QTEMP DATA AREA! DRH.
+     C                   MOVE      'X'           XPOLRL
+     C                   MOVE      'X'           XBNKRL
+     C                   MOVE      'X'           XGRPRL
+     C                   MOVE      'X'           XACTRL
+     C                   MOVE      'X'           XAGTRL
+     C                   MOVE      'X'           XOTHRL
+     C                   MOVE      'X'           XINFCE
+     C                   MOVE      'X'           XPENDN
+     C                   MOVE      'X'           XTERM
+     C                   MOVE      *BLANKS       XCO
+     C*
+     C                   ELSE
+     C*
+     C     LLIMIT        IFNE      XLASTL
+     C     FLIMIT        ORNE      XFRSTL
+     C     POLREL        ORNE      XPOLRL
+     C     BNKREL        ORNE      XBNKRL
+     C     GRPREL        ORNE      XGRPRL
+     C     ACTREL        ORNE      XACTRL
+     C     AGTREL        ORNE      XAGTRL
+     C     OTHREL        ORNE      XOTHRL
+     C     INFCE         ORNE      XINFCE
+     C     PENDN         ORNE      XPENDN
+     C     TERM          ORNE      XTERM
+     C     CO            ORNE      XCO
+     C*
+     C     *LOCK         IN        ALSDTA
+     C                   Z-ADD     LLIMIT        XLASTL
+     C                   Z-ADD     FLIMIT        XFRSTL
+     C                   MOVE      POLREL        XPOLRL
+     C                   MOVE      BNKREL        XBNKRL
+     C                   MOVE      GRPREL        XGRPRL
+     C                   MOVE      ACTREL        XACTRL
+     C                   MOVE      AGTREL        XAGTRL
+     C                   MOVE      OTHREL        XOTHRL
+     C                   MOVE      INFCE         XINFCE
+     C                   MOVE      PENDN         XPENDN
+     C                   MOVE      TERM          XTERM
+     C                   MOVE      CO            XCO
+     C                   OUT       ALSDTA
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     LSTCMP        BEGSR
+     C*****************************************************************
+     C* LSTCMP - LIST COMPANIES
+     C*****************************************************************
+     C*
+     C* VALIDATE LIST COMMAND KEY
+     C*                    Z-ADD*ZERO     ROW     30
+     C*                    Z-ADD*ZERO     COL     30
+     C*
+     C*          ROWCOL    DIV  256       ROW
+     C*                    MVR            COL
+     C*          ROW       IFNE 12
+     C*          ROW       OREQ 12
+     C*          COL       ANDLT51
+     C*          ROW       OREQ 12
+     C*          COL       ANDGT54
+     C*                    MOVE 'Y'       ERRORS
+     C*                    MOVE 'E006060' MSGID             LOAD ERR MSG
+     C*                    EXSR $XMSG                       SND/REC MSG
+     C*                    MOVELCTLMSG    MSG               LOAD ERR MSG
+     C*                    SETOF                     KD
+     C*                    GOTO ENDCMP
+     C*                    ENDIF
+     C*
+     C                   MOVE      'N'           CSUDFT
+     C                   MOVE      'Y'           CSTSEC
+     C                   CALL      'LSP204'
+     C                   PARM                    PRM204
+     C*
+     C     CSCO          IFNE      *BLANKS
+     C                   MOVE      CSCO          CO
+     C                   ENDIF
+     C*
+     C                   SETOFF                                       KD
+     C*
+     C     ENDCMP        ENDSR
+     C/EJECT
+     C     ADDCLT        BEGSR
+     C*****************************************************************
+     C* ADDCLT - ADD A NEW CLIENT MASTER
+     C*****************************************************************
+     C*
+     C                   CLEAR                   PRM000
+     C                   SELECT
+     C     ZENTTY        WHENEQ    '2'
+     C                   MOVE      'INS'         REL000
+     C     ZENTTY        WHENEQ    '3'
+     C                   MOVE      'GRP'         REL000
+     C     ZENTTY        WHENEQ    '4'
+     C                   MOVE      'BNK'         REL000
+     C     ZENTTY        WHENEQ    '5'
+     C                   MOVE      'AH1'         REL000
+     C     ZENTTY        WHENEQ    '6'
+     C                   MOVE      'AGT'         REL000
+     C     ZENTTY        WHENEQ    '7'
+     C     ZENTTY        OREQ      '8'
+     C                   MOVE      'OTH'         REL000
+     C* ALN-Automatic Loan
+     C     ZENTTY        WHENEQ    'A'
+     C                   MOVE      'ALN'         REL000
+     C                   ENDSL
+     C                   MOVE      ZENTTY        ENT000
+     C                   MOVE      ZUNDR         UND000
+     C                   MOVEL(P)  'CMS100'      CBY000
+     C     ZCALBY        IFEQ      'MENU'
+     C                   MOVEL(P)  'MENU'        CBY000
+     C                   ENDIF
+     C*
+bg02 c                   If        %Parms = 4
+bg02 C                   CALL      'CMS000'
+bg02 C                   parm                    PRM000
+bg02 C                   parm                    ZREL
+bg02 C                   parm                    ZCLT
+bg02 c                   parm                    CLTMSTRPARM
+bg02
+bg02 c                   else
+bg02
+     C                   CALL      'CMS000'
+     C                   PARM                    PRM000
+     C                   PARM                    ZREL
+     C                   PARM                    ZCLT
+bg02 c                   endIf
+     C*
+     C     ZRELA         IFNE      *BLANKS
+     C                   MOVE      'Y'           CONFRM
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     GETRC         BEGSR
+     C*****************************************************************
+     C* GETRC - GET RETURN CODE
+     C*****************************************************************
+     C*
+     C                   MOVE      *BLANKS       MSG
+     C                   MOVEL     RC            MSGCD
+     C     'Z'           CAT(P)    RC:0          MSGCD             7
+     C     MSGCD         CAT       '0000':0      MSGCD
+     C                   CALL      'LSPMSGID'
+     C                   PARM                    MSGCD
+     C                   PARM                    MSGRTN           77
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     DLTCLT        BEGSR
+     C*****************************************************************
+     C* DLTCLT - DELETE CLIENT RECORD
+     C*****************************************************************
+     C*
+     C     CLTSEL        IFNE      '4'
+     C                   SETON                                        20
+     C                   MOVE      'E006048'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   ENDIF
+     C*
+     C     MSG           IFEQ      *BLANKS
+     C*
+     C* CHECK TO SEE IF THE RELATIONSHIP FILE HAS BEEN OPENED.
+     C     OPNREL        IFEQ      NO
+     C                   MOVE      YES           OPNREL
+     C                   OPEN      LFCMSREL
+     C                   ENDIF
+     C*
+     C* NO RELATIONSHIPS WERE FOUND
+     C     CLTNUM        CHAIN     LFCMSREL                           98
+     C     *IN98         IFEQ      *ON
+     C*
+     C* CHECK TO SEE IF THE CLIENT MASTER FILE HAS BEEN OPENED.
+     C     OPNCLT        IFEQ      NO
+     C                   MOVE      YES           OPNCLT
+     C                   OPEN      CMSCLNAD
+     C                   ENDIF
+     C*
+     C* WINDOW TO CONFIRM DELETE
+     C                   EXFMT     CMS100W3
+     C*
+     C     FNCKEY        IFEQ      ENTER
+     C*
+     C     CLTNUM        CHAIN     CMSCLNTM                           98
+     C     CLTNUM        DELETE    RCLNTM                             98
+     C*
+     C* DELETE DYNAMIC USER FIELDS
+     C                   CLEAR                   DYF360
+     C                   EVAL      SRC360 = 'CMSCLNTM'
+     C                   MOVEL     CLTNUM        KY1360
+     C                   CALL      'DYF360'
+     C                   PARM                    DYF360
+     C*
+     C     *IN98         IFEQ      *OFF
+     C     CLTNUM        CHAIN     CMSCLNAD                           98
+     C     *IN98         DOWEQ     *OFF
+     C                   DELETE    CMSCLNAD
+     C*
+     C* DELETE DYNAMIC USER FIELDS
+     C                   CLEAR                   DYF360
+     C                   EVAL      SRC360 = 'CMSCLNAD'
+     C                   MOVEL     CLTNUM        KY1360
+     C                   MOVEL     CYASEQ        KY2360
+     C                   MOVEL     CYFRMM        KY3360
+     C                   MOVEL     CYFRMD        KY4360
+     C                   CALL      'DYF360'
+     C                   PARM                    DYF360
+     C*
+     C     CLTNUM        READE     CMSCLNAD                               98
+     C                   ENDDO
+     C                   ENDIF
+     C
+     C                   COMMIT
+     C*END DELETES
+     C                   MOVE      *OFF          FNCKEY
+     C*
+     C                   MOVEL(P)  DLTIND        DATA
+     C*
+     C                   ELSE
+     C                   MOVE      *OFF          *INKL
+     C*
+     C                   ENDIF
+     C*
+     C                   MOVE      *BLANKS       CLTSEL
+     C*
+     C                   ELSE
+     C                   SETON                                        20
+     C                   MOVE      'E006063'     MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        MSG
+     C                   ENDIF
+     C*
+     C                   ENDIF
+     C*
+     C                   ENDSR
+     C/EJECT
+     C     INIT          BEGSR
+     C*****************************************************************
+     C* INIT - INITIALIZE
+     C*****************************************************************
+     C*
+     C     *DTAARA       DEFINE                  ALSDTA
+     C     *DTAARA       DEFINE                  LSPCO
+     C     *DTAARA       DEFINE                  PRCDTA
+     C                   IN        *DTAARA
+      *
+      *   INITIALIZE CONSTANTS FROM DS
+      *
+     C                   MOVE      *BLANK        CBR               7
+     C                   MOVE      *BLANK        CACCT             5
+     C                   MOVE      *BLANK        CBANK             7
+     C                   MOVE      *BLANK        CBILL            10
+     C                   MOVE      *BLANK        CMODE             5
+     C                   MOVE      *BLANK        CGPC             15
+     C                   MOVE      *BLANK        CCLM             11
+     C                   MOVE      *BLANK        CSTS              7
+     C                   MOVE      *BLANK        CHIRE            16
+     C                   MOVE      *BLANK        CTERM            17
+     C                   MOVE      *BLANK        CDLT              8
+     C                   MOVE      *BLANK        COTH              5
+     C                   Z-ADD     1             I                 3 0
+     C*
+     C     1             DO        12            C                 3 0
+     C                   MOVEL     ID(C)         MSGID
+     C                   EXSR      $XMSG
+     C                   MOVEL     CTLMSG        FLD(C)
+     C                   ENDDO
+      *
+     C                   MOVEL     FLD(6)        CBILL
+     C                   MOVEL     FLD(5)        CMODE
+     C                   MOVEL     FLD(1)        CBR
+     C                   MOVEL     FLD(2)        CACCT
+     C                   MOVEL     FLD(3)        CBANK
+     C                   MOVEL     FLD(1)        CBR
+     C                   MOVEL     FLD(7)        CCLM
+     C                   MOVEL     FLD(8)        CSTS
+     C                   MOVEL     FLD(9)        CHIRE
+     C                   MOVEL     FLD(10)       CTERM
+     C                   MOVEL     FLD(11)       CDLT
+      *
+     C                   MOVE      CBILL         GM3
+     C                   MOVE      CMODE         GM2
+     C                   MOVE      CBR           RT2
+     C                   MOVE      CACCT         AC1
+     C                   MOVE      CBANK         AC2
+     C                   MOVE      CBR           AC4
+     C                   MOVE      CCLM          CLM1
+     C                   MOVE      CSTS          CLM2
+     C                   MOVE      CHIRE         MM1
+     C                   MOVE      CTERM         MM2
+     C*
+     C                   CALL      'GETID'
+     C                   PARM                    @USER            10
+     C*
+     C                   MOVE      *ZEROS        RC205
+     C*
+     C                   MOVE      *BLANKS       BLK3              3
+     C*
+     C     *LIKE         DEFINE    CLTSEL        WRKSEL
+     C     *LIKE         DEFINE    BCRTGN        BNKRTG
+     C     *LIKE         DEFINE    CRCO          ORIGCO
+     C     *LIKE         DEFINE    CRCO          CURRCO
+     C     *LIKE         DEFINE    CRCO          BLKCO
+     C     *LIKE         DEFINE    CRCTL1        PRVPOL
+     C     *LIKE         DEFINE    MAGTNO        AGTNO
+     C     *LIKE         DEFINE    RRN           RRN1
+     C     *LIKE         DEFINE    RRN           RRN2
+     C     *LIKE         DEFINE    RRN           HIRRN2
+     C     *LIKE         DEFINE    CMCO          TSTCO
+     C     *LIKE         DEFINE    MCCTYP        CNTTYP
+     C                   MOVE      'I'           CNTTYP
+     C                   Z-ADD     *ZERO         RRN2
+     C                   Z-ADD     *ZERO         HIRRN2
+     C                   Z-ADD     *ZERO         DSOCUR            5 0
+     C                   Z-ADD     *ZERO         SVOCUR            5 0
+     C                   Z-ADD     *ZERO         TBLNO             5 0
+     C                   MOVE      NO            OPTERR            1
+     C*
+     C                   MOVE      CMCO          ORIGCO
+     C                   MOVE      CMCO          CURRCO
+     C                   MOVE      *BLANKS       SELFDB
+     C                   MOVE      *BLANKS       SELTDB
+     C*
+     C* ALLOW F6=ADD
+     C     ZMODE         IFNE      'INQUIRY'
+     C                   SETON                                        03
+     C                   ENDIF
+     C*
+     C* ALLOW OPTION 4=DELETE
+     C     ZSELCD        IFEQ      'D'
+     C                   SETON                                        82
+     C                   ENDIF
+     C*
+     C* ALLOW OPTION 2=CHANGE AND SHOW OPTION LINE
+     C     ZMODE         IFEQ      'UPDATE'
+     C     ZMODE         OREQ      'ADD   '
+     C     ZMODE         OREQ      *BLANKS
+     C     ZCALBY        ANDEQ     'NBS110'
+     C     ZMODE         OREQ      *BLANKS
+     C     ZCALBY        ANDEQ     'NBS120'
+     C     ZMODE         OREQ      *BLANKS
+     C     ZCALBY        ANDEQ     'NBS130'
+     C                   SETON                                        0625
+     C                   ENDIF
+     C*
+     C* SHOW OPTION LINE DO NOT ALLOW CHANGE
+     C     ZMODE         IFEQ      'CMS510'
+     C                   SETON                                          06
+     C                   ENDIF
+     C*
+     C                   SETOFF                                       81
+     C                   MOVE      NO            OPNREL            1
+     C                   MOVE      NO            OPNCLT            1
+     C                   MOVE      NO            CONFRM            1
+     C                   SETOFF                                       80
+     C     ZSELCD        IFNE      *BLANKS
+     C     ZSELCD        ANDNE     '0'
+     C     ZSELCD        ANDNE     '9'
+     C     ZSELCD        ANDNE     'D'
+     C*
+     C                   SETON                                        80
+     C*
+     C*  LOAD VALID OPTIONS
+     C                   Z-ADD     *ZEROS        X
+     C                   READ      CMSUSRTP                               99
+     C     *IN99         DOWEQ     *OFF
+     C*
+     C     ZENTTY        IFEQ      CPRETY
+     C     CPCREQ        ANDEQ     'Y'
+     C     ZENTTY        OREQ      '*'
+     C     CPRETY        ANDEQ     '1'
+     C     CPCREQ        ANDEQ     'Y'
+     C     ZENTTY        OREQ      '*'
+     C     CPRETY        ANDEQ     '2'
+     C     CPCREQ        ANDEQ     'Y'
+     C                   ADD       1             X
+     C                   MOVE      CPRTYP        VSEL(X)
+     C     CPASEL        IFEQ      *BLANKS
+     C                   MOVE      CPRTYP        VALT(X)
+     C                   ELSE
+     C                   MOVE      CPASEL        VALT(X)
+     C                   ENDIF
+     C                   MOVE      CPRLTX        VDSC(X)
+     C                   MOVEL     USRTP         VTP(X)
+     C                   ENDIF
+     C*
+     C                   READ      CMSUSRTP                               99
+     C                   ENDDO
+     C*
+     C*  BUILD OPTION SELECTION LINE
+     C                   MOVE      *BLANKS       USRO
+     C     1             DO        X             E                 3 0
+     C*
+     C     USRO          CAT       VALT(E):2     USRO
+     C     USRO          CAT       '=':0         USRO
+     C     USRO          CAT       VDSC(E):0     USRO
+     C*
+     C*  SAVE THE ENDING POSITION OF EACH OPTIONS
+     C     ' '           CHECKR    USRO          X1                3 0
+     C                   Z-ADD     X1            EPOS(E)
+     C*
+     C                   ENDDO
+     C                   Z-ADD     1             SPOS
+     C                   EXSR      MOROPT
+     C*
+     C                   ENDIF
+     C*
+     C* DISALLOW COMMAND KEY F18, IF CALL FROM CMS510 OR FROM CMS050
+     C                   SETON                                        18
+     C                   SELECT
+     C     ZSELCD        WHENEQ    '9'
+     C                   SETOFF                                       18
+     C     ZMODE         WHENEQ    'CMS510'
+     C                   SETOFF                                       18
+     C                   MOVEL(P)  'ADD'         ZMODE
+     C     ZCALBY        WHENEQ    'CLM100'
+     C                   SETOFF                                       18
+     C                   ENDSL
+     C*
+     C* CLIENT MERGE
+     C     ZSELCD        IFEQ      '9'
+     C                   SETON                                        8006
+      *
+     C                   MOVEL     VODS(1)       MSGID
+     C                   EXSR      $XMSG
+DB01 C                   MOVEL(P)  CTLMSG        USROPT
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C*    ##DBS         IFEQ      '1'
+DB01 C                   MOVEL     USROPT        IGCP1
+DB01 C                   Z-ADD     047           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         USROPT
+DB01 C*                  END
+     C*
+     C                   MOVEL     VODS(2)       MSGID
+     C                   EXSR      $XMSG
+DB01 C                   MOVEL(P)  CTLMSG        USROP2
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C                   MOVEL     USROP2        IGCP1
+DB01 C                   Z-ADD     047           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         USROP2
+DB01 C*
+DB01 C*** END OF INSERTED SOURCE
+      *
+     C                   MOVE      'T  '         VSEL(1)
+     C                   MOVE      'S1 '         VSEL(2)
+     C                   MOVE      'S2 '         VSEL(3)
+     C                   MOVE      'S3 '         VSEL(4)
+     C                   MOVE      'S4 '         VSEL(5)
+     C                   MOVE      'S5 '         VSEL(6)
+     C                   MOVE      'S6 '         VSEL(7)
+     C                   MOVE      'S7 '         VSEL(8)
+     C                   MOVE      'S8 '         VSEL(9)
+     C                   Z-ADD     10            I
+     C                   MOVE      'S9 '         VSEL(I)
+     C                   ENDIF
+     C*
+     C* DISALLOW F23 IF USER OPTIONS FIT ON ONE LINE, CLIENT MERGE, OR
+     C*   CLIENT DELETE
+     C     BEGIN         IFEQ      'Y'
+     C     ZSELCD        OREQ      'D'
+     C     ZSELCD        OREQ      '9'
+     C     ZSELCD        OREQ      '0'
+     C     ZSELCD        OREQ      ' '
+     C                   SETON                                        24
+     C                   ENDIF
+     C*
+     C                   MOVE      *BLANKS       MSGRTN           77
+     C                   MOVE      'LSP0011'     MSGCD             7
+     C                   CALL      'LSPMSGID'
+     C                   PARM                    MSGCD
+     C                   PARM                    MSGRTN
+     C                   MOVE      MSGRTN        MSGWRK
+     C*
+     C                   MOVEL     'CRTDUPDT'    PGMNAM           10
+     C                   MOVE      'AA'          PGMNAM
+     C                   CALL      PGMNAM
+     C                   PARM      'ALSDTA'      FRMNAM           10
+     C                   PARM      'ALSDTA'      TONAM            10
+     C*
+     C* UPDATE ALSDTA IN QTEMP IF THIS IS FIRST TIME THROUGH
+     C     *LOCK         IN        ALSDTA
+     C                   MOVE      ALSFIL        TSTCO
+     C     TSTCO         IFNE      CMCO
+     C                   MOVEL     CMCO          CO200
+     C                   MOVEL     'ALSDTA'      DTA200
+     C                   MOVE      'R'           ACT200
+     C                   MOVE      'N'           LCK200
+     C*
+     C                   CALL      'LSP200'
+     C                   PARM                    PRM200
+     C                   PARM                    DTAARA
+     C*
+     C                   MOVEL     AREA1         ALSDTA
+     C                   MOVE      CMCO          TSTCO
+     C                   MOVE      TSTCO         ALSFIL
+     C                   ENDIF
+     C                   OUT       ALSDTA
+     C*
+     C                   Z-ADD     XLASTL        LLIMIT
+     C                   Z-ADD     XFRSTL        FLIMIT
+     C*
+     C* OVERRIDE RELATIONSHIP SELECTIONS
+     C                   MOVE      'N'           OVRREL            1
+     C     ZSELCD        IFEQ      '7'
+     C                   MOVE      'Y'           OVRREL
+     C                   ENDIF
+     C*
+     C                   SELECT
+     C     ZSELCD        WHENEQ    *BLANKS
+     C     OVRREL        OREQ      'Y'
+     C                   MOVE      XPOLRL        POLREL
+     C                   MOVE      XBNKRL        BNKREL
+     C                   MOVE      XGRPRL        GRPREL
+     C                   MOVE      XACTRL        ACTREL
+     C                   MOVE      XAGTRL        AGTREL
+     C                   MOVE      XOTHRL        OTHREL
+     C                   MOVE      XINFCE        INFCE
+     C                   MOVE      XPENDN        PENDN
+     C                   MOVE      XTERM         TERM
+     C                   MOVE      XCO           CO
+     C                   SETON                                        30
+     C*
+     C     ZSELCD        WHENNE    *BLANKS
+     C                   MOVE      'X'           POLREL
+     C                   MOVE      'X'           BNKREL
+     C                   MOVE      'X'           GRPREL
+     C                   MOVE      'X'           ACTREL
+     C                   MOVE      'X'           AGTREL
+     C                   MOVE      'X'           OTHREL
+     C                   MOVE      'X'           INFCE
+     C                   MOVE      'X'           PENDN
+     C                   MOVE      'X'           TERM
+     C                   MOVE      *BLANKS       CO
+     C                   SETOFF                                       30
+     C                   ENDSL
+     C*
+     C                   MOVE      'S900068'     MSGID
+     C                   EXSR      $XMSG
+DB01 C                   MOVEL     CTLMSG        DLTIND            9
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C*    ##DBS         IFEQ      '1'
+DB01 C                   MOVEL     DLTIND        IGCP1
+DB01 C                   Z-ADD     009           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         DLTIND
+DB01 C*                  END
+DB01 C*
+DB01 C*** END OF INSERTED SOURCE
+     C*
+     C                   MOVE      'S900069'     MSGID
+     C                   EXSR      $XMSG
+DB01 C                   MOVEL     CTLMSG        NAMNF            20
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION
+DB01 C*
+DB01 C*    ##DBS         IFEQ      '1'
+DB01 C                   MOVEL     NAMNF         IGCP1
+DB01 C                   Z-ADD     020           IGCP2
+DB01 C                   EXSR      IGCSR
+DB01 C                   MOVEL     IGCP3         NAMNF
+DB01 C*                  END
+DB01 C*
+DB01 C*** END OF INSERTED SOURCE
+      *
+      *  FORMAT SYSTEM DATE
+     C                   MOVE      *MONTH        INMON
+     C                   MOVE      *DAY          INDAY
+     C                   MOVE      *YEAR         INYR
+     C                   MOVE      '*'           FMTC01
+     C                   CALL      'DATEFMT'
+     C                   PARM                    PRMDAT
+     C     RTNCD         IFEQ      '00'
+     C                   MOVE      OUTDTE        SDATE
+     C                   ENDIF
+     C*
+     C     ZCALBY        IFEQ      'CLM100'
+     C                   MOVE      CMCO          CO
+     C                   ENDIF
+bg01
+bg01 c                   If        %Parms = 4
+bg01 c
+bg01 c                   endif
+     C*
+     C                   ENDSR
+     C*----------------------------------------------------------------
+     C* $XMSG - SEND & RECEIVE A MESSAGE TO THE PROGRAM MESSAGE QUEUE
+     C*----------------------------------------------------------------
+     C     $XMSG         BEGSR
+     C*
+     C* CL PROGRAM IS USED TO EXECUTE THE SNDPGMMSG COMMAND TO
+     C*  ADD A MESSAGE TO THE EXTERNAL MESSAGE QUEUE
+     C                   MOVE      *BLANKS       CTLMSG           77
+     C*
+     C                   CALL      'LSPMSGID'
+     C                   PARM                    MSGID             7
+     C                   PARM                    CTLMSG
+     C*
+     C                   ENDSR
+     C/EJECT
+DB01 C**************************************************************
+DB01 C*** INSERTED SOURCE FOR DOUBLE BYTE CHARACTER SET CONVERSION *
+DB01 C**************************************************************
+DB01 C*
+DB01 C     IGCSR         BEGSR
+DB01 C                   MOVEL     *BLANKS       IGCP3
+DB01 C                   CALL      'DCU799'
+DB01 C                   PARM                    IGCP1           256
+DB01 C                   PARM                    IGCP2             3 0
+DB01 C                   PARM                    IGCP3           256
+DB01 C                   ENDSR
+** VODS   OPTIONS DESCRIPTIONS
+E004280
+S014000
+** ID
+S019704CBR                                                      1
+S019705CACCT                                                    2
+S019706CBANK                                                    3
+S019707CGPC                                                     4
+S019708CMODE                                                    5
+S019709CBILL                                                    6
+S019710CCLM                                                     7
+S019711CSTS                                                      8
+S019712CHIRE                                                     9
+S019713CTERM                                                    10
+S019714CDLT                                                     11
+S019715                                                         12
